@@ -17,6 +17,7 @@ from joy import JoyApp
 from joy.decl import KEYDOWN, K_q, K_ESCAPE, progress
 from vis3d import FourViewPlot, xyzCube, iCube, iFace, plotVE
 from joy.misc import requiresPyGame
+from calibrate import Calibrate
 requiresPyGame()
 
 class MassArm(Arm):
@@ -193,6 +194,8 @@ class ArmAnimatorApp( JoyApp ):
       # World to relative paper (i.e. paper is unit cube)
       self.Tw2rp = self.Tw2p / self.paper_p[-1][:,newaxis]
 
+      self.calibrate = Calibrate(self)
+
     def _integrate(self):
       last = self.T0
       dt = self.simTS
@@ -256,6 +259,7 @@ class ArmAnimatorApp( JoyApp ):
         plotVE(fvp,self.paper_w,iCube,'g--',alpha=0.3)
         plotVE(fvp,self.paper_w[::2,:],iFace,'g-')
         plotVE(fvp,self.ws_w,iCube,'k:')
+        # TODO: Show calibration points
 
     def _animation(self, fig):
       fig.clf()
@@ -356,9 +360,9 @@ class ArmAnimatorApp( JoyApp ):
         if p>=0:
           self.arm[p].set_pos(self.arm[p].get_goal() - 500)
           return
-      if 1:
-        if evt.key == K_c:
-          
+      # if 1:
+      #   if evt.key == K_c:
+
 
 
 
