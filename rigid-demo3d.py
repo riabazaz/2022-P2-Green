@@ -3,6 +3,8 @@ Run an example of a robot arm
 
 This can be steered via inverse Jacobian, or positioned.
 """
+
+# test
 from sys import version_info
 from numpy import dot, asarray
 from numpy.linalg import pinv
