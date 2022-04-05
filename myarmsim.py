@@ -5,7 +5,8 @@ Created on Wed Apr  1 14:23:10 2020
 
 @author: shrevzen
 """
-
+from curses import KEY_DOWN
+from joy.decl import progress, KEYDOWN, K_r, KEYUP
 from numpy import asarray
 from p2sim import ArmAnimatorApp
 
@@ -14,19 +15,18 @@ class MyArmSim(ArmAnimatorApp):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
-      Tws2w = asarray([
-           [1,0,0,  0],
-           [0,1,0, -5],
-           [0,0,1,-10],
+     Tws2w = asarray([
+           [1,0,0,  -5],
+           [0,1,0, 0],
+           [0,0,1,0],
            [0,0,0,  1]
       ])
       ###
       ### Arm specification
       ###
       armSpec = asarray([
-        [0,0.02,1,5,0],
-        [0,1,0,5,1.57],
-        [0,1,0,5,0],
+        [1,1,0,5,1.57],
+        [0,1,0,5,1.57]
       ]).T
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
         simTimeStep=0.1, # Real time that corresponds to simulation time of 0.1 sec
@@ -43,10 +43,32 @@ class MyArmSim(ArmAnimatorApp):
       ### TEAM CODE GOES HERE
       ###
 
+    ###
+    ### TEAM event handlers go here
+    ###    Handle events as you see fit, and return after
+    def on_K_r(self,evt):
+      progress("(say) r was pressed")
+    
     def onEvent(self,evt):
-      ###
-      ### TEAM CODE GOES HERE
-      ###    Handle events as you see fit, and return after
+      # Ignore everything except keydown events
+      if evt.type == KEYDOWN:
+        progress("key was pressed")
+        # row of 'a' on QWERTY keyboard increments motors
+        p = "asdfghjkl".find(evt.unicode)
+        if p>=0:
+          self.arm[p].set_pos(self.arm[p].get_goal() + 500)
+          return
+        # row of 'z' in QWERTY keyboard decrements motors
+        p = "zxcvbnm,.".find(evt.unicode)
+        if p>=0:
+          self.arm[p].set_pos(self.arm[p].get_goal() - 500)
+          return
+      return ArmAnimatorApp.onEvent(self,evt)
+      ## disable this block (change to 0) to use on_K for these keys
+      '''
+      if evt.key == K_r:
+        progress("r key was pressed")
+      '''
       return ArmAnimatorApp.onEvent(self,evt)
 
 if __name__=="__main__":
