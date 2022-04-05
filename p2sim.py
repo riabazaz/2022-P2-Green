@@ -194,7 +194,7 @@ class ArmAnimatorApp( JoyApp ):
       # World to relative paper (i.e. paper is unit cube)
       self.Tw2rp = self.Tw2p / self.paper_p[-1][:,newaxis]
 
-      self.calibrate = Calibrate(self)
+      # self.calibrate = Calibrate(self)
 
     def _integrate(self):
       last = self.T0
