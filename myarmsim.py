@@ -14,7 +14,7 @@ class MyArmSim(ArmAnimatorApp):
     def __init__(self,Tp2ws,**kw):
       ###
       ### Student team selection -- transform from workspace coordinates to world
-      ###
+      ### 
       Tws2w = asarray([
            [1,0,0, -5], 
            [0,1,0, -15],
@@ -25,7 +25,7 @@ class MyArmSim(ArmAnimatorApp):
       ### Arm specification
       ###
       armSpec = asarray([
-        [0,0.02,1,0,.785], # base rotation around the z-axis
+        [0,0.02,1,0,-1.57], # base rotation around the z-axis
         [0,1,0,5,0], # arm rotation around the y-axis #1.57
         [0,1,0,5,0] #the arm extending/unextending 
       ]).T
