@@ -21,14 +21,21 @@ class Calibrate(Plan):
         self.calibCoordsWorld = np.array(self.calibCoordsWorld)
 
         self.armik = tinyik.Actuator(['z',[0.,0.,0.],'y',[5.,0.,0.],'y',[5.,0.,0.]])
-        self.armik.angles = [-1.57, -1.57, 0]
+        self.update_angle()
         self.coordIdx = 0 #which of these coords its currently at
+
+    
+    def update_angle(self):
+        self.armik.angles = [self.app.arm[0].get_goal()*np.pi/18000.0, 
+            self.app.arm[1].get_goal()*np.pi/18000.0, 
+            self.app.arm[2].get_goal()*np.pi/18000.0]
 
     def behavior(self):
         #when the button is pushed, record the current set of angles as corresponding with the 
         #current calibration position (unless this is the first press), then move to an estimate of the 
         #next position (unless this is the last time)
         if self.coordIdx < len(self.calibCoords):
+            self.update_angle()
             self.armik.ee = self.calibCoordsWorld[self.coordIdx]
             progress("ee point: " + str(self.calibCoordsWorld[self.coordIdx]))
             angles = self.armik.angles
