@@ -20,7 +20,7 @@ class Calibrate(Plan):
             self.calibCoordsWorld.append(self.app.paperToWorld(rc))
         self.calibCoordsWorld = np.array(self.calibCoordsWorld)
 
-        self.armik = tinyik.Actuator(['z',[1.,0.,0.],'y',[5.,0.,0.],'y',[5.,0.,0.]])
+        self.armik = tinyik.Actuator(['z',[0.,1.,0.],'y',[5.,0.,0.],'y',[5.,0.,0.]])
         self.coordIdx = 0 #which of these coords its currently at
 
     def behavior(self):
