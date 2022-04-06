@@ -61,11 +61,12 @@ class MyArmSim(ArmAnimatorApp):
     def on_K_r(self,evt):
       progress("(say) r was pressed")
     
-    def move_until_correct(self, motor, goal):
-      detla = -1
-      while abs(motor.get_pos()) < abs(goal - self.angle_delta) or abs(motor.get_pos()) > abs(goal + self.angle_delta):
-        motor.set_pos(goal + detla)
-        detla = detla*-1
+    def move_until_correct(self):
+      delta = -100
+      while abs(self.arm[0].get_pos()) < abs(self.arm[0].get_goal() - self.angle_delta) \
+        or abs(self.arm[0].get_pos()) > abs(self.arm[0].get_goal() + self.angle_delta):
+        self.arm[0].set_pos(self.arm[0].get_goal() + delta)
+        delta = delta*-1
       return
 
 
