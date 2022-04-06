@@ -17,16 +17,16 @@ class MyArmSim(ArmAnimatorApp):
       ###
       Tws2w = asarray([
            [1,0,0, 0], 
-           [0,1,0, -10],
-           [0,0,1,0],
+           [0,1,0, -5],
+           [0,0,1,-10],
            [0,0,0,  1]
       ])
       ###
       ### Arm specification
       ###
       armSpec = asarray([
-        [1,0,0,0,0], # base rotation around the x-axis
-        [0,1,0,5,0.785], # arm rotation around the y-axis
+        [0,0.02,1,5,0], # base rotation around the x-axis
+        [0,1,0,5,1.57], # arm rotation around the y-axis
         [0,1,0,5,0] #the arm extending/unextending 
       ]).T
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
