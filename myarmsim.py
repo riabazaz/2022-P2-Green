@@ -58,6 +58,13 @@ class MyArmSim(ArmAnimatorApp):
           # perform calibration
           self.calibrate.start()
           
+        if evt.key == K_DOWN:
+          # perform calibration
+          progress("angles: " + str(self.arm[0].get_goal()) 
+            + ", " + str(self.arm[1].get_goal()) 
+            + ", " + str(self.arm[2].get_goal()))
+          return
+
         p = "asd".find(evt.unicode)
         if p>=0:
           self.arm[p].set_pos(self.arm[p].get_goal() + 500)
