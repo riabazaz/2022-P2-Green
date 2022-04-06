@@ -282,9 +282,9 @@ class ArmAnimatorApp( JoyApp ):
           x.append(coordTransformed[0])
           y.append(coordTransformed[1])
           z.append(coordTransformed[2])
-        # fvp.plot3D(x,y,z,'go',ms=4)
+        fvp.plot3D(x,y,z,'go',ms=4)
         fvp.plot3D(x[0], y[0], z[0], 'ro', ms=4)
-        # fvp.plot3D(x[1], y[1], z[1], 'bo', ms=4)
+        fvp.plot3D(x[1], y[1], z[1], 'bo', ms=4)
 
     def _animation(self, fig):
       fig.clf()
