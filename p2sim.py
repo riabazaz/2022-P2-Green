@@ -34,7 +34,7 @@ class MassArm(Arm):
       I = [ identity(3) ] # Geometric inertia (I/m)
       for gn,l in zip(self.geom[1:],wl[3]):
         # Mass distribution - baseline, plus linear with segment length
-        m[:] = (3.+5*l)/m.size
+        m[:] = 0*(3.+5*l)/m.size
         # CoM position
         M.append(sum(m))
         com = dot(gn,m)/M[-1]
