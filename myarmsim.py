@@ -6,7 +6,7 @@ Created on Wed Apr  1 14:23:10 2020
 @author: shrevzen
 """
 from curses import KEY_DOWN
-from joy.decl import progress, KEYDOWN, K_r, KEYUP
+from joy.decl import progress, KEYDOWN, K_UP, K_DOWN, KEYUP
 from numpy import asarray
 from p2sim import ArmAnimatorApp
 
@@ -15,9 +15,9 @@ class MyArmSim(ArmAnimatorApp):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
-     Tws2w = asarray([
-           [1,0,0,  -5],
-           [0,1,0, 0],
+      Tws2w = asarray([
+           [1,0,0, 0],
+           [0,1,0, -10],
            [0,0,1,0],
            [0,0,0,  1]
       ])
@@ -25,8 +25,9 @@ class MyArmSim(ArmAnimatorApp):
       ### Arm specification
       ###
       armSpec = asarray([
-        [1,1,0,5,1.57],
-        [0,1,0,5,1.57]
+        [0,0,1,5,0], #the base rotating left/right
+        [1,0,0,5,0.785], #the base rotating up/down
+        [1,0,0,5,0] #the arm extending/unextending 
       ]).T
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
         simTimeStep=0.1, # Real time that corresponds to simulation time of 0.1 sec
@@ -54,19 +55,18 @@ class MyArmSim(ArmAnimatorApp):
       if evt.type == KEYDOWN:
         progress("key was pressed")
         # row of 'a' on QWERTY keyboard increments motors
-        p = "asdfghjkl".find(evt.unicode)
-        if p>=0:
-          self.arm[p].set_pos(self.arm[p].get_goal() + 500)
+        if evt.key == K_UP:
+          self.arm[0].set_pos(self.arm[0].get_goal() + 500)
           return
-        # row of 'z' in QWERTY keyboard decrements motors
-        p = "zxcvbnm,.".find(evt.unicode)
-        if p>=0:
-          self.arm[p].set_pos(self.arm[p].get_goal() - 500)
+        elif evt.key == K_DOWN:
+          self.arm[0].set_pos(self.arm[0].get_goal() - 500)
           return
       return ArmAnimatorApp.onEvent(self,evt)
       ## disable this block (change to 0) to use on_K for these keys
       '''
+      # if point in calibration grid reached
       if evt.key == K_r:
+        self.calibrate.start()
         progress("r key was pressed")
       '''
       return ArmAnimatorApp.onEvent(self,evt)
