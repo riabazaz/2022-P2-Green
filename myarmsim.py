@@ -68,12 +68,12 @@ class MyArmSim(ArmAnimatorApp):
         delta = delta*-1
         progress("current pos: " + str(self.arm[index].get_pos()))
         progress("goal pos: " + str(self.arm[index].get_goal()))
-        self._animation()
       return
 
 
     def onEvent(self,evt):
       # Ignore everything except keydown events
+      self.arm[0].get_pos()
       if evt.type == KEYDOWN:
 
         if evt.key == K_UP:
