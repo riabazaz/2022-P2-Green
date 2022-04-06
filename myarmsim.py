@@ -56,7 +56,7 @@ class MyArmSim(ArmAnimatorApp):
 
         if evt.key == K_UP:
           # perform calibration
-          ArmAnimatorApp.calibrate.start()
+          self.calibrate.start()
           
         p = "asd".find(evt.unicode)
         if p>=0:
