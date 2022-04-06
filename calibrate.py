@@ -39,7 +39,7 @@ class Calibrate(Plan):
             self.app.arm[1].set_pos(np.rad2deg(angles[1]))
             self.app.arm[2].set_pos(np.rad2deg(angles[2]))
 
-            progress(str(self.app.arm[0].get_goal()) + ", " + str(self.app.arm[1].get_goal()) + ", " + str(self.app.arm[1].get_goal()))
+            progress(str(self.app.arm[0].get_goal()) + ", " + str(self.app.arm[1].get_goal()) + ", " + str(self.app.arm[2].get_goal()))
         yield
             
         
