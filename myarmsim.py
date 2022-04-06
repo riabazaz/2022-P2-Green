@@ -22,6 +22,7 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,0,  1]
       ])
       ###
+      
       ### Arm specification
       ###
       armSpec = asarray([
