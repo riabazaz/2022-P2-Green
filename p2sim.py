@@ -5,7 +5,7 @@ Created on Mon Mar 23 01:14:25 2020
 
 @author: shrevzen
 """
-
+import numpy as np
 from datetime import datetime
 from numpy import (
     asarray, stack, ones, identity, dot, newaxis, cumsum, c_, nan
@@ -18,6 +18,8 @@ from joy import JoyApp
 from joy.decl import progress
 from vis3d import FourViewPlot, xyzCube, iCube, iFace, plotVE
 from joy.misc import requiresPyGame
+from calibrate import Calibrate
+import tinyik
 requiresPyGame()
 
 class MassArm(Arm):
@@ -181,6 +183,8 @@ class ArmAnimatorApp( JoyApp ):
       progress("Simulation time: %g sec = 0.1 sec simulated" % self.simTS)
       self.arm = ArmSim(wlc)
       self.Tp2w = Tws2w @ Tp2ws
+      self.Tws2w = Tws2w
+      self.Tp2ws = Tp2ws
       # World to paper
       self.Tw2p = inv(self.Tp2w)
       # Paper with origin at origin
@@ -194,7 +198,16 @@ class ArmAnimatorApp( JoyApp ):
       self.Tprj = self.Tp2w @ (asarray([[1,1,0,1]]).T*self.Tw2p)
       # World to relative paper (i.e. paper is unit cube)
       self.Tw2rp = self.Tw2p / self.paper_p[-1][:,newaxis]
-      # self.calibrate = Calibrate(self)
+      
+      # create a calibrate object for calibration
+      self.calibrate = Calibrate(self)
+
+
+    
+    def paperToWorld(self, paperCoord):
+      hPaper = np.array(list(paperCoord) + [1]) #make homogenous coord
+      hWorld =  self.Tws2w @ self.Tp2ws  @ hPaper
+      return hWorld[:3]/hWorld[3] #divide out normalization component
 
     def _integrate(self):
       last = self.T0
@@ -261,17 +274,17 @@ class ArmAnimatorApp( JoyApp ):
         plotVE(fvp,self.ws_w,iCube,'k:')
 
         # visualize calibration points
-        # x = []
-        # y = []
-        # z = []
-        # for coord in self.calibrate.calibCoords:
-        #   coordTransformed = self.calibrate.paperToWorld(coord)
-        #   x.append(coordTransformed[0])
-        #   y.append(coordTransformed[1])
-        #   z.append(coordTransformed[2])
-        # fvp.plot3D(x,y,z,'go',ms=4)
-        # fvp.plot3D(x[0], y[0], z[0], 'ro', ms=4)
-        # fvp.plot3D(x[1], y[1], z[1], 'bo', ms=4)
+        x = []
+        y = []
+        z = []
+        for coord in self.calibrate.calibCoords:
+          coordTransformed = self.paperToWorld(coord)
+          x.append(coordTransformed[0])
+          y.append(coordTransformed[1])
+          z.append(coordTransformed[2])
+        fvp.plot3D(x,y,z,'go',ms=4)
+        fvp.plot3D(x[0], y[0], z[0], 'ro', ms=4)
+        fvp.plot3D(x[1], y[1], z[1], 'bo', ms=4)
 
     def _animation(self, fig):
       fig.clf()

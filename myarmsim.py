@@ -53,13 +53,19 @@ class MyArmSim(ArmAnimatorApp):
     def onEvent(self,evt):
       # Ignore everything except keydown events
       if evt.type == KEYDOWN:
-        progress("key was pressed")
-        # row of 'a' on QWERTY keyboard increments motors
+
         if evt.key == K_UP:
-          self.arm[0].set_pos(self.arm[0].get_goal() + 500)
+          # perform calibration
+          ArmAnimatorApp.calibrate.start()
+          
+        p = "asd".find(evt.unicode)
+        if p>=0:
+          self.arm[p].set_pos(self.arm[p].get_goal() + 500)
           return
-        elif evt.key == K_DOWN:
-          self.arm[0].set_pos(self.arm[0].get_goal() - 500)
+        # row of 'z' in QWERTY keyboard decrements motors
+        p = "zxc".find(evt.unicode)
+        if p>=0:
+          self.arm[p].set_pos(self.arm[p].get_goal() - 500)
           return
       return ArmAnimatorApp.onEvent(self,evt)
       ## disable this block (change to 0) to use on_K for these keys
