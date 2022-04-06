@@ -19,7 +19,7 @@ class MyArmSim(ArmAnimatorApp):
       ### 
       Tws2w = asarray([
            [1,0,0, -5], 
-           [0,1,0, -13],
+           [0,1,0, -12],
            [0,0,1,0],
            [0,0,0,  1]
       ])
