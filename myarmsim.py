@@ -16,7 +16,7 @@ class MyArmSim(ArmAnimatorApp):
       ### Student team selection -- transform from workspace coordinates to world
       ###
       Tws2w = asarray([
-           [1,0,0, 0],
+           [1,0,0, 0], 
            [0,1,0, -10],
            [0,0,1,0],
            [0,0,0,  1]
@@ -25,9 +25,9 @@ class MyArmSim(ArmAnimatorApp):
       ### Arm specification
       ###
       armSpec = asarray([
-        [0,0,1,5,0], #the base rotating left/right
-        [1,0,0,5,0.785], #the base rotating up/down
-        [1,0,0,5,0] #the arm extending/unextending 
+        [1,0,0,0,0], # base rotation around the x-axis
+        [0,1,0,5,0.785], # arm rotation around the y-axis
+        [0,1,0,5,0] #the arm extending/unextending 
       ]).T
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
         simTimeStep=0.1, # Real time that corresponds to simulation time of 0.1 sec
