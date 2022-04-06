@@ -16,8 +16,8 @@ class MyArmSim(ArmAnimatorApp):
       ### Student team selection -- transform from workspace coordinates to world
       ###
       Tws2w = asarray([
-           [1,0,0, 0], 
-           [0,1,0, -5],
+           [1,0,0, -5], 
+           [0,1,0, -15],
            [0,0,1,0],
            [0,0,0,  1]
       ])
