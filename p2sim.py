@@ -8,7 +8,7 @@ Created on Mon Mar 23 01:14:25 2020
 import numpy as np
 from datetime import datetime
 from numpy import (
-    asarray, stack, ones, identity, dot, newaxis, cumsum, c_, nan
+    asarray, stack, ones, identity, dot, newaxis, cumsum, c_, nan, zeros
 )
 from numpy.linalg import inv
 from arm import Arm, jacobian_cdas
@@ -29,7 +29,7 @@ class MassArm(Arm):
     def setup(self,wl):
       Arm.setup(self,wl)
       CoM = [ asarray([0,0,0,0]) ] # Center of mass
-      m = ones(self.geom[1].shape[1]) # Mass distribution
+      m = zeros(self.geom[1].shape[1]) # Mass distribution
       M = [ 0 ] # Mass
       I = [ identity(3) ] # Geometric inertia (I/m)
       for gn,l in zip(self.geom[1:],wl[3]):

@@ -22,7 +22,7 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,0,  1]
       ])
       ###
-      
+
       ### Arm specification
       ###
       armSpec = asarray([
@@ -30,6 +30,7 @@ class MyArmSim(ArmAnimatorApp):
         [0,1,0,5,-1.57], # arm rotation around the y-axis #1.57
         [0,1,0,5,0] #the arm extending/unextending 
       ]).T
+      
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
         simTimeStep=0.1, # Real time that corresponds to simulation time of 0.1 sec
         **kw
@@ -61,6 +62,7 @@ class MyArmSim(ArmAnimatorApp):
           
         if evt.key == K_DOWN:
           # perform calibration
+
           progress("angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))

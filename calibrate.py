@@ -12,8 +12,8 @@ class Calibrate(Plan):
         Plan.__init__(self,app)
         self.app = app
         self.calibCoords = np.array([[0, 0, 0], [0.5, 0, 0], [1, 0, 0], [1, 0.5, 0], [1, 1, 0], [0.5, 1, 0], [0, 1, 0], [0, 0.5, 0]]) #these are placeholders
-        self.calibCoords = self.calibCoords*4.5
-        self.calibCoords = self.calibCoords - np.array([[8.5/2, 8, 0]])
+        self.calibCoords = self.calibCoords*2.5
+        self.calibCoords = self.calibCoords + np.array([[8.5/2, 8, 0]])
 
         self.calibCoordsWorld = []
         for rc in self.calibCoords:
