@@ -31,7 +31,9 @@ class Calibrate(Plan):
             self.armik.ee = self.calibCoordsWorld[self.coordIdx]
             angles = self.armik.angles
             progress("Recorded calibration position: " + str(self.coordIdx))
-            progress("Calculated angles: " + str(angles))
+            progress("Calculated angles: " + str(np.rad2deg(angles)))
+
+            self.coordIdx += 1
             self.app.arm[0].set_pos(np.round(np.rad2deg(self.armik.angles[0])))
             self.app.arm[1].set_pos(np.round(np.rad2deg(self.armik.angles[1])))
             self.app.arm[2].set_pos(np.round(np.rad2deg(self.armik.angles[2])))
