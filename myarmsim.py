@@ -73,7 +73,7 @@ class MyArmSim(ArmAnimatorApp):
 
     def onEvent(self,evt):
       # Ignore everything except keydown events
-      self.arm[0].get_pos()
+      progress(str(self.arm[0].get_pos()))
       if evt.type == KEYDOWN:
 
         if evt.key == K_UP:
