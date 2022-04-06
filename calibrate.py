@@ -21,7 +21,7 @@ class Calibrate(Plan):
         self.calibCoordsWorld = np.array(self.calibCoordsWorld)
 
         self.armik = tinyik.Actuator(['z',[0.,0.,0.],'y',[5.,0.,0.],'y',[5.,0.,0.]])
-        self.armik.angles = [self.app.arm[0].get_goal(), self.app.arm[1].get_goal(), self.app.arm[2].get_goal()]
+        self.armik.angles = [-1.57, -1.57, 0]
         self.coordIdx = 0 #which of these coords its currently at
 
     def behavior(self):
