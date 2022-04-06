@@ -66,6 +66,8 @@ class MyArmSim(ArmAnimatorApp):
       while (self.arm[index].get_pos() < self.arm[index].get_goal() - self.angle_delta) or (self.arm[index].get_pos() > self.arm[index].get_goal() + self.angle_delta):
         self.arm[index].set_pos(self.arm[index].get_goal() + delta)
         delta = delta*-1
+        progress("current pos: " + str(self.arm[index].get_pos()))
+        progress("goal pos: " + str(self.arm[index].get_goal()))
       return
 
 
