@@ -35,9 +35,9 @@ class Calibrate(Plan):
             progress("Calculated angles: " + str(np.rad2deg(angles)))
 
             self.coordIdx += 1
-            self.app.arm[0].set_pos(np.rad2deg(angles[0]))
-            self.app.arm[1].set_pos(np.rad2deg(angles[1]))
-            self.app.arm[2].set_pos(np.rad2deg(angles[2]))
+            self.app.arm[0].set_pos(np.rad2deg(angles[0])*100)
+            self.app.arm[1].set_pos(np.rad2deg(angles[1])*100)
+            self.app.arm[2].set_pos(np.rad2deg(angles[2])*100)
 
             progress(str(self.app.arm[0].get_goal()) + ", " + str(self.app.arm[1].get_goal()) + ", " + str(self.app.arm[2].get_goal()))
         yield
