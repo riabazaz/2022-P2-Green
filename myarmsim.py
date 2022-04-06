@@ -68,7 +68,7 @@ class MyArmSim(ArmAnimatorApp):
         delta = delta*-1
         progress("current pos: " + str(self.arm[index].get_pos()))
         progress("goal pos: " + str(self.arm[index].get_goal()))
-        self.arm[index].step(3)
+        self._animation()
       return
 
 
