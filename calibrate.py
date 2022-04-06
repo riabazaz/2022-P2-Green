@@ -37,7 +37,6 @@ class Calibrate(Plan):
             self.app.arm[0].set_pos(np.round(np.rad2deg(angles[0])))
             self.app.arm[1].set_pos(np.round(np.rad2deg(angles[1])))
             self.app.arm[2].set_pos(np.round(np.rad2deg(angles[2])))
-            tinyik.visualize(self.armik)
         yield
             
         
