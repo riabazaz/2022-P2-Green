@@ -61,11 +61,11 @@ class MyArmSim(ArmAnimatorApp):
     def on_K_r(self,evt):
       progress("(say) r was pressed")
     
-    def move_until_correct(self):
+    def move_until_correct(self, index):
       delta = -100
-      while abs(self.arm[0].get_pos()) < abs(self.arm[0].get_goal() - self.angle_delta) \
-        or abs(self.arm[0].get_pos()) > abs(self.arm[0].get_goal() + self.angle_delta):
-        self.arm[0].set_pos(self.arm[0].get_goal() + delta)
+      while abs(self.arm[index].get_pos()) < abs(self.arm[index].get_goal() - self.angle_delta) \
+        or abs(self.arm[index].get_pos()) > abs(self.arm[index].get_goal() + self.angle_delta):
+        self.arm[index].set_pos(self.arm[index].get_goal() + delta)
         delta = delta*-1
       return
 
@@ -91,9 +91,9 @@ class MyArmSim(ArmAnimatorApp):
 
         if evt.key == K_RIGHT:
           progress("adjusting")
-          self.move_until_correct(self.arm[0], self.arm[0].get_goal())
-          self.move_until_correct(self.arm[1], self.arm[1].get_goal())
-          self.move_until_correct(self.arm[2], self.arm[2].get_goal())
+          self.move_until_correct(0)
+          self.move_until_correct(1)
+          self.move_until_correct(2)
 
 
         if evt.key == K_LEFT:
