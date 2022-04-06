@@ -27,7 +27,7 @@ class Calibrate(Plan):
         #when the button is pushed, record the current set of angles as corresponding with the 
         #current calibration position (unless this is the first press), then move to an estimate of the 
         #next position (unless this is the last time)
-        if self.coordIdx != -1:
+        if self.coordIdx < len(self.calibCoords):
             self.armik.ee = self.calibCoordsWorld[self.coordIdx]
             angles = self.armik.angles
             progress("Recorded calibration position: " + str(self.coordIdx))
@@ -35,4 +35,6 @@ class Calibrate(Plan):
             self.app.arm[0].set_pos(np.round(np.rad2deg(self.armik.angles[0])))
             self.app.arm[1].set_pos(np.round(np.rad2deg(self.armik.angles[1])))
             self.app.arm[2].set_pos(np.round(np.rad2deg(self.armik.angles[2])))
+        yield
+            
         
