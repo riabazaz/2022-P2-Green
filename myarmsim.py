@@ -62,8 +62,10 @@ class MyArmSim(ArmAnimatorApp):
       progress("(say) r was pressed")
     
     def move_until_correct(self, motor, goal):
+      detla = -1
       while motor.get_pos() < goal - self.angle_delta or motor.get_pos() > goal + self.angle_delta:
-        motor.set_pos(goal)
+        motor.set_pos(goal + delta)
+        detla = detla*-1
       return
 
 
