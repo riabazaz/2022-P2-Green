@@ -6,7 +6,7 @@ Created on Wed Apr  1 14:23:10 2020
 @author: shrevzen
 """
 from curses import KEY_DOWN, KEY_LEFT
-from joy.decl import progress, KEYDOWN, K_UP, K_DOWN, K_LEFT, KEYUP
+from joy.decl import progress, KEYDOWN, K_UP, K_DOWN, K_LEFT, K_RIGHT
 from numpy import asarray
 from p2sim import ArmAnimatorApp
 from math import pi
@@ -24,6 +24,8 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,0,  1]
       ])
       ###
+
+      self.angle_delta = 500
 
       ### Arm specification
       ###
@@ -59,6 +61,12 @@ class MyArmSim(ArmAnimatorApp):
     def on_K_r(self,evt):
       progress("(say) r was pressed")
     
+    def move_until_correct(self, motor, goal):
+      while motor.get_pos() < goal - self.angle_delta or motor.get_pos() > goal + self.angle_delta:
+        motor.set_goal(goal)
+      return
+
+
     def onEvent(self,evt):
       # Ignore everything except keydown events
       if evt.type == KEYDOWN:
@@ -77,7 +85,14 @@ class MyArmSim(ArmAnimatorApp):
             + ", " + str(self.arm[1].get_pos()) 
             + ", " + str(self.arm[2].get_pos()))
           return
-        
+
+        if evt.key == K_RIGHT:
+          progress("adjusting")
+          self.move_until_correct(self.arm[0], self.arm[0].get_goal())
+          self.move_until_correct(self.arm[1], self.arm[1].get_goal())
+          self.move_until_correct(self.arm[2], self.arm[2].get_goal())
+
+
         if evt.key == K_LEFT:
           for coor in self.calibMotorCoords:
             for i in range(3):
