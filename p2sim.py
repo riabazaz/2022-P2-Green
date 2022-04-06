@@ -28,13 +28,13 @@ class MassArm(Arm):
 
     def setup(self,wl):
       Arm.setup(self,wl)
-      CoM = [ asarray([0,0,0,1]) ] # Center of mass
+      CoM = [ asarray([0,0,0,0]) ] # Center of mass
       m = ones(self.geom[1].shape[1]) # Mass distribution
       M = [ 0 ] # Mass
       I = [ identity(3) ] # Geometric inertia (I/m)
       for gn,l in zip(self.geom[1:],wl[3]):
         # Mass distribution - baseline, plus linear with segment length
-        m[:] = 0.0*(3.+5*l)/m.size
+        m[:] = (3.+5*l)/m.size
         # CoM position
         M.append(sum(m))
         com = dot(gn,m)/M[-1]
