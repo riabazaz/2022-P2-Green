@@ -27,8 +27,8 @@ class Calibrate(Plan):
     
     def update_angle(self):
         self.armik.angles = [self.app.arm[0].get_goal()*np.pi/18000.0, 
-            self.app.arm[1].get_goal()*np.pi/18000.0, 
-            self.app.arm[2].get_goal()*np.pi/18000.0]
+        self.app.arm[1].get_goal()*np.pi/18000.0, 
+        self.app.arm[2].get_goal()*np.pi/18000.0]
 
     def behavior(self):
         #when the button is pushed, record the current set of angles as corresponding with the 

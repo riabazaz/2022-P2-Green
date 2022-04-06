@@ -9,6 +9,8 @@ from curses import KEY_DOWN
 from joy.decl import progress, KEYDOWN, K_UP, K_DOWN, KEYUP
 from numpy import asarray
 from p2sim import ArmAnimatorApp
+from math import pi
+import numpy as np
 
 class MyArmSim(ArmAnimatorApp):
     def __init__(self,Tp2ws,**kw):
@@ -30,7 +32,9 @@ class MyArmSim(ArmAnimatorApp):
         [0,1,0,5,-1.57], # arm rotation around the y-axis #1.57
         [0,1,0,5,0] #the arm extending/unextending 
       ]).T
-      
+
+      self.calibMotorCoords = []
+
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
         simTimeStep=0.1, # Real time that corresponds to simulation time of 0.1 sec
         **kw
@@ -61,8 +65,8 @@ class MyArmSim(ArmAnimatorApp):
           self.calibrate.start()
           
         if evt.key == K_DOWN:
-          # perform calibration
-
+          # save calibration points
+          self.calibMotorCoords.append(np.array([self.app.arm[x].get_goal()/100*(pi/180) for x in range(3)]))
           progress("angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))
@@ -95,10 +99,10 @@ if __name__=="__main__":
        [0.7071,0, 0.7071,0],
        [0,     0,      0,1]
   ])
-  Tp2ws=asarray([[  1.  ,   0.  ,   0.  ,   0.16],
-       [  0.  ,   0.71,   0.71,   1.92],
-       [  0.  ,  -0.71,   0.71,  10.63],
-       [  0.  ,   0.  ,   0.  ,   1.  ]])
+  # Tp2ws=asarray([[  1.  ,   0.  ,   0.  ,   0.16],
+  #      [  0.  ,   0.71,   0.71,   1.92],
+  #      [  0.  ,  -0.71,   0.71,  10.63],
+  #      [  0.  ,   0.  ,   0.  ,   1.  ]])
   app = MyArmSim(Tp2ws,
      ## Uncomment the next line (cfg=...) to save video frames;
      ## you can use the frameViewer.py program to view those
