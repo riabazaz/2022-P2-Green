@@ -1,6 +1,7 @@
 import numpy as np
 import math
 from joy.plans import Plan
+from joy.decl import progress
 import os
 import json
 
