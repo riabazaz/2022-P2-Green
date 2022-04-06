@@ -5,8 +5,8 @@ Created on Wed Apr  1 14:23:10 2020
 
 @author: shrevzen
 """
-from curses import KEY_DOWN
-from joy.decl import progress, KEYDOWN, K_UP, K_DOWN, KEYUP
+from curses import KEY_DOWN, KEY_LEFT
+from joy.decl import progress, KEYDOWN, K_UP, K_DOWN, K_LEFT, KEYUP
 from numpy import asarray
 from p2sim import ArmAnimatorApp
 from math import pi
@@ -32,6 +32,9 @@ class MyArmSim(ArmAnimatorApp):
         [0,1,0,5,-1.57], # arm rotation around the y-axis #1.57
         [0,1,0,5,0] #the arm extending/unextending 
       ]).T
+
+      # squareTarget = []
+      # scale = 2.5
 
       self.calibMotorCoords = []
 
@@ -66,10 +69,16 @@ class MyArmSim(ArmAnimatorApp):
           
         if evt.key == K_DOWN:
           # save calibration points
-          self.calibMotorCoords.append(np.array([self.app.arm[x].get_goal()/100*(pi/180) for x in range(3)]))
+          self.calibMotorCoords.append(np.array([self.app.arm[x].get_goal()*(pi/18000) for x in range(3)]))
           progress("angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))
+          return
+        
+        if evt.key == K_LEFT:
+          for coor in self.calibMotorCoords:
+            for i in range(3):
+              self.arm[i].set_pos(coor[i])
           return
 
         p = "asd".find(evt.unicode)
