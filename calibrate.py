@@ -29,6 +29,7 @@ class Calibrate(Plan):
         #next position (unless this is the last time)
         if self.coordIdx < len(self.calibCoords):
             self.armik.ee = self.calibCoordsWorld[self.coordIdx]
+            progress("ee point: " + str(self.calibCoordsWorld[self.coordIdx]))
             angles = self.armik.angles
             progress("Recorded calibration position: " + str(self.coordIdx))
             progress("Calculated angles: " + str(np.rad2deg(angles)))
@@ -37,6 +38,8 @@ class Calibrate(Plan):
             self.app.arm[0].set_pos(np.round(np.rad2deg(angles[0])))
             self.app.arm[1].set_pos(np.round(np.rad2deg(angles[1])))
             self.app.arm[2].set_pos(np.round(np.rad2deg(angles[2])))
+
+            progress(str(self.app.arm[0].get_goal()) + ", " + str(self.app.arm[1].get_goal()) + ", " + str(self.app.arm[1].get_goal()))
         yield
             
         
