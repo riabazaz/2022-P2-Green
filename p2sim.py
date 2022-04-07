@@ -166,10 +166,10 @@ class ArmSim(MassArm):
           ang0 = asarray([ yi[TH]+yi[BL] for yi in y]) # motor angles
           if not cont:
             break
-          tq = 3e-3*self.getGravityTorque(ang0).squeeze() # gravity torque on motors
-          for mi,tqi in zip(self.m,tq): # push into motor objects
-            mi._ext = -tqi
-        ang1 = ang0 - self.c*tq # sagged angles
+          #tq = 3e-3*self.getGravityTorque(ang0).squeeze() # gravity torque on motors
+          #for mi,tqi in zip(self.m,tq): # push into motor objects
+          #  mi._ext = -tqi
+        ang1 = ang0 #- self.c*tq # sagged angles
         return t,ang1,stack(y,1)
 
 class ArmAnimatorApp( JoyApp ):
@@ -181,7 +181,7 @@ class ArmAnimatorApp( JoyApp ):
       self.simTS = simTimeStep
       JoyApp.__init__(self,*arg,**kw)
       progress("Simulation time: %g sec = 0.1 sec simulated" % self.simTS)
-      self.arm = Arm(wlc)
+      self.arm = ArmSim(wlc)
       self.Tp2w = Tws2w @ Tp2ws
       self.Tws2w = Tws2w
       self.Tp2ws = Tp2ws
