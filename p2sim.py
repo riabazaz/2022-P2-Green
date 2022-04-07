@@ -181,6 +181,7 @@ class ArmAnimatorApp( JoyApp ):
       self.simTS = simTimeStep
       JoyApp.__init__(self,*arg,**kw)
       progress("Simulation time: %g sec = 0.1 sec simulated" % self.simTS)
+      self.draw = False
       self.arm = ArmSim(wlc)
       self.Tp2w = Tws2w @ Tp2ws
       self.Tws2w = Tws2w
@@ -201,7 +202,7 @@ class ArmAnimatorApp( JoyApp ):
       
       # create a calibrate object for calibration
       # self.calibrate = Calibrate(self)
-      self.draw = False
+      
 
     
     def paperToWorld(self, paperCoord):
