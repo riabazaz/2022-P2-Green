@@ -188,12 +188,10 @@ class MyArmSim(ArmAnimatorApp):
 
 if __name__=="__main__": 
 # Transform of paper coordinates to workspace
-  Tp2ws = asarray([
-       [0.7071,0,-0.7071,0],
-       [0,     1,      0,0],
-       [0.7071,0, 0.7071,0],
-       [0,     0,      0,1]
-  ])
+  Tp2ws=asarray([[  1.  ,   0.  ,   0.  ,   0.16],
+       [  0.  ,   0.71,   0.71,   1.92],
+       [  0.  ,  -0.71,   0.71,  10.63],
+       [  0.  ,   0.  ,   0.  ,   1.  ]])
 
   x,y,s = 4,3,1
     #Initial test
