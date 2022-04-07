@@ -33,9 +33,6 @@ class MyArmSim(ArmAnimatorApp):
         [0,1,0,5,0] #the arm extending/unextending 
       ]).T
 
-      # squareTarget = []
-      # scale = 2.5
-
       ## Drawing shit
       self.current_goal = 0
       self.calibMotorCoords = []
@@ -66,7 +63,6 @@ class MyArmSim(ArmAnimatorApp):
       # Ignore everything except keydown events
 
       if evt.type == KEYDOWN:
-
         if evt.key == K_UP:
           # perform calibration
           self.calibrate.start()
@@ -74,13 +70,10 @@ class MyArmSim(ArmAnimatorApp):
         if evt.key == K_DOWN:
           # save calibration points
           #changed from get_goal to get_pos
-          self.calibMotorCoords.append(np.array([self.arm[x].get_pos() for x in range(3)])) 
+          self.calibMotorCoords.append(np.array([self.arm[x].get_goal() for x in range(3)])) 
           progress("goal angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))
-          progress("current angles: " + str(self.arm[0].get_pos()) 
-            + ", " + str(self.arm[1].get_pos())
-            + ", " + str(self.arm[2].get_pos()))
           return
 
         if evt.key == K_RIGHT:
@@ -89,7 +82,6 @@ class MyArmSim(ArmAnimatorApp):
             self.arm[i].set_pos(self.calibMotorCoords[self.current_goal][i])
           self.current_goal += 1
           return
-
 
         p = "asd".find(evt.unicode)
         if p>=0:
@@ -100,14 +92,6 @@ class MyArmSim(ArmAnimatorApp):
         if p>=0:
           self.arm[p].set_pos(self.arm[p].get_goal() - 100)
           return
-      return ArmAnimatorApp.onEvent(self,evt)
-      ## disable this block (change to 0) to use on_K for these keys
-      '''
-      # if point in calibration grid reached
-      if evt.key == K_r:
-        self.calibrate.start()
-        progress("r key was pressed")
-      '''
       return ArmAnimatorApp.onEvent(self,evt)
 
 if __name__=="__main__":
