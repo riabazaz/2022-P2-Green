@@ -18,9 +18,8 @@ class Move( Plan ):
         self.steps = []
         #Make another arm with the same orientation and arm lenght segments as
         #what is defined in armSpec. This is what is used for inverse kinematics.
-        self.moveArm = tinyik.Actuator(['z',[0.,0.,0.],'y',[10.,0.,0.],'y',[10.,0.,0.]])
+        self.moveArm = tinyik.Actuator(['z',[0.,0.,0.],'y',[5.,0.,0.],'y',[5.,0.,0.]])
         self.moveArm.angles = self.app.armSpec[-1,:]
-        progress(str(self.app.armSpec[-1,:]))
         self.pos = []   #Goal position for move. Will either be grid point or square corner. 
         self.calibrated = False
         self.CalDone = False
