@@ -10,7 +10,7 @@ import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from p2sim import ArmAnimatorApp
 from arm import Arm
-from joy.decl import KEYDOWN,K_k,K_o
+from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP
 from joy import progress
 from move import Move
 
@@ -171,6 +171,12 @@ class MyArmSim(ArmAnimatorApp):
                   self.move.calibrated = True
                   save("calib_array.npy",self.calib_ang)    #save calibration array
               return
+
+          if evt.key == K_DOWN:
+            self.draw = True
+          
+          if evt.key == K_UP:
+            self.draw = False
           #manual movements
           # row of 'a' on QWERTY keyboard increments motors
           p = "asdf".find(evt.unicode)

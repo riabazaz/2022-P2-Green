@@ -201,7 +201,7 @@ class ArmAnimatorApp( JoyApp ):
       
       # create a calibrate object for calibration
       # self.calibrate = Calibrate(self)
-
+      self.draw = False
 
     
     def paperToWorld(self, paperCoord):
@@ -254,15 +254,16 @@ class ArmAnimatorApp( JoyApp ):
         # Find current pen point in paper coordinates
         qq = dot(self.Tw2rp,pen)
         # If in sheet
-        if (qq[0]>0) and (qq[0]<1) and (qq[1]>0) and (qq[1]<1):
-          if qq[2]>1: # Pressed too far in
-            lt = dict(marker='o',color='r')
-          elif qq[2]>0: # Drawing
-            lt = dict(marker='x',color='g',ms=15,mew=2)
-          else: # Above sheet
-            lt = dict(marker="+", ms=15, color="m")
-        else: # Not above or below sheet
-            lt = dict(marker="+",color="b")
+        if self.draw:
+          if (qq[0]>0) and (qq[0]<1) and (qq[1]>0) and (qq[1]<1):
+            if qq[2]>1: # Pressed too far in
+              lt = dict(marker='o',color='r')
+            elif qq[2]>0: # Drawing
+              lt = dict(marker='x',color='g',ms=15,mew=2)
+            else: # Above sheet
+              lt = dict(marker="+", ms=15, color="m")
+          else: # Not above or below sheet
+              lt = dict(marker="+",color="b")
         # Project onto paper and bring back to world coordinates
         wp = self.Tprj @ pen
         fvp.plot3D([wp[0]],[wp[1]],[wp[2]],**lt)
