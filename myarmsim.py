@@ -135,17 +135,14 @@ class MyArmSim(ArmAnimatorApp):
           progress('in keydown')
           p = "wert".find(evt.unicode)
           if p>=0:
-              #if self.move.isRunning():
-              #    progress('Move running!')
-              #    return
-              self.arm[0].set_pos(rad2deg(self.calib_ang[p][0])*100)
-              self.arm[1].set_pos(rad2deg(self.calib_ang[p][1])*100)
-              self.arm[2].set_pos(rad2deg(self.calib_ang[p][2])*100)
-              #self.move.pos = self.square_w[p]   #set square corner as goal position
-              #self.move.start()
-              #self.move.square = True
+              if self.move.isRunning():
+                  progress('Move running!')
+                  return
+              self.moveArm.angles = self.calib_ang[p]
+              self.move.start()
+              self.move.square = True
               #after each move, set the previous goal position as your new starting position
-              #self.move.currentPos = self.move.pos
+              self.move.currentPos = self.move.pos
               progress('Move plan started!')
               return
           #Press 'k' to move to grid point for calibration
@@ -167,11 +164,12 @@ class MyArmSim(ArmAnimatorApp):
                 real_ang[i] = motor.get_pos()*(pi/18000)   
               self.calib_ang[self.calib_idx] = real_ang
 
+              self.calib_idx += 1
+
               if self.calib_idx == len(self.calib_ang):
                   progress('Calibration_complete!')
                   self.move.calibrated = True
                   save("calib_array.npy",self.calib_ang)    #save calibration array
-              self.calib_idx += 1
               return
           #manual movements
           # row of 'a' on QWERTY keyboard increments motors

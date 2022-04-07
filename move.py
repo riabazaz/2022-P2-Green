@@ -25,6 +25,7 @@ class Move( Plan ):
         self.CalDone = False
         self.square = False
         self.currentPos = []
+        self.nextPos = []
         self.curr = 0
     #used to get initial joint angles before autonomous move
     def syncArm(self):
@@ -36,15 +37,18 @@ class Move( Plan ):
     #for moving towwards desired position
     def behavior(self):
         angOffset = zeros(len(self.app.arm))
-        if self.calibrated == True:
-            #Interpolate between angle grid positions and angle error to calculate angle offset --> calibration
-            progress('Offset applied')
-            # angOffset = griddata(self.app.calib_grid[:,:-2],self.app.calib_ang,(self.pos[:-2]),method='linear')[0]
+
+        # if it is calibrated, we want to draw the line to the next position using the calibrated values
+        if self.calibrated:
+            self.pos = self.moveArm.ee 
 
         self.syncArm()     
         if self.CalDone == False or self.square == False:
             #forward kinematics - get current end effector position given joint angles
-            self.currentPos = self.app.idealArm.getTool(self.moveArm.angles)        
+            self.currentPos = self.app.idealArm.getTool(self.moveArm.angles)
+
+
+
         #Create a number of evenly spaced steps between current position and goal position
         self.steps = linspace(self.currentPos,self.pos,5)[:,:-1]    #Can adjust number of steps.
         #execute movement along path of steps
