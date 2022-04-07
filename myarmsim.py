@@ -133,6 +133,19 @@ class MyArmSim(ArmAnimatorApp):
       #activate autonomous mode and move to a square corner by pressing 'w','e','r','t'
       if evt.type == KEYDOWN:
           progress('in keydown')
+
+          
+
+          if evt.key == K_DOWN:
+            self.draw = True
+            progress('pen enabled')
+            return
+          
+          if evt.key == K_UP:
+            self.draw = False
+            progress('pen disabled')
+            return
+
           p = "wert".find(evt.unicode)
           if p>=0:
               if self.move.isRunning():
@@ -171,12 +184,6 @@ class MyArmSim(ArmAnimatorApp):
                   self.move.calibrated = True
                   save("calib_array.npy",self.calib_ang)    #save calibration array
               return
-
-          if evt.key == K_DOWN:
-            self.draw = True
-          
-          if evt.key == K_UP:
-            self.draw = False
           #manual movements
           # row of 'a' on QWERTY keyboard increments motors
           p = "asdf".find(evt.unicode)
