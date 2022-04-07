@@ -232,14 +232,22 @@ class ArmAnimatorApp( JoyApp ):
 
         self.p.append(pen)
 
-        if self.draw:
-          self.pen_marking.append(pen)
-
         # Line marking point is lowpass version of pen
         if self.l:
           self.l.append(self.l[-1] * 0.6 + pen * 0.4)
         else:
           self.l.append(pen)
+
+        ## ADDED IN ORDER TO ENABLE AND DISABLE PEN!
+        if self.draw:
+          self.pen_marking.append(pen)
+
+          if self.l_marking:
+            self.l_marking.append(self.l_marking[-1] * 0.6 + pen * 0.4)
+          else:
+            self.l_marking.append(pen)
+        ###################################################
+
 
     def _show(self,fvp):
         """
@@ -329,7 +337,7 @@ class ArmAnimatorApp( JoyApp ):
       from pylab import figure,savefig
       # Collect pen motions and tool tip motions
       p = asarray(self.pen_marking).T
-      l = asarray(self.l).T
+      l = asarray(self.l_marking).T
       t = asarray(asarray(self.t)*100,int)
       # Convert to paper coordinates
       qq = dot(self.Tw2rp,p)
@@ -372,7 +380,7 @@ class ArmAnimatorApp( JoyApp ):
       # Start timestamp
       self.TS = datetime.now().strftime("%Y%m%d-%H%M")      
       self.ani = AnimatorPlan(self,self._animation)
-      self.t,self.q,self.y,self.p,self.pen_marking,self.l = [],[],[],[],[],[]
+      self.t,self.q,self.y,self.p,self.pen_marking,self.l, self.l_marking = [],[],[],[],[],[],[]
       self.T0 = self.now
       self.ani.start()
       self.timeToPlot = self.onceEvery(1)
