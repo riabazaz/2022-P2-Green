@@ -178,13 +178,13 @@ class MyArmSim(ArmAnimatorApp):
           p = "asdf".find(evt.unicode)
           if p>=0:
             progress('manual move')
-            self.arm[p].set_pos(self.arm[p].get_goal() + 300)
+            self.arm[p].set_pos(self.arm[p].get_goal() + 100)
             return
           # row of 'z' in QWERTY keyboard decrements motors
           p = "zxcv".find(evt.unicode)
           if p>=0:
             progress('manual move')
-            self.arm[p].set_pos(self.arm[p].get_goal() - 300)
+            self.arm[p].set_pos(self.arm[p].get_goal() - 100)
             return
       return ArmAnimatorApp.onEvent(self,evt)
 
@@ -196,7 +196,7 @@ if __name__=="__main__":
        [  0.  ,  -0.71,   0.71,  10.63],
        [  0.  ,   0.  ,   0.  ,   1.  ]])
 
-  x,y,s = 4,8,1
+  x,y,s = 4,8,3
     #Initial test
     # 
   app = MyArmSim(Tp2ws,x,y,s
