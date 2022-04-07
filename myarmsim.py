@@ -149,6 +149,7 @@ class MyArmSim(ArmAnimatorApp):
               progress('Moving to calibration point')
               for i,motor in enumerate(self.arm):
                   self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
+              progress("here")
         #Manual adjustment before this step  
           #Press 'o' to calculate error between where arm moved and where it was supposed to be
           if evt.key == K_o:
