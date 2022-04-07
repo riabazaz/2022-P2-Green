@@ -135,14 +135,17 @@ class MyArmSim(ArmAnimatorApp):
           progress('in keydown')
           p = "wert".find(evt.unicode)
           if p>=0:
-              if self.move.isRunning():
-                  progress('Move running!')
-                  return
-              self.move.pos = self.square_w[p]   #set square corner as goal position
-              self.move.start()
-              self.move.square = True
+              #if self.move.isRunning():
+              #    progress('Move running!')
+              #    return
+              self.arm[0].set_pos(self.calib_ang[p][0])
+              self.arm[1].set_pos(self.calib_ang[p][1])
+              self.arm[2].set_pos(self.calib_ang[p][2])
+              #self.move.pos = self.square_w[p]   #set square corner as goal position
+              #self.move.start()
+              #self.move.square = True
               #after each move, set the previous goal position as your new starting position
-              self.move.currentPos = self.move.pos
+              #self.move.currentPos = self.move.pos
               progress('Move plan started!')
               return
           #Press 'k' to move to grid point for calibration
