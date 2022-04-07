@@ -22,7 +22,7 @@ class MotorModel( object ):
         self.Ki = 1 # [amp/(rad*sec)]
         self.sat = 2.0 # [rad*sec] Integrator saturation
         self.tqLimit = 1. # [amp] Upper limit on torque (in amps)
-        self.blMag = .1 # [rad] Gear backlash magnitude (rad)
+        self.blMag = .001 # [rad] Gear backlash magnitude (rad)
         self.mu = .05 # [amp/(rad/sec)] dynamic friction
         self.inertia = 1. # [amp/(rad/sec**2)] motor inertia
         self.thrm = 0.1 # [amp**2/sec] thermal sink rate
