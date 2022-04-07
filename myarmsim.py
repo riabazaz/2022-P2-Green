@@ -90,6 +90,7 @@ class MyArmSim(ArmAnimatorApp):
       ##Calibration
       
       #Create calibration grid on paper. These are points to move to during calibration.
+      '''
       nx,ny = (2,2)     #can be adjusted to add more calibration points
       x_lin = linspace(0,8,nx)
       y_lin = linspace(0,11,ny)
@@ -100,7 +101,8 @@ class MyArmSim(ArmAnimatorApp):
           idx = nx*(2*i+1)
           grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
       self.grid_idx = grid_idx
-      self.calib_grid = dot(grid,self.Tp2w.T)
+      '''
+      self.calib_grid = self.square_w
       self.calib_idx = 0
       
       #if calibration file exists, load calibration array in here, and skip over next part
