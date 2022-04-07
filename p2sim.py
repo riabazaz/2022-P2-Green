@@ -229,13 +229,14 @@ class ArmAnimatorApp( JoyApp ):
         self.q.append(qi)
         self.y.append(yi)
         pen = self.arm.getTool(qi)
-        self.p.append(pen)
-        # Line marking point is lowpass version of pen
+
         if self.draw:
-          if self.l:
-            self.l.append(self.l[-1] * 0.6 + pen * 0.4)
-          else:
-            self.l.append(pen)
+          self.p.append(pen)
+        # Line marking point is lowpass version of pen
+        if self.l:
+          self.l.append(self.l[-1] * 0.6 + pen * 0.4)
+        else:
+          self.l.append(pen)
 
     def _show(self,fvp):
         """
