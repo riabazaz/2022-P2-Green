@@ -10,8 +10,9 @@ import tinyik
 class Calibrate(Plan):
     def __init__(self, app):
         Plan.__init__(self,app)
-        self.app = app # [[0, 0, 0], [0.5, 0, 0], [1, 0, 0], [1, 0.5, 0], [1, 1, 0], [0.5, 1, 0], [0, 1, 0], [0, 0.5, 0]]
-        self.calibCoords = np.array([[1, 0, 0], [0, 0, 0], [0.5, 0, 0], [1, 0.5, 0], [1, 1, 0], [0.5, 1, 0], [0, 1, 0], [0, 0.5, 0]]) #these are placeholders
+        self.app = app 
+        # [[0, 0, 0], [0.5, 0, 0], [1, 0, 0], [1, 0.5, 0], [1, 1, 0], [0.5, 1, 0], [0, 1, 0], [0, 0.5, 0]]
+        self.calibCoords = np.array([[0, 0, 0], [0, 0, 0], [0, 0, 0], [1, 0.5, 0], [1, 1, 0], [0.5, 1, 0], [0, 1, 0], [0, 0.5, 0]]) #these are placeholders
         self.calibCoords = self.calibCoords*2.5
         self.calibCoords = self.calibCoords + np.array([[8.5/2, 8, 0]])
 
@@ -46,7 +47,7 @@ class Calibrate(Plan):
             self.app.arm[0].set_pos(np.rad2deg(angles[0])*100)
             self.app.arm[1].set_pos(np.rad2deg(angles[1])*100)
             self.app.arm[2].set_pos(np.rad2deg(angles[2])*100)
-            progress(str(self.app.arm[0].get_goal()) + ", " + str(self.app.arm[1].get_goal()) + ", " + str(self.app.arm[2].get_goal()))
+            progress(str(self.app.arm[0].get_pos()) + ", " + str(self.app.arm[1].get_pos()) + ", " + str(self.app.arm[2].get_pos()))
         yield
             
         
