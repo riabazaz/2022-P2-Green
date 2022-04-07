@@ -28,7 +28,7 @@ class MassArm(Arm):
 
     def setup(self,wl):
       Arm.setup(self,wl)
-      CoM = [ asarray([0,0,0,0]) ] # Center of mass
+      CoM = [ asarray([0,0,0,1]) ] # Center of mass
       m = zeros(self.geom[1].shape[1]) # Mass distribution
       M = [ 0 ] # Mass
       I = [ identity(3) ] # Geometric inertia (I/m)
@@ -377,7 +377,7 @@ class ArmAnimatorApp( JoyApp ):
       file.
       """
       if self.timeToPlot():
-        # self.saveResult(withCSV=False)
+        self.saveResult(withCSV=False)
         pass
       return JoyApp.onEvent(self,evt)
 

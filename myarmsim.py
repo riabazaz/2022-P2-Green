@@ -129,7 +129,6 @@ class MyArmSim(ArmAnimatorApp):
       
       #activate autonomous mode and move to a square corner by pressing 'w','e','r','t'
       if evt.type == KEYDOWN:
-          self.move.start()
           progress('in keydown')
           p = "wert".find(evt.unicode)
           if p>=0:
