@@ -7,7 +7,7 @@ Created on Wed Apr  1 14:23:10 2020
 """
 import sys
 import os
-from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array
+from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from p2sim import ArmAnimatorApp
 from arm import Arm
 from joy.decl import KEYDOWN,K_k,K_o
@@ -138,9 +138,9 @@ class MyArmSim(ArmAnimatorApp):
               #if self.move.isRunning():
               #    progress('Move running!')
               #    return
-              self.arm[0].set_pos(self.calib_ang[p][0])
-              self.arm[1].set_pos(self.calib_ang[p][1])
-              self.arm[2].set_pos(self.calib_ang[p][2])
+              self.arm[0].set_pos(rad2deg(self.calib_ang[p][0])*100)
+              self.arm[1].set_pos(rad2deg(self.calib_ang[p][1])*100)
+              self.arm[2].set_pos(rad2deg(self.calib_ang[p][2])*100)
               #self.move.pos = self.square_w[p]   #set square corner as goal position
               #self.move.start()
               #self.move.square = True
@@ -158,19 +158,15 @@ class MyArmSim(ArmAnimatorApp):
               progress("here")
               return
         #Manual adjustment before this step  
-          #Press 'o' to calculate error between where arm moved and where it was supposed to be
+          #Press 'o' to calculate new angle
           if evt.key == K_o:
               #Calculate error
               progress('Calculate error')
-              if self.calib_idx < len(self.calib_ang):
-                  real_ang = zeros(len(self.arm))
-                  for i,motor in enumerate(self.arm):
-                      real_ang[i] = motor.get_goal()*(pi/18000)   
-                  self.calib_ang[self.calib_idx] = real_ang - self.calib_ang[self.calib_idx]
-                  self.calib_idx += 1
-                  self.move.calDone = True
-                  self.move.currentPos = self.move.pos
-              progress('Error calculation complete')
+              real_ang = zeros(len(self.arm))
+              for i,motor in enumerate(self.arm):
+                real_ang[i] = motor.get_pos()*(pi/18000)   
+              self.calib_ang[self.calib_idx] = real_ang
+
               if self.calib_idx == len(self.calib_ang):
                   progress('Calibration_complete!')
                   self.move.calibrated = True
