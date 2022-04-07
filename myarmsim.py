@@ -74,7 +74,7 @@ class MyArmSim(ArmAnimatorApp):
         if evt.key == K_DOWN:
           # save calibration points
           #changed from get_goal to get_pos
-          self.calibMotorCoords.append(np.array([self.arm[x].get_pos()*100*(pi/180) for x in range(3)])) 
+          self.calibMotorCoords.append(np.array([self.arm[x].get_pos() for x in range(3)])) 
           progress("goal angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))
