@@ -192,6 +192,8 @@ if __name__=="__main__":
        [0.7071,0, 0.7071,0],
        [0,     0,      0,1]
   ])
+
+  x,y,s = 4,3,1
     #Initial test
     # 
   app = MyArmSim(Tp2ws,x,y,s
