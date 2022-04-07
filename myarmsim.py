@@ -38,8 +38,8 @@ class MyArmSim(ArmAnimatorApp):
       #arm segment length. Last column represents initial arm segment angle.
       armSpec = asarray([
         [0,0.02,1,0,-1.57], # base rotation around the z-axis
-        [0,1,0,5,-1.57], # arm rotation around the y-axis #1.57
-        [0,1,0,5,0] #the arm extending/unextending 
+        [0,1,0,10,-1.57], # arm rotation around the y-axis #1.57
+        [0,1,0,10,0] #the arm extending/unextending 
       ]).T
       self.armSpec = armSpec
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
