@@ -2,7 +2,7 @@
 import tinyik
 from joy.plans import Plan
 from joy import progress
-from numpy import linspace,zeros,pi,rad2deg
+from numpy import linspace,zeros,pi,rad2deg, append
 from scipy.interpolate import griddata
 
 #armSpec = asarray([
@@ -40,8 +40,7 @@ class Move( Plan ):
 
         # if it is calibrated, we want to draw the line to the next position using the calibrated values
         if self.calibrated:
-            self.pos = self.moveArm.ee
-            self.pos.append(1)
+            self.pos = append(self.moveArm.ee, [0])
  
 
         self.syncArm()     
