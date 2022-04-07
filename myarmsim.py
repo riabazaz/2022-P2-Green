@@ -171,6 +171,7 @@ class MyArmSim(ArmAnimatorApp):
                   progress('Calibration_complete!')
                   self.move.calibrated = True
                   save("calib_array.npy",self.calib_ang)    #save calibration array
+              self.calib_idx += 1
               return
           #manual movements
           # row of 'a' on QWERTY keyboard increments motors
