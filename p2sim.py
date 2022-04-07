@@ -245,6 +245,8 @@ class ArmAnimatorApp( JoyApp ):
         return self.show(fvp)
 
     def show(self,fvp):
+        if self.draw == False:
+          return
         ti = self.t[-1]
         qi = self.q[-1]
         pen = self.p[-1]
@@ -255,12 +257,12 @@ class ArmAnimatorApp( JoyApp ):
         # Find current pen point in paper coordinates
         qq = dot(self.Tw2rp,pen)
         # If in sheet
-        if (self.draw and qq[0]>0) and (qq[0]<1) and (qq[1]>0) and (qq[1]<1):
-          if self.draw and qq[2]>1: # Pressed too far in
+        if (qq[0]>0) and (qq[0]<1) and (qq[1]>0) and (qq[1]<1):
+          if qq[2]>1: # Pressed too far in
             lt = dict(marker='o',color='r')
-          elif self.draw and qq[2]>0: # Drawing
+          elif qq[2]>0: # Drawing
             lt = dict(marker='x',color='g',ms=15,mew=2)
-          elif self.draw: # Above sheet
+          else: # Above sheet
             lt = dict(marker="+", ms=15, color="m")
         else: # Not above or below sheet
             lt = dict(marker="+",color="b")
