@@ -91,12 +91,12 @@ class MyArmSim(ArmAnimatorApp):
 
         p = "asd".find(evt.unicode)
         if p>=0:
-          self.arm[p].set_pos(self.arm[p].get_goal() + 500)
+          self.arm[p].set_pos(self.arm[p].get_goal() + 100)
           return
         # row of 'z' in QWERTY keyboard decrements motors
         p = "zxc".find(evt.unicode)
         if p>=0:
-          self.arm[p].set_pos(self.arm[p].get_goal() - 500)
+          self.arm[p].set_pos(self.arm[p].get_goal() - 100)
           return
       return ArmAnimatorApp.onEvent(self,evt)
       ## disable this block (change to 0) to use on_K for these keys
