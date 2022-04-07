@@ -23,10 +23,8 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,1,0],
            [0,0,0,  1]
       ])
+
       ###
-
-      self.angle_delta = 500
-
       ### Arm specification
       ###
       armSpec = asarray([
@@ -38,6 +36,8 @@ class MyArmSim(ArmAnimatorApp):
       # squareTarget = []
       # scale = 2.5
 
+      ## Drawing shit
+      self.current_goal = 0
       self.calibMotorCoords = []
 
       ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
@@ -83,14 +83,13 @@ class MyArmSim(ArmAnimatorApp):
             + ", " + str(self.arm[2].get_pos()))
           return
 
-        if evt.key == K_LEFT:
-          for coor in self.calibMotorCoords:
-            for i in range(3):
-              self.arm[i].set_pos(coor[i])
-            self.saveResult(withCSV=False)
-            progress("here")
+        if evt.key == K_RIGHT:
           self.saveResult(withCSV=False)
+          for i in range(3):
+            self.arm[i].set_pos(self.calibMotorCoords[self.current_goal][i])
+          self.current_goal += 1
           return
+
 
         p = "asd".find(evt.unicode)
         if p>=0:
