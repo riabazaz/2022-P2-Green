@@ -41,6 +41,7 @@ class Move( Plan ):
         # if it is calibrated, we want to draw the line to the next position using the calibrated values
         if self.calibrated:
             self.pos = self.moveArm.ee
+            self.pos.append(1)
  
 
         self.syncArm()     
