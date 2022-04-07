@@ -145,7 +145,7 @@ class MyArmSim(ArmAnimatorApp):
           #Press 'k' to move to grid point for calibration
           if evt.key == K_k:
               self.move.pos = self.calib_grid[self.calib_idx]    #set next grid point as goal position
-              # self.move.start()
+              self.move.start()
               progress('Moving to calibration point')
               for i,motor in enumerate(self.arm):
                   self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
