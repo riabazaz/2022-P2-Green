@@ -64,7 +64,7 @@ class MyArmSim(ArmAnimatorApp):
 
     def onEvent(self,evt):
       # Ignore everything except keydown events
-      
+
       if evt.type == KEYDOWN:
 
         if evt.key == K_UP:
@@ -73,7 +73,8 @@ class MyArmSim(ArmAnimatorApp):
           
         if evt.key == K_DOWN:
           # save calibration points
-          self.calibMotorCoords.append(np.array([self.app.arm[x].get_pos()*(pi/18000) for x in range(3)])) #changed from get_goal to get_pos
+          #changed from get_goal to get_pos
+          self.calibMotorCoords.append(np.array([self.arm[x].get_pos()*(pi/18000) for x in range(3)])) 
           progress("goal angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))
