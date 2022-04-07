@@ -46,7 +46,7 @@ class Move( Plan ):
             #forward kinematics - get current end effector position given joint angles
             self.currentPos = self.app.idealArm.getTool(self.moveArm.angles)        
         #Create a number of evenly spaced steps between current position and goal position
-        self.steps = linspace(self.currentPos,self.pos,5)[:,:-1]    #Can adjust number of steps.
+        self.steps = linspace(self.currentPos,self.pos,7)[:,:-1]    #Can adjust number of steps.
         #execute movement along path of steps
         for stepCount,step in enumerate(self.steps):
             progress('Step #%d, %s' % (stepCount,str(step)))
