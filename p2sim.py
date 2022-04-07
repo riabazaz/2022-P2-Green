@@ -181,7 +181,7 @@ class ArmAnimatorApp( JoyApp ):
       self.simTS = simTimeStep
       JoyApp.__init__(self,*arg,**kw)
       progress("Simulation time: %g sec = 0.1 sec simulated" % self.simTS)
-      self.arm = ArmSim(wlc)
+      self.arm = Arm(wlc)
       self.Tp2w = Tws2w @ Tp2ws
       self.Tws2w = Tws2w
       self.Tp2ws = Tp2ws
