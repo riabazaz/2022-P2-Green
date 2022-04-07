@@ -372,7 +372,7 @@ class ArmAnimatorApp( JoyApp ):
       # Start timestamp
       self.TS = datetime.now().strftime("%Y%m%d-%H%M")      
       self.ani = AnimatorPlan(self,self._animation)
-      self.t,self.q,self.y,self.p,self.pen_marking,self.l = [],[],[],[],[]
+      self.t,self.q,self.y,self.p,self.pen_marking,self.l = [],[],[],[],[],[]
       self.T0 = self.now
       self.ani.start()
       self.timeToPlot = self.onceEvery(1)
