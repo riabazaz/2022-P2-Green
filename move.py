@@ -40,14 +40,17 @@ class Move( Plan ):
 
         # if it is calibrated, we want to draw the line to the next position using the calibrated values
         if self.calibrated:
-            self.pos = self.moveArm.ee 
+            self.pos = self.moveArm.ee
+ 
 
         self.syncArm()     
-        if self.CalDone == False or self.square == False:
+        if self.CalDone == False or self.square == False or len(self.currentPos) == 0:
             #forward kinematics - get current end effector position given joint angles
             self.currentPos = self.app.idealArm.getTool(self.moveArm.angles)
 
 
+        progress(str(self.pos))
+        progress(str(self.currentPos))
 
         #Create a number of evenly spaced steps between current position and goal position
         self.steps = linspace(self.currentPos,self.pos,5)[:,:-1]    #Can adjust number of steps.
