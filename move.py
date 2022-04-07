@@ -39,7 +39,7 @@ class Move( Plan ):
         if self.calibrated == True:
             #Interpolate between angle grid positions and angle error to calculate angle offset --> calibration
             progress('Offset applied')
-            angOffset = griddata(self.app.calib_grid[:,:-2],self.app.calib_ang,(self.pos[:-2]),method='linear')[0]
+            # angOffset = griddata(self.app.calib_grid[:,:-2],self.app.calib_ang,(self.pos[:-2]),method='linear')[0]
 
         self.syncArm()     
         if self.CalDone == False or self.square == False:
