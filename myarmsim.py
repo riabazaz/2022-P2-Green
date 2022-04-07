@@ -60,16 +60,7 @@ class MyArmSim(ArmAnimatorApp):
     ###    Handle events as you see fit, and return after
     def on_K_r(self,evt):
       progress("(say) r was pressed")
-    
-    def move_until_correct(self, index):
-      delta = -500
-      while (self.arm[index].get_pos() < self.arm[index].get_goal() - self.angle_delta) or (self.arm[index].get_pos() > self.arm[index].get_goal() + self.angle_delta):
-        self.arm[index].set_pos(self.arm[index].get_goal() + delta)
-        delta = delta*-1
-        progress("current pos: " + str(self.arm[index].get_pos()))
-        progress("goal pos: " + str(self.arm[index].get_goal()))
-      return
-
+  
 
     def onEvent(self,evt):
       # Ignore everything except keydown events
@@ -84,19 +75,14 @@ class MyArmSim(ArmAnimatorApp):
           
         if evt.key == K_DOWN:
           # save calibration points
-          #self.calibMotorCoords.append(np.array([self.app.arm[x].get_goal()*(pi/18000) for x in range(3)]))
+          self.calibMotorCoords.append(np.array([self.app.arm[x].get_pos()*(pi/18000) for x in range(3)])) #changed from get_goal to get_pos
           progress("goal angles: " + str(self.arm[0].get_goal()) 
             + ", " + str(self.arm[1].get_goal()) 
             + ", " + str(self.arm[2].get_goal()))
           progress("current angles: " + str(self.arm[0].get_pos()) 
-            + ", " + str(self.arm[1].get_pos()) 
+            + ", " + str(self.arm[1].get_pos())
             + ", " + str(self.arm[2].get_pos()))
           return
-
-        if evt.key == K_RIGHT:
-          progress("adjusting")
-          self.arm[0].set_pos(self.arm[0].get_goal())
-
 
         if evt.key == K_LEFT:
           for coor in self.calibMotorCoords:
