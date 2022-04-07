@@ -138,7 +138,7 @@ class MyArmSim(ArmAnimatorApp):
               if self.move.isRunning():
                   progress('Move running!')
                   return
-              self.moveArm.angles = self.calib_ang[p]
+              self.move.moveArm.angles = self.calib_ang[p]
               self.move.start()
               self.move.square = True
               #after each move, set the previous goal position as your new starting position
