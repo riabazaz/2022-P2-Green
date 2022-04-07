@@ -377,7 +377,7 @@ class ArmAnimatorApp( JoyApp ):
       file.
       """
       if self.timeToPlot():
-        self.saveResult(withCSV=False)
+        # self.saveResult(withCSV=False)
         pass
       return JoyApp.onEvent(self,evt)
 
