@@ -2,8 +2,8 @@ from numpy import zeros, asarray, asfarray, concatenate, tanh
 from numpy.random import randint
   
 def clip(a,mn,mx):
-    #return mn if a<mn else (mx if a>mx else a) # Hybrid clip
-    return mn + (mx-mn)*tanh((a-mn)/(mx-mn)) # Smooth clip
+    return mn if a<mn else (mx if a>mx else a) # Hybrid clip
+    #return mn + (mx-mn)*tanh((a-mn)/(mx-mn)) # Smooth clip
 
 def satFb( x, mx, dx ):
     return dx if abs(x)<mx or x*dx<0 else 0
