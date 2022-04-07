@@ -196,7 +196,7 @@ if __name__=="__main__":
        [  0.  ,  -0.71,   0.71,  10.63],
        [  0.  ,   0.  ,   0.  ,   1.  ]])
 
-  x,y,s = 4,8,3
+  x,y,s = 4,8,2
     #Initial test
     # 
   app = MyArmSim(Tp2ws,x,y,s
