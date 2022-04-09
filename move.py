@@ -2,7 +2,7 @@
 import tinyik
 from joy.plans import Plan
 from joy import progress
-from numpy import linspace,zeros,pi,rad2deg, append
+from numpy import linspace,zeros,pi,rad2deg, append, round, max
 from scipy.interpolate import griddata
 
 #armSpec = asarray([
@@ -26,6 +26,7 @@ class Move( Plan ):
         self.currentPos = []
         self.nextPos = []
         self.curr = 0
+        self.step_constant = 1/10
     #used to get initial joint angles before autonomous move
     def syncArm(self):
         ang = zeros(len(self.app.arm))
@@ -40,7 +41,6 @@ class Move( Plan ):
         if self.calibrated:
             self.pos = append(self.moveArm.ee, [1])
  
-
         self.syncArm()     
         if self.square == False or len(self.currentPos) == 0:
             #forward kinematics - get current end effector position given joint angles
@@ -50,8 +50,16 @@ class Move( Plan ):
         progress(str(self.pos))
         progress(str(self.currentPos))
 
+        # find the largest angle in degrees
+        self.moveArm.ee = self.pos
+        largest_angle = 0
+        for i,motor in enumerate(self.app.arm):
+            if abs(motor.get_pos(rad2deg(self.moveArm.angles[i])*100)) > largest_angle:
+                largest_angle = abs(motor.get_pos(rad2deg(self.moveArm.angles[i])*100))
+        self.steps = max(1,round(largest_angle * self.step_constant))
+
         #Create a number of evenly spaced steps between current position and goal position
-        self.steps = linspace(self.currentPos,self.pos,5)[:,:-1]    #Can adjust number of steps.
+        # self.steps = linspace(self.currentPos,self.pos,5)[:,:-1]    #Can adjust number of steps.
         #execute movement along path of steps
         for stepCount,step in enumerate(self.steps):
             progress('Step #%d, %s' % (stepCount,str(step)))
