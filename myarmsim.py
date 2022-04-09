@@ -33,7 +33,7 @@ class MyArmSim(ArmAnimatorApp):
       ### Arm specification
       ###
 
-      self.nx,self.ny = (2,2)     #can be adjusted to add more calibration points
+      self.nx,self.ny = (4,4)     #can be adjusted to add more calibration points
       
     
       self.square_pos_x = x
@@ -75,18 +75,23 @@ class MyArmSim(ArmAnimatorApp):
           fvp.plot3D(*point[:-1],marker='o',color='m')
       return ArmAnimatorApp.show(self,fvp)
 
-    def createGrid(self, x, y, s):
+
+    #Define 4 corners in paper coordinates
+    #columns(left to right): x,y,z coordinates, 1's
+    #scale s represents full length of square side
+    def createSquare(self, x,y,s):
       square_p = asarray([
-                  [x-0.5*s, y+0.5*s, 0, 1],     #upper left
-                  [x+0.5*s, y+0.5*s, 0, 1],     #uper right
-                  [x+0.5*s, y-0.5*s, 0, 1],     #bottom right
-                  [x-0.5*s, y-0.5*s, 0, 1]      #bottom left
-                  ])
+        [x-0.5*s, y+0.5*s, 0, 1],     #upper left
+        [x+0.5*s, y+0.5*s, 0, 1],     #uper right
+        [x+0.5*s, y-0.5*s, 0, 1],     #bottom right
+        [x-0.5*s, y-0.5*s, 0, 1]      #bottom left
+        ])
 
       #Convert all coordinates for square to world coordinates
-      self.square_w = dot(square_p, self.Tp2w.T)
-      
-      ##Calibration
+      return dot(square_p, self.Tp2w.T)
+
+    def createGrid(self):
+     #Calibration
       
       #Create calibration grid on paper. These are points to move to during calibration.
       x_lin = linspace(0,8,self.nx)
@@ -105,12 +110,11 @@ class MyArmSim(ArmAnimatorApp):
       ###
       ### TEAM CODE GOES HERE
       ###
-      self.calib_grid = self.createGrid(self.square_pos_x, self.square_pos_y,self.square_scale)
+      self.calib_grid = self.createGrid()
       self.calib_idx = 0
-      #Define 4 corners in paper coordinates
-      #columns(left to right): x,y,z coordinates, 1's
-      #scale s represents full length of square side
-      
+
+
+      self.square_w = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
       #manually delete existing calibration array file before moving on to new arena
