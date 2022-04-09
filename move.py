@@ -2,7 +2,7 @@
 import tinyik
 from joy.plans import Plan
 from joy import progress
-from numpy import linspace,zeros,pi,rad2deg, append, round, max, deg2rad
+from numpy import linspace,zeros,pi,rad2deg, append, round, maximum, deg2rad
 from scipy.interpolate import griddata
 
 #armSpec = asarray([
@@ -64,7 +64,7 @@ class Move( Plan ):
             if delta > largest_delta:
                 largest_delta = abs(delta)
         progress(str(largest_delta))
-        num_steps = max(1,int(largest_delta * self.step_constant))
+        num_steps = maximum(1,int(largest_delta * self.step_constant))
 
         #Create a number of evenly spaced steps between current position and goal position
         self.steps = linspace(self.currentPos,self.pos,num_steps)[:,:-1]    #Can adjust number of steps.
