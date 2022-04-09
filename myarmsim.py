@@ -82,7 +82,7 @@ class MyArmSim(ArmAnimatorApp):
       
       #Create calibration grid on paper. These are points to move to during calibration.
       
-      nx,ny = (x,y)     #can be adjusted to add more calibration points
+      nx,ny = (2,2)     #can be adjusted to add more calibration points
       x_lin = linspace(0,8,nx)
       y_lin = linspace(0,11,ny)
       xv,yv = meshgrid(x_lin,y_lin,indexing='xy')
