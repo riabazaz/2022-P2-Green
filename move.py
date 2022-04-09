@@ -31,7 +31,7 @@ class Move( Plan ):
     def syncArm(self):
         ang = zeros(len(self.app.arm))
         for i,motor in enumerate(self.app.arm):
-            ang[i] = motor.get_goal()*(pi/18000.)   #convert angles from centidegrees to radians
+            ang[i] = motor.get_pos()*(pi/18000.)   #convert angles from centidegrees to radians
         self.moveArm.angles = ang
     
     #for moving towwards desired position
@@ -55,7 +55,7 @@ class Move( Plan ):
         largest_angle = 0
         for i,motor in enumerate(self.app.arm):
             if abs(motor.get_pos(rad2deg(self.moveArm.angles[i])*100)) > largest_angle:
-                largest_angle = abs(motor.get_pos(rad2deg(self.moveArm.angles[i])*100))
+                largest_angle = abs(motor.get_pos())
         self.steps = max(1,round(largest_angle * self.step_constant))
 
         #Create a number of evenly spaced steps between current position and goal position
