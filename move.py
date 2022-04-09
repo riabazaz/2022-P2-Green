@@ -26,7 +26,7 @@ class Move( Plan ):
         self.currentPos = []
         self.nextPos = []
         self.curr = 0
-        self.step_constant = 1/10
+        self.step_constant = 1/7
     #used to get initial joint angles before autonomous move
     def syncArm(self):
         ang = zeros(len(self.app.arm))
@@ -74,7 +74,7 @@ class Move( Plan ):
             self.app.currStep = stepCount
             progress(step)
             self.moveArm.ee = step
-            for i,motor in enumerate(self.app.arm):
+            for i,motor in reversed(list(enumerate(self.app.arm))):
                 #Calculate angles to move each step and move the motors 
                 motor.set_pos(rad2deg(self.moveArm.angles[i])*100)    #feed in angle to set_pos as centidegrees
             yield self.forDuration(4)
