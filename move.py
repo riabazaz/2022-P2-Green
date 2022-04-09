@@ -55,11 +55,11 @@ class Move( Plan ):
 
         # find the largest angle in degrees
         self.moveArm.ee = self.pos[:3]
-        progress('move arm angles', self.moveArm.angles)
+        progress('move arm angles' + str(self.moveArm.angles))
         largest_delta = 0
         for i,motor in enumerate(self.app.arm):
             delta = abs(self.moveArm.angles[i] - motor.get_pos())
-            progress('current arm angles', motor.get_pos())
+            progress('current arm angles'  + str(motor.get_pos()))
             if delta > largest_delta:
                 largest_delta = abs(rad2deg(delta))
         progress(str(largest_delta))
