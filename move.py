@@ -51,6 +51,7 @@ class Move( Plan ):
         progress(str(self.currentPos))
 
         # find the largest angle in degrees
+        progress(self.pos)
         self.moveArm.ee = self.pos
         largest_angle = 0
         for i,motor in enumerate(self.app.arm):
