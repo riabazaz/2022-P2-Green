@@ -22,7 +22,6 @@ class Move( Plan ):
         self.moveArm.angles = self.app.armSpec[-1,:]
         self.pos = []   #Goal position for move. Will either be grid point or square corner. 
         self.calibrated = False
-        self.CalDone = False
         self.square = False
         self.currentPos = []
         self.nextPos = []
@@ -43,7 +42,7 @@ class Move( Plan ):
  
 
         self.syncArm()     
-        if self.CalDone == False or self.square == False or len(self.currentPos) == 0:
+        if self.square == False or len(self.currentPos) == 0:
             #forward kinematics - get current end effector position given joint angles
             self.currentPos = self.app.idealArm.getTool(self.moveArm.angles)
 
