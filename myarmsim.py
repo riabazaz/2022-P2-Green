@@ -75,9 +75,9 @@ class MyArmSim(ArmAnimatorApp):
       return ArmAnimatorApp.show(self,fvp)
 
 
-    #Define 4 corners in paper coordinates
-    #columns(left to right): x,y,z coordinates, 1's
-    #scale s represents full length of square side
+    # Define 4 corners in paper coordinates
+    # columns(left to right): x,y,z coordinates, 1's
+    # scale s represents full length of square side
     def createSquare(self, x,y,s):
       square_p = asarray([
         [x-0.5*s, y+0.5*s, 0, 1],     #upper left
