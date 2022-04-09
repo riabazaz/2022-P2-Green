@@ -18,7 +18,6 @@ from joy import JoyApp
 from joy.decl import progress
 from vis3d import FourViewPlot, xyzCube, iCube, iFace, plotVE
 from joy.misc import requiresPyGame
-from calibrate import Calibrate
 import tinyik
 requiresPyGame()
 
@@ -199,9 +198,6 @@ class ArmAnimatorApp( JoyApp ):
       self.Tprj = self.Tp2w @ (asarray([[1,1,0,1]]).T*self.Tw2p)
       # World to relative paper (i.e. paper is unit cube)
       self.Tw2rp = self.Tw2p / self.paper_p[-1][:,newaxis]
-      
-      # create a calibrate object for calibration
-      # self.calibrate = Calibrate(self)
       
 
     
