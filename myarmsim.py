@@ -33,7 +33,6 @@ class MyArmSim(ArmAnimatorApp):
       ### Arm specification
       ###
 
-      self.nx,self.ny = (4,4)     #can be adjusted to add more calibration points
       
     
       self.square_pos_x = x
@@ -90,27 +89,35 @@ class MyArmSim(ArmAnimatorApp):
       #Convert all coordinates for square to world coordinates
       return dot(square_p, self.Tp2w.T)
 
-    def createGrid(self):
-     #Calibration
+    def createGrid(self, x_spacing, y_spacing):
+      #Calibration
       
       #Create calibration grid on paper. These are points to move to during calibration.
-      x_lin = linspace(0,8,self.nx)
-      y_lin = linspace(0,11,self.ny)
+
+      # create the array for the x points
+      x_lin = [0]
+      while x_lin[-1]*x_spacing*0.394 < 8:
+        x_lin.append(x_lin[-1]*x_spacing*0.394)
+      
+      y_lin = [0]
+      while x_lin[-1]*y_spacing*0.394 < 11:
+        x_lin.append(x_lin[-1]*x_spacing*0.394)      
+
+
+      nx, ny = (len(x_lin),len(y_lin))     #can be adjusted to add more calibration points
+
+    
       xv,yv = meshgrid(x_lin,y_lin,indexing='xy')
-      grid = c_[xv.reshape(self.nx*self.ny,1), yv.reshape(self.nx*self.ny,1), zeros((self.nx*self.ny,1)), ones((self.nx*self.ny,1))]
-      grid_idx = list(range(self.nx*self.ny))
-      for i in range(self.nx-(self.nx % 2)):
-          idx = self.nx*(2*i+1)
-          grid_idx[idx:idx+self.nx] = grid_idx[idx:idx+self.nx][::-1]
-      return dot(grid,self.Tp2w.T)
+      grid = c_[xv.reshape(nx*ny,1), yv.reshape(nx*ny,1), zeros((nx*ny,1)), ones((nx*ny,1))]
+      grid_idx = list(range(nx*ny))
+      for i in range(nx-(nx % 2)):
+          idx = nx*(2*i+1)
+          grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
+      return dot(grid,self.Tp2w.T), nx, ny
       
     def onStart(self):
       ArmAnimatorApp.onStart(self)
-
-      ###
-      ### TEAM CODE GOES HERE
-      ###
-      self.calib_grid = self.createGrid()
+      self.calib_grid, self.nx, self.ny = self.createGrid(1,1)
       self.calib_idx = 0
 
 
