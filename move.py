@@ -18,7 +18,7 @@ class Move( Plan ):
         self.steps = []
         #Make another arm with the same orientation and arm lenght segments as
         #what is defined in armSpec. This is what is used for inverse kinematics.
-        self.moveArm = tinyik.Actuator(['z',[0.,0.,0.],'y',[5.,0.,0.],'y',[5.,0.,0.]])
+        self.moveArm = tinyik.Actuator(['z',[0.,0.,0.],'y',[10.,0.,0.],'y',[10.,0.,0.]])
         self.moveArm.angles = self.app.armSpec[-1,:]
         self.pos = []   #Goal position for move. Will either be grid point or square corner. 
         self.calibrated = False
@@ -55,9 +55,11 @@ class Move( Plan ):
 
         # find the largest angle in degrees
         self.moveArm.ee = self.pos[:3]
+        progress('move arm angles', self.moveArm.angles)
         largest_delta = 0
         for i,motor in enumerate(self.app.arm):
             delta = abs(self.moveArm.angles[i] - motor.get_pos())
+            progress('current arm angles', motor.get_pos())
             if delta > largest_delta:
                 largest_delta = abs(rad2deg(delta))
         progress(str(largest_delta))
