@@ -117,7 +117,7 @@ class MyArmSim(ArmAnimatorApp):
       
     def onStart(self):
       ArmAnimatorApp.onStart(self)
-      self.calib_grid, self.nx, self.ny = self.createGrid(1,1)
+      self.calib_grid, self.nx, self.ny = self.createGrid(4,4)
       self.calib_idx = 0
 
 
