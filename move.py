@@ -59,7 +59,7 @@ class Move( Plan ):
         largest_delta = 0
         
         for i,motor in enumerate(self.app.arm):
-            delta = abs(rad2deg(self.moveArm.angle[i]) - (motor.get_pos()/100))
+            delta = abs(rad2deg(self.moveArm.angles[i]) - (motor.get_pos()/100))
             progress('current arm angles'  + str(motor.get_pos()))
             if delta > largest_delta:
                 largest_delta = abs(delta)
