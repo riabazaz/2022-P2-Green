@@ -32,7 +32,15 @@ class MyArmSim(ArmAnimatorApp):
       ###
       ### Arm specification
       ###
+
+      self.nx,self.ny = (2,2)     #can be adjusted to add more calibration points
       
+    
+      self.square_pos_x = x
+      self.square_pos_y = y
+      self.square_scale = s
+
+
       #Each row represents an arm segment.
       #First three columns represent joint rotation axis. Fourth column represents
       #arm segment length. Last column represents initial arm segment angle.
@@ -67,7 +75,7 @@ class MyArmSim(ArmAnimatorApp):
           fvp.plot3D(*point[:-1],marker='o',color='m')
       return ArmAnimatorApp.show(self,fvp)
 
-    def createGrid(self, x, y):
+    def createGrid(self, x, y, s):
       square_p = asarray([
                   [x-0.5*s, y+0.5*s, 0, 1],     #upper left
                   [x+0.5*s, y+0.5*s, 0, 1],     #uper right
@@ -81,16 +89,14 @@ class MyArmSim(ArmAnimatorApp):
       ##Calibration
       
       #Create calibration grid on paper. These are points to move to during calibration.
-      
-      nx,ny = (2,2)     #can be adjusted to add more calibration points
-      x_lin = linspace(0,8,nx)
-      y_lin = linspace(0,11,ny)
+      x_lin = linspace(0,8,self.nx)
+      y_lin = linspace(0,11,self.ny)
       xv,yv = meshgrid(x_lin,y_lin,indexing='xy')
-      grid = c_[xv.reshape(nx*ny,1), yv.reshape(nx*ny,1), zeros((nx*ny,1)), ones((nx*ny,1))]
-      grid_idx = list(range(nx*ny))
-      for i in range(nx-(nx % 2)):
-          idx = nx*(2*i+1)
-          grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
+      grid = c_[xv.reshape(self.nx*self.ny,1), yv.reshape(self.nx*self.ny,1), zeros((self.nx*self.ny,1)), ones((self.nx*self.ny,1))]
+      grid_idx = list(range(self.nx*self.ny))
+      for i in range(self.nx-(self.nx % 2)):
+          idx = self.nx*(2*i+1)
+          grid_idx[idx:idx+self.nx] = grid_idx[idx:idx+self.nx][::-1]
       return dot(grid,self.Tp2w.T)
       
     def onStart(self):
@@ -99,7 +105,7 @@ class MyArmSim(ArmAnimatorApp):
       ###
       ### TEAM CODE GOES HERE
       ###
-      self.calib_grid = self.createGrid(2,2)
+      self.calib_grid = self.createGrid(self.square_pos_x, self.square_pos_y,self.square_scale)
       self.calib_idx = 0
       #Define 4 corners in paper coordinates
       #columns(left to right): x,y,z coordinates, 1's
@@ -115,7 +121,7 @@ class MyArmSim(ArmAnimatorApp):
           print(self.calib_ang[:,:-1]) 
       else:
           #This is the matrix you save your angles in and use to calculate angle offset
-          self.calib_ang = zeros((nx*ny,len(self.arm)))    
+          self.calib_ang = zeros((self.nx*self.ny,len(self.arm)))    
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
