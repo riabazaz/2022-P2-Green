@@ -36,7 +36,6 @@ class Move( Plan ):
     
     #for moving towwards desired position
     def behavior(self):
-        angOffset = zeros(len(self.app.arm))
 
         # if it is calibrated, we want to draw the line to the next position using the calibrated values
         if self.calibrated:
@@ -61,6 +60,6 @@ class Move( Plan ):
             self.moveArm.ee = step
             for i,motor in enumerate(self.app.arm):
                 #Calculate angles to move each step and move the motors 
-                motor.set_pos(rad2deg(self.moveArm.angles[i]+angOffset[i])*100)    #feed in angle to set_pos as centidegrees
+                motor.set_pos(rad2deg(self.moveArm.angles[i])*100)    #feed in angle to set_pos as centidegrees
             yield self.forDuration(4)
         progress('Move complete')

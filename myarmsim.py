@@ -67,16 +67,7 @@ class MyArmSim(ArmAnimatorApp):
           fvp.plot3D(*point[:-1],marker='o',color='m')
       return ArmAnimatorApp.show(self,fvp)
 
-    def onStart(self):
-      ArmAnimatorApp.onStart(self)
-
-      ###
-      ### TEAM CODE GOES HERE
-      ###
-
-      #Define 4 corners in paper coordinates
-      #columns(left to right): x,y,z coordinates, 1's
-      #scale s represents full length of square side
+    def createGrid(self, x, y):
       square_p = asarray([
                   [x-0.5*s, y+0.5*s, 0, 1],     #upper left
                   [x+0.5*s, y+0.5*s, 0, 1],     #uper right
@@ -91,8 +82,7 @@ class MyArmSim(ArmAnimatorApp):
       
       #Create calibration grid on paper. These are points to move to during calibration.
       
-      nx,ny = (2,2)     #can be adjusted to add more calibration points
-      '''
+      nx,ny = (x,y)     #can be adjusted to add more calibration points
       x_lin = linspace(0,8,nx)
       y_lin = linspace(0,11,ny)
       xv,yv = meshgrid(x_lin,y_lin,indexing='xy')
@@ -101,10 +91,19 @@ class MyArmSim(ArmAnimatorApp):
       for i in range(nx-(nx % 2)):
           idx = nx*(2*i+1)
           grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
-      self.grid_idx = grid_idx
-      '''
-      self.calib_grid = self.square_w
+      return dot(grid,self.Tp2w.T)
+      
+    def onStart(self):
+      ArmAnimatorApp.onStart(self)
+
+      ###
+      ### TEAM CODE GOES HERE
+      ###
+      self.calib_grid = self.createGrid(2,2)
       self.calib_idx = 0
+      #Define 4 corners in paper coordinates
+      #columns(left to right): x,y,z coordinates, 1's
+      #scale s represents full length of square side
       
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
@@ -113,29 +112,14 @@ class MyArmSim(ArmAnimatorApp):
           self.calib_ang = load("calib_array.npy")
           print(type(self.calib_ang))
           self.move.calibrated = True
-          print(self.calib_ang[:,:-1])
-        
-     #printout of calibration matrix
-#      self.calib_ang = [[-1.54566359  0.00872665 -0.03543018]
-#                         [ 0.74228853  0.511556   -2.08479579]
-#                         [ 2.45148947 -0.61191244  2.08584299]
-#                         [-0.80826198  0.66479591 -2.20469991]]
-      
+          print(self.calib_ang[:,:-1]) 
       else:
           #This is the matrix you save your angles in and use to calculate angle offset
           self.calib_ang = zeros((nx*ny,len(self.arm)))    
 
     def onEvent(self,evt):
-      ###
-      ### TEAM CODE GOES HERE
-      ###    Handle events as you see fit, and return after
-      
-      #activate autonomous mode and move to a square corner by pressing 'w','e','r','t'
       if evt.type == KEYDOWN:
           progress('in keydown')
-
-          
-
           if evt.key == K_DOWN:
             self.draw = True
             progress('pen enabled')
