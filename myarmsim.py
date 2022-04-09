@@ -96,12 +96,12 @@ class MyArmSim(ArmAnimatorApp):
 
       # create the array for the x points
       x_lin = [0]
-      while x_lin[-1]*x_spacing*0.394 < 8:
-        x_lin.append(x_lin[-1]*x_spacing*0.394)
+      while x_lin[-1]+x_spacing*0.394 < 8:
+        x_lin.append(x_lin[-1]+x_spacing*0.394)
       
       y_lin = [0]
-      while x_lin[-1]*y_spacing*0.394 < 11:
-        x_lin.append(x_lin[-1]*x_spacing*0.394)      
+      while x_lin[-1]+y_spacing*0.394 < 11:
+        x_lin.append(x_lin[-1]+x_spacing*0.394)      
 
 
       nx, ny = (len(x_lin),len(y_lin))     #can be adjusted to add more calibration points
