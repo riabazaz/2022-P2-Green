@@ -55,15 +55,16 @@ class Move( Plan ):
 
         # find the largest angle in degrees
         self.moveArm.ee = self.pos[:3]
-        largest_angle = 0
+        largest_delta = 0
         for i,motor in enumerate(self.app.arm):
-            if abs(rad2deg(motor.get_pos())) > largest_angle:
-                largest_angle = abs(rad2deg(motor.get_pos()))
-        progress(str(largest_angle))
-        self.steps = max(1,int(largest_angle * self.step_constant))
+            delta = abs(self.moveArm.angles[i] - motor.get_pos())
+            if delta > largest_delta:
+                largest_delta = abs(rad2deg(delta))
+        progress(str(largest_delta))
+        num_steps = max(1,int(largest_delta * self.step_constant))
 
         #Create a number of evenly spaced steps between current position and goal position
-        self.steps = linspace(self.currentPos,self.pos,5)[:,:-1]    #Can adjust number of steps.
+        self.steps = linspace(self.currentPos,self.pos,num_steps)[:,:-1]    #Can adjust number of steps.
         #execute movement along path of steps
         for stepCount,step in enumerate(self.steps):
             progress('Step #%d, %s' % (stepCount,str(step)))
