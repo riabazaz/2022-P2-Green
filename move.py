@@ -59,7 +59,7 @@ class Move( Plan ):
         for i,motor in enumerate(self.app.arm):
             if abs(rad2deg(motor.get_pos())) > largest_angle:
                 largest_angle = abs(rad2deg(motor.get_pos()))
-        progress(largest_angle)
+        progress(str(largest_angle))
         self.steps = max(1,int(largest_angle * self.step_constant))
 
         #Create a number of evenly spaced steps between current position and goal position
