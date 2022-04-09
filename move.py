@@ -2,7 +2,7 @@
 import tinyik
 from joy.plans import Plan
 from joy import progress
-from numpy import linspace,zeros,pi,rad2deg, append, round, max
+from numpy import linspace,zeros,pi,rad2deg, append, round, max, deg2rad
 from scipy.interpolate import griddata
 
 #armSpec = asarray([
@@ -57,11 +57,12 @@ class Move( Plan ):
         self.moveArm.ee = self.pos[:3]
         progress('move arm angles' + str(self.moveArm.angles))
         largest_delta = 0
+        
         for i,motor in enumerate(self.app.arm):
-            delta = abs(self.moveArm.angles[i] - motor.get_pos())
+            delta = abs(rad2deg(self.moveArm.angle[i]) - (motor.get_pos()/100))
             progress('current arm angles'  + str(motor.get_pos()))
             if delta > largest_delta:
-                largest_delta = abs(rad2deg(delta))
+                largest_delta = abs(delta)
         progress(str(largest_delta))
         num_steps = max(1,int(largest_delta * self.step_constant))
 
