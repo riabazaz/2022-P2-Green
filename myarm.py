@@ -10,10 +10,30 @@ import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from p2sim import ArmAnimatorApp
 from arm import Arm
-from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP
+from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c
 from joy import progress, JoyApp
 from move import Move
+from motorPlans import * 
 
+
+class AngleStore:
+    def AngleStore(self, ang0, ang1, ang2):
+      self.ang0 = ang0
+      self.ang1 = ang1
+      self.ang2 = ang2
+
+    def first(self):
+      return self.ang0
+
+    def second(self):
+      return self.ang0
+      
+    def second(self):
+      return self.ang1
+    
+    def third(self):
+      return self.ang2
+    
 
 class MyArm(JoyApp):
     def __init__(self,Tp2ws,x,y,s,arm,string,bottom,*arg,**kw):
@@ -134,7 +154,14 @@ class MyArm(JoyApp):
           print(self.calib_ang[:,:-1]) 
       else:
           #This is the matrix you save your angles in and use to calculate angle offset
-          self.calib_ang = zeros((self.nx*self.ny,len(self.arm)))    
+          self.calib_ang = zeros(self.nx, self.ny)  
+
+      self.bl = BottomLeft(self)
+      self.br = BottomRight(self)  
+      self.ar = ArmRight(self)
+      self.al = ArmLeft(self)
+      self.sr = StringRight(self)
+      self.sl = StringLeft(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
@@ -168,33 +195,44 @@ class MyArm(JoyApp):
                   self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
               progress("here")
               return
-          #Manual adjustment before this step  
-          #Press 'o' to calculate new angle
+
+          #Press 'o' to store new angle
           if evt.key == K_o:
-              #Calculate error
-              progress('Calculate error')
-              real_ang = zeros(len(self.arm))
+              progress('storing angle postion')
+
+              # interate through all motors and store the angles
               for i,motor in enumerate(self.arm):
-                real_ang[i] = motor.get_pos()*(pi/18000)   
+                self.calib_ang[self.current_x][self.current_y] = AngleStore('''motor1'''0,'''motor2'''0, '''motor3'''0 )
+
+                # TODO: finish this up
               self.calib_ang[self.calib_idx] = real_ang
               self.calib_idx += 1
               if self.calib_idx == len(self.calib_ang):
                   progress('Calibration_complete!')
                   self.move.calibrated = True
-                  save("calib_array.npy",self.calib_ang)    #save calibration array
+                  save("calib_array.npy",self.calib_ang)    # save calibration array
               return
-          #manual movements
+          # Manual movements
           # row of 'a' on QWERTY keyboard increments motors
-          if evt.key == K_k:
-            if p>=0:
-              progress('manual move')
-              return
+          if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
+            self.br.start()
+          
+          elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
+            self.ar.start()
+
+          elif evt.key == K_d and not (self.sr.isRunning() or self.sl.isRunning()):
+            self.sr.start()
+
           # row of 'z' in QWERTY keyboard decrements motors
-          p = "zxcv".find(evt.unicode)
-          if p>=0:
-            progress('manual move')
-            self.arm[p].set_pos(self.arm[p].get_goal() - 100)
-            return
+          elif evt.key == K_z and not (self.br.isRunning() or self.bl.isRunning()):
+            self.bl.start()
+
+          elif evt.key == K_x and not (self.ar.isRunning() or self.al.isRunning()):
+            self.al.start()
+            
+          elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
+            self.sl.start()
+            
       return ArmAnimatorApp.onEvent(self,evt)
 
 
