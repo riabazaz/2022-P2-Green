@@ -11,11 +11,12 @@ from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array
 from p2sim import ArmAnimatorApp
 from arm import Arm
 from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP
-from joy import progress
+from joy import progress, JoyApp
 from move import Move
 
-class MyArmSim(ArmAnimatorApp):
-    def __init__(self,Tp2ws,x,y,s,**kw):
+
+class MyArm(JoyApp):
+    def __init__(self,Tp2ws,x,y,s,arm,string,bottom,**kw):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
@@ -29,7 +30,13 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,1,0],
            [0,0,0,  1]
       ])
-      
+      self.arm = getattr(self.robot.at, arm)
+      self.string = getattr(self.robot.at, string)
+      self.bottom = getattr(self.robot.at, bottom)
+
+      progress("Connecting ", arm, " as left module")
+      progress("Connecting ", string, " as right module")
+      progress("Connecting ", bottom, " as turret module")
     
       self.square_pos_x = x
       self.square_pos_y = y
@@ -44,14 +51,13 @@ class MyArmSim(ArmAnimatorApp):
         [0,1,0,10,0] #the arm extending/unextending 
       ]).T
       self.armSpec = armSpec
-      ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
-        simTimeStep=0.25, # Real time that corresponds to simulation time of 0.1 sec
-        **kw
-      )
+
+      JoyApp.__init__(self,*arg,**kw)
+      
       self.idealArm = Arm(armSpec)  #create instance of arm class without real-life properties
       self.move = Move(self)     #move plan
      
-    def show(self,fvp):
+    def save_cal(self,fvp):
       fvp.plot3D([0],[0],[0],'^k',ms=10) # Plot black triangle at origin
       
       #plot square corners on paper in red
@@ -187,12 +193,12 @@ class MyArmSim(ArmAnimatorApp):
 
 if __name__=="__main__": 
   from sys import argv, stdout, exit
-  #give default values to the command line arguements
+  #give default values to the command line arguments
   robot = None
-  left_motor = "#left "
-  right_motor = "#right "
-  turret_motor = "#turret "
-  #process the command line arguements
+  arm_motor = "#arm "
+  string_motor = "#string "
+  bottom_motor = "#bottom "
+  #process the command line arguments
   args = list(argv[1:])
   while args:
     arg = args.pop(0)
@@ -203,13 +209,13 @@ if __name__=="__main__":
       robot = dict(count=N)
 
     elif arg=='--arm' or arg=='-a':
-      left_motor = args.pop(0)
+      arm_motor = args.pop(0)
 
     elif arg=='--string' or arg=='-s':
-      right_motor = args.pop(0)
+      string_motor = args.pop(0)
 
     elif arg=='--bottom' or arg=='-b':
-      turret_motor = args.pop(0)
+      bottom_motor = args.pop(0)
 
     elif arg=='--help' or arg == '-h':
     #help
@@ -226,8 +232,7 @@ if __name__=="__main__":
       --bottom <motor> | -b <motor>
         Specify the motors used for moving and turret
         Ex command:
-        Currently use : $ python3 myarm.py -c 2 -l Nx3C -r Nx0C (without turret)
-                        $ python3 myarm.py -c 3 -l Nx3C -r Nx0C -t Nx50 (with turret)
+        Currently use : $ python3 myarm.py -c 2 -a Nx11 -s Nx17 -b Nx32
         NOTE: to use robot modules you MUST specify a -c option
     """ % argv[0])
       exit(1)
@@ -241,7 +246,7 @@ if __name__=="__main__":
   x,y,s = 4,8,2
     #Initial test
     # 
-  app = MyArmSim(Tp2ws,x,y,s
+  app = MyArm(Tp2ws,x,y,s, arm_motor, string_motor, bottom_motor, robot=robot
                     ## Uncomment the next line (cfg=...) to save video frames;
                     ## you can use the frameViewer.py program to view those
                     ## frames in real time (they will not display locally)

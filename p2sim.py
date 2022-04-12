@@ -396,4 +396,4 @@ class ArmAnimatorApp( JoyApp ):
       return JoyApp.onEvent(self,evt)
 
 if __name__=="__main__":
-  raise RuntimeError("This is not a script. Try 'myarmsim.py'")
+  raise RuntimeError("This is not a script. Try 'myarm.py'")
