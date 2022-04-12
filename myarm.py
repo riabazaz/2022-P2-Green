@@ -186,6 +186,52 @@ class MyArmSim(ArmAnimatorApp):
 
 
 if __name__=="__main__": 
+  from sys import argv, stdout, exit
+  #give default values to the command line arguements
+  robot = None
+  left_motor = "#left "
+  right_motor = "#right "
+  turret_motor = "#turret "
+  #process the command line arguements
+  args = list(argv[1:])
+  while args:
+    arg = args.pop(0)
+
+    if arg=='--mod-count' or arg=='-c':
+    #detects number of modules specified after -c
+      N = int(args.pop(0))
+      robot = dict(count=N)
+
+    elif arg=='--arm' or arg=='-a':
+      left_motor = args.pop(0)
+
+    elif arg=='--string' or arg=='-s':
+      right_motor = args.pop(0)
+
+    elif arg=='--bottom' or arg=='-b':
+      turret_motor = args.pop(0)
+
+    elif arg=='--help' or arg == '-h':
+    #help
+      stdout.write("""
+  Usage: %s [options]
+    This program controls forward movement, turning, and moving
+    autonomously to waypoints.
+    
+    Command Line Options:
+      --mod-count <number> | -c <number>
+        Search for specified number of modules at startup
+      --arm <motor | -a <motor>
+      --string <motor> | -s <motor>
+      --bottom <motor> | -b <motor>
+        Specify the motors used for moving and turret
+        Ex command:
+        Currently use : $ python3 myarm.py -c 2 -l Nx3C -r Nx0C (without turret)
+                        $ python3 myarm.py -c 3 -l Nx3C -r Nx0C -t Nx50 (with turret)
+        NOTE: to use robot modules you MUST specify a -c option
+    """ % argv[0])
+      exit(1)
+
 # Transform of paper coordinates to workspace
   Tp2ws=asarray([[  1.  ,   0.  ,   0.  ,   0.16],
        [  0.  ,   0.71,   0.71,   1.92],
