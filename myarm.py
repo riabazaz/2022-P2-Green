@@ -112,7 +112,7 @@ class MyArm(JoyApp):
       return dot(grid,self.Tp2w.T), nx, ny
       
     def onStart(self):
-      ArmAnimatorApp.onStart(self)
+      #ArmAnimatorApp.onStart(self)
       self.calib_grid, self.nx, self.ny = self.createGrid(4,4)
       self.calib_idx = 0
       self.square_w = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
