@@ -60,9 +60,9 @@ class MyArm(JoyApp):
            [0,0,1,0],
            [0,0,0,  1]
       ])
+      self.bottom_motor = getattr(self.robot.at, bottom)
       self.arm_motor = getattr(self.robot.at, arm)
       self.string_motor = getattr(self.robot.at, string)
-      self.bottom_motor = getattr(self.robot.at, bottom)
 
       progress("Connecting ", arm, " as left module")
       progress("Connecting ", string, " as right module")
