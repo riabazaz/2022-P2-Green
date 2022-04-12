@@ -16,11 +16,21 @@ from move import Move
 
 
 class MyArm(JoyApp):
-    def __init__(self,Tp2ws,x,y,s,arm,string,bottom,**kw):
+    def __init__(self,Tp2ws,x,y,s,arm,string,bottom,*arg,**kw):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
+
+      JoyApp.__init__(self,*arg,**kw)
       
+
+      # calibration parameters
+      self.x_step = 1 # cm
+      self.y_step = 1 # cm
+
+      self.current_x = 0
+      self.current_y = 0
+
       #first three columns represent axis. Last column represents
       #translation. Adjust last column to adjust workspace placement relative to arm.
       #Base of arm is always at world origin 
@@ -30,9 +40,9 @@ class MyArm(JoyApp):
            [0,0,1,0],
            [0,0,0,  1]
       ])
-      self.arm = getattr(self.robot.at, arm)
-      self.string = getattr(self.robot.at, string)
-      self.bottom = getattr(self.robot.at, bottom)
+      self.arm_motor = getattr(self.robot.at, arm)
+      self.string_motor = getattr(self.robot.at, string)
+      self.bottom_motor = getattr(self.robot.at, bottom)
 
       progress("Connecting ", arm, " as left module")
       progress("Connecting ", string, " as right module")
@@ -51,8 +61,6 @@ class MyArm(JoyApp):
         [0,1,0,10,0] #the arm extending/unextending 
       ]).T
       self.armSpec = armSpec
-
-      JoyApp.__init__(self,*arg,**kw)
       
       self.idealArm = Arm(armSpec)  #create instance of arm class without real-life properties
       self.move = Move(self)     #move plan
@@ -177,11 +185,10 @@ class MyArm(JoyApp):
               return
           #manual movements
           # row of 'a' on QWERTY keyboard increments motors
-          p = "asdf".find(evt.unicode)
-          if p>=0:
-            progress('manual move')
-            self.arm[p].set_pos(self.arm[p].get_goal() + 100)
-            return
+          if evt.key == K_k:
+            if p>=0:
+              progress('manual move')
+              return
           # row of 'z' in QWERTY keyboard decrements motors
           p = "zxcv".find(evt.unicode)
           if p>=0:
@@ -232,7 +239,7 @@ if __name__=="__main__":
       --bottom <motor> | -b <motor>
         Specify the motors used for moving and turret
         Ex command:
-        Currently use : $ python3 myarm.py -c 2 -a Nx11 -s Nx17 -b Nx32
+        Currently use : $ python3 myarm.py -c 3 -a Nx11 -s Nx17 -b Nx32
         NOTE: to use robot modules you MUST specify a -c option
     """ % argv[0])
       exit(1)
