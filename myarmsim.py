@@ -29,20 +29,15 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,1,0],
            [0,0,0,  1]
       ])
-      ###
-      ### Arm specification
-      ###
-
       
     
       self.square_pos_x = x
       self.square_pos_y = y
       self.square_scale = s
+      ###
+      ### Arm specification
+      ###
 
-
-      #Each row represents an arm segment.
-      #First three columns represent joint rotation axis. Fourth column represents
-      #arm segment length. Last column represents initial arm segment angle.
       armSpec = asarray([
         [0,0.02,1,0,-1.57], # base rotation around the z-axis
         [0,1,0,10,-1.57], # arm rotation around the y-axis #1.57
@@ -75,7 +70,7 @@ class MyArmSim(ArmAnimatorApp):
       return ArmAnimatorApp.show(self,fvp)
 
 
-    # Define 4 corners in paper coordinates
+    # Define 4 corners of square in paper coordinates
     # columns(left to right): x,y,z coordinates, 1's
     # scale s represents full length of square side
     def createSquare(self, x,y,s):
@@ -89,24 +84,19 @@ class MyArmSim(ArmAnimatorApp):
       #Convert all coordinates for square to world coordinates
       return dot(square_p, self.Tp2w.T)
 
+    #Create calibration grid on paper. These are points to move to during calibration.
     def createGrid(self, x_spacing, y_spacing):
-      #Calibration
-      
-      #Create calibration grid on paper. These are points to move to during calibration.
-
       # create the array for the x points
       x_lin = [0]
       while x_lin[-1]+x_spacing*0.394 < 8:
         x_lin.append(x_lin[-1]+x_spacing*0.394)
       
+      # create the array for the y points
       y_lin = [0]
       while y_lin[-1]+y_spacing*0.394 < 11:
         y_lin.append(y_lin[-1]+y_spacing*0.394)      
 
-
       nx, ny = (len(x_lin),len(y_lin))     #can be adjusted to add more calibration points
-
-    
       xv,yv = meshgrid(x_lin,y_lin,indexing='xy')
       grid = c_[xv.reshape(nx*ny,1), yv.reshape(nx*ny,1), zeros((nx*ny,1)), ones((nx*ny,1))]
       grid_idx = list(range(nx*ny))
@@ -119,8 +109,6 @@ class MyArmSim(ArmAnimatorApp):
       ArmAnimatorApp.onStart(self)
       self.calib_grid, self.nx, self.ny = self.createGrid(4,4)
       self.calib_idx = 0
-
-
       self.square_w = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
@@ -141,12 +129,10 @@ class MyArmSim(ArmAnimatorApp):
             self.draw = True
             progress('pen enabled')
             return
-          
           if evt.key == K_UP:
             self.draw = False
             progress('pen disabled')
             return
-
           p = "wert".find(evt.unicode)
           if p>=0:
               if self.move.isRunning():
@@ -168,7 +154,7 @@ class MyArmSim(ArmAnimatorApp):
                   self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
               progress("here")
               return
-        #Manual adjustment before this step  
+          #Manual adjustment before this step  
           #Press 'o' to calculate new angle
           if evt.key == K_o:
               #Calculate error
@@ -177,9 +163,7 @@ class MyArmSim(ArmAnimatorApp):
               for i,motor in enumerate(self.arm):
                 real_ang[i] = motor.get_pos()*(pi/18000)   
               self.calib_ang[self.calib_idx] = real_ang
-
               self.calib_idx += 1
-
               if self.calib_idx == len(self.calib_ang):
                   progress('Calibration_complete!')
                   self.move.calibrated = True
