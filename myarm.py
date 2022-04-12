@@ -11,11 +11,12 @@ from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array
 from p2sim import ArmAnimatorApp
 from arm import Arm
 from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP
-from joy import progress
+from joy import progress, JoyApp
 from move import Move
 
-class MyArmSim(ArmAnimatorApp):
-    def __init__(self,Tp2ws,x,y,s,**kw):
+
+class MyArm(JoyApp):
+    def __init__(self,Tp2ws,x,y,s,arm,string,bottom,**kw):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
@@ -29,7 +30,13 @@ class MyArmSim(ArmAnimatorApp):
            [0,0,1,0],
            [0,0,0,  1]
       ])
-      
+      self.arm = getattr(self.robot.at, arm)
+      self.string = getattr(self.robot.at, string)
+      self.bottom = getattr(self.robot.at, bottom)
+
+      progress("Connecting ", arm, " as left module")
+      progress("Connecting ", string, " as right module")
+      progress("Connecting ", bottom, " as turret module")
     
       self.square_pos_x = x
       self.square_pos_y = y
@@ -44,14 +51,13 @@ class MyArmSim(ArmAnimatorApp):
         [0,1,0,10,0] #the arm extending/unextending 
       ]).T
       self.armSpec = armSpec
-      ArmAnimatorApp.__init__(self,armSpec,Tws2w,Tp2ws,
-        simTimeStep=0.25, # Real time that corresponds to simulation time of 0.1 sec
-        **kw
-      )
+
+      JoyApp.__init__(self,*arg,**kw)
+      
       self.idealArm = Arm(armSpec)  #create instance of arm class without real-life properties
       self.move = Move(self)     #move plan
      
-    def show(self,fvp):
+    def save_cal(self,fvp):
       fvp.plot3D([0],[0],[0],'^k',ms=10) # Plot black triangle at origin
       
       #plot square corners on paper in red
@@ -106,7 +112,7 @@ class MyArmSim(ArmAnimatorApp):
       return dot(grid,self.Tp2w.T), nx, ny
       
     def onStart(self):
-      ArmAnimatorApp.onStart(self)
+      #ArmAnimatorApp.onStart(self)
       self.calib_grid, self.nx, self.ny = self.createGrid(4,4)
       self.calib_idx = 0
       self.square_w = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
@@ -186,6 +192,51 @@ class MyArmSim(ArmAnimatorApp):
 
 
 if __name__=="__main__": 
+  from sys import argv, stdout, exit
+  #give default values to the command line arguments
+  robot = None
+  arm_motor = "#arm "
+  string_motor = "#string "
+  bottom_motor = "#bottom "
+  #process the command line arguments
+  args = list(argv[1:])
+  while args:
+    arg = args.pop(0)
+
+    if arg=='--mod-count' or arg=='-c':
+    #detects number of modules specified after -c
+      N = int(args.pop(0))
+      robot = dict(count=N)
+
+    elif arg=='--arm' or arg=='-a':
+      arm_motor = args.pop(0)
+
+    elif arg=='--string' or arg=='-s':
+      string_motor = args.pop(0)
+
+    elif arg=='--bottom' or arg=='-b':
+      bottom_motor = args.pop(0)
+
+    elif arg=='--help' or arg == '-h':
+    #help
+      stdout.write("""
+  Usage: %s [options]
+    This program controls forward movement, turning, and moving
+    autonomously to waypoints.
+    
+    Command Line Options:
+      --mod-count <number> | -c <number>
+        Search for specified number of modules at startup
+      --arm <motor | -a <motor>
+      --string <motor> | -s <motor>
+      --bottom <motor> | -b <motor>
+        Specify the motors used for moving and turret
+        Ex command:
+        Currently use : $ python3 myarm.py -c 2 -a Nx11 -s Nx17 -b Nx32
+        NOTE: to use robot modules you MUST specify a -c option
+    """ % argv[0])
+      exit(1)
+
 # Transform of paper coordinates to workspace
   Tp2ws=asarray([[  1.  ,   0.  ,   0.  ,   0.16],
        [  0.  ,   0.71,   0.71,   1.92],
@@ -195,7 +246,7 @@ if __name__=="__main__":
   x,y,s = 4,8,2
     #Initial test
     # 
-  app = MyArmSim(Tp2ws,x,y,s
+  app = MyArm(Tp2ws,x,y,s, arm_motor, string_motor, bottom_motor, robot=robot
                     ## Uncomment the next line (cfg=...) to save video frames;
                     ## you can use the frameViewer.py program to view those
                     ## frames in real time (they will not display locally)
