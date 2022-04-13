@@ -6,6 +6,9 @@ from math import pi
 import numpy as np
 from numpy import linspace
 
+
+DELTA = 500
+
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # This plan handles all bottom motor turns.
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -18,14 +21,8 @@ class BottomRight(Plan):
     pass
 
   def behavior(self):
-     
-    for i in range(0, 1000, 100):
-      mb = self.bottom.get_pos()
-      self.bottom.set_pos( mb - i)
-
-    for i in range(1000, 0, 100):
-      mb = self.bottom.get_pos()
-      self.bottom.set_pos( mb - i)
+    mb = self.bottom.get_pos()
+    self.bottom.set_pos(mb - DELTA)
     yield 0.005
 
 
@@ -40,7 +37,7 @@ class BottomLeft(Plan):
   def behavior(self):
     mb = self.bottom.get_pos()
     # for k in linspace(0, 10, 1):
-    self.bottom.set_pos(mb + 1000)
+    self.bottom.set_pos(mb + DELTA)
     yield 0.005
 
 
@@ -62,7 +59,7 @@ class ArmRight(Plan):
   def behavior(self):
     ma = self.arm.get_pos()
     # for k in linspace(0, 5, 1):
-    self.arm.set_pos( (ma - (1000)))
+    self.arm.set_pos( (ma - (DELTA)))
     yield 0.005
 
 
@@ -77,7 +74,7 @@ class ArmLeft(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    self.arm.set_pos( (ma + (1000)))
+    self.arm.set_pos( (ma + (DELTA)))
     yield 0.005
 
 
@@ -96,7 +93,7 @@ class StringRight(Plan):
   def behavior(self):
     ms = self.string.get_pos()
     # for k in linspace(0, 5, 1):
-    self.string.set_pos( (ms - (1000)))
+    self.string.set_pos( (ms - (DELTA)))
     yield 0.005
     
 class StringLeft(Plan):
@@ -110,7 +107,7 @@ class StringLeft(Plan):
   def behavior(self):
     ms = self.string.get_pos()
     # for k in linspace(0, 5, 1):
-    self.string.set_pos( (ms + (1000)))
+    self.string.set_pos( (ms + (DELTA)))
     yield 0.005
 
 
@@ -129,7 +126,7 @@ class EaselRight(Plan):
   def behavior(self):
     ms = self.easel.get_pos()
     # for k in linspace(0, 5, 1):
-    self.easel.set_pos( (ms - (1000)))
+    self.easel.set_pos( (ms - (DELTA)))
     yield 0.005
     
 class EaselLeft(Plan):
@@ -143,7 +140,7 @@ class EaselLeft(Plan):
   def behavior(self):
     ms = self.easel.get_pos()
     # for k in linspace(0, 5, 1):
-    self.easel.set_pos( (ms + (1000)))
+    self.easel.set_pos( (ms + (DELTA)))
     yield 0.005
 
 
