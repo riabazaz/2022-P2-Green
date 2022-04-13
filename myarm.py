@@ -109,8 +109,8 @@ class MyArm(JoyApp):
       self.al = ArmLeft(self)
       self.sr = StringRight(self)
       self.sl = StringLeft(self)
-      self.er = EaselRight(self)
-      self.el = EaselLeft(self)
+      # self.er = EaselRight(self)
+      # self.el = EaselLeft(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
@@ -185,11 +185,11 @@ class MyArm(JoyApp):
         elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
           self.sl.start()
         
-        elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
-          self.al.start()
+        # elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
+        #   self.el.start()
           
-        elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
-          self.sl.start()
+        # elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
+        #   self.er.start()
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
