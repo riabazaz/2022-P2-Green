@@ -176,6 +176,8 @@ class MyArm(JoyApp):
           # row of 'a' on QWERTY keyboard increments motors
         if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
           mb = self.bottom_motor.get_pos()
+          progress(str(mb))
+          progress(str(mb + 10))
           self.bottom_motor.set_pos((mb + (10)))  
 
         elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
