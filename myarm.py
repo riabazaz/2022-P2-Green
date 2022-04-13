@@ -45,7 +45,7 @@ class MyArm(JoyApp):
       self.square_pos_y = y
       self.square_scale = s
       
-      #self.move = Move(self)     #move plan
+      # self.move = Move(self)     #move plan
      
     def save_cal(self,fvp):
       fvp.plot3D([0],[0],[0],'^k',ms=10) # Plot black triangle at origin
@@ -136,14 +136,6 @@ class MyArm(JoyApp):
             return
           p = "wert".find(evt.unicode)
           if p>=0:
-              if self.move.isRunning():
-                  progress('Move running!')
-                  return
-              self.move.moveArm.angles = self.calib_ang[p]
-              self.move.start()
-              self.move.square = True
-              #after each move, set the previous goal position as your new starting position
-              self.move.currentPos = self.move.pos
               progress('Move plan started!')
               return
           #Press 'k' to move to grid point for calibration
