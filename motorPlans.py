@@ -49,26 +49,28 @@ class BottomLeft(Plan):
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 
-class ArmRight(Plan):
+class ArmDown(Plan):
   def __init__(self,app,*arg, **kw):
     Plan.__init__(self, app, *arg, **kw)
     self.arm = self.app.arm_motor
+    self.string = self.app.string_motor
 
   def onStop(self):
     pass
 
   def behavior(self):
     ma = self.arm.get_pos()
-    # for k in linspace(0, 5, 1):
     self.arm.set_pos( (ma - (DELTA_ARM)))
+    self.string.set_pos( (ma + (DELTA_ARM)))
     yield 0.005
 
 
     
-class ArmLeft(Plan):
+class ArmUp(Plan):
   def __init__(self,app,*arg, **kw):
     Plan.__init__(self, app, *arg, **kw)
     self.arm = self.app.arm_motor
+    self.string = self.app.string_motor
 
   def onStop(self):
     pass
@@ -76,6 +78,7 @@ class ArmLeft(Plan):
   def behavior(self):
     ma = self.arm.get_pos()
     self.arm.set_pos( (ma + (DELTA_ARM)))
+    self.string.set_pos( (ma - (DELTA_ARM)))
     yield 0.005
 
 

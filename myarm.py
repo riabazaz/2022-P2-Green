@@ -105,8 +105,8 @@ class MyArm(JoyApp):
       
       self.br = BottomRight(self)  
       self.bl = BottomLeft(self)
-      self.ar = ArmRight(self)
-      self.al = ArmLeft(self)
+      self.ar = ArmDown(self)
+      self.al = ArmUp(self)
       self.sr = StringRight(self)
       self.sl = StringLeft(self)
       # self.er = EaselRight(self)
