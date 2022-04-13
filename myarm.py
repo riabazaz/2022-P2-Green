@@ -201,7 +201,7 @@ class MyArm(JoyApp):
           elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
             self.sl.start()
             
-      return ArmAnimatorApp.onEvent(self,evt)
+      return JoyApp.onEvent(self,evt)
 
 
 if __name__=="__main__": 
