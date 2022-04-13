@@ -19,10 +19,10 @@ class BottomLeft(Plan):
     pass
 
   def behavior(self):
-        mb = self.bottom.get_pos()
-        for k in linspace(0, 5, 1):
-          self.bottom.set_pos( (mb - (k * 100)))
-          yield 0.005
+    mb = self.bottom.get_pos()
+    for k in linspace(0, 5, 1):
+      self.bottom.set_pos( (mb - (k * 100)))
+      yield 0.005
 
 
 class BottomRight(Plan):
@@ -34,10 +34,10 @@ class BottomRight(Plan):
     pass
 
   def behavior(self):
-        mb = self.bottom.get_pos()
-        for k in linspace(0, 5, 1):
-          self.bottom.set_pos( (mb + (k * 100)))
-          yield 0.005
+    mb = self.bottom.get_pos()
+    for k in linspace(0, 5, 1):
+      self.bottom.set_pos( (mb + (k * 100)))
+      yield 0.005
 
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -54,10 +54,10 @@ class ArmRight(Plan):
     pass
 
   def behavior(self):
-        ma = self.arm.get_pos()
-        for k in linspace(0, 5, 1):
-          self.arm.set_pos( (ma - (k * 100)))
-          yield 0.005
+    ma = self.arm.get_pos()
+    for k in linspace(0, 5, 1):
+      self.arm.set_pos( (ma - (k * 100)))
+      yield 0.005
 
 
     
@@ -70,10 +70,10 @@ class ArmLeft(Plan):
     pass
 
   def behavior(self):
-        ma = self.arm.get_pos()
-        for k in linspace(0, 5, 1):
-          self.arm.set_pos( (ma + (k * 100)))
-          yield 0.005
+    ma = self.arm.get_pos()
+    for k in linspace(0, 5, 1):
+      self.arm.set_pos( (ma + (k * 100)))
+      yield 0.005
 
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-

@@ -144,7 +144,7 @@ class MyArm(JoyApp):
             self.move.start()
             progress('Moving to calibration point')
             for i,motor in enumerate(self.arm):
-                self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
+                self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centi-degrees to radians
             progress("here")
             return
 
@@ -175,7 +175,8 @@ class MyArm(JoyApp):
           # Manual movements
           # row of 'a' on QWERTY keyboard increments motors
         if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
-          self.br.start()
+          self.bottom_motor.set_pos(0)
+          #self.br.start()
         
         elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
           self.ar.start()
