@@ -8,6 +8,7 @@ from numpy import linspace
 
 
 DELTA = 100
+DELTA_ARM = 500
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # This plan handles all bottom motor turns.
@@ -59,7 +60,7 @@ class ArmRight(Plan):
   def behavior(self):
     ma = self.arm.get_pos()
     # for k in linspace(0, 5, 1):
-    self.arm.set_pos( (ma - (DELTA)))
+    self.arm.set_pos( (ma - (DELTA_ARM)))
     yield 0.005
 
 
@@ -74,7 +75,7 @@ class ArmLeft(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    self.arm.set_pos( (ma + (DELTA)))
+    self.arm.set_pos( (ma + (DELTA_ARM)))
     yield 0.005
 
 
