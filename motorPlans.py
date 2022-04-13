@@ -21,7 +21,7 @@ class BottomLeft(Plan):
   def behavior(self):
     mb = self.bottom.get_pos()
     for k in linspace(0, 10, 1):
-      self.bottom.set_pos((mb - (k)))
+      self.bottom.set_pos((mb - (k * 1000)))
       yield 0.005
 
 
@@ -36,7 +36,7 @@ class BottomRight(Plan):
   def behavior(self):
     mb = self.bottom.get_pos()
     for k in linspace(0, 10, 1):
-      self.bottom.set_pos( (mb + (k)))
+      self.bottom.set_pos( (mb + (k * 1000)))
       yield 0.005
 
 
