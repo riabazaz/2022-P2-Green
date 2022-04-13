@@ -9,13 +9,13 @@ import sys
 import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from arm import Arm
-from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE
+from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v
 from joy import progress, JoyApp
 from move import Move
 from motorPlans import * 
 
 class MyArm(JoyApp):
-    def __init__(self,x,y,s,arm,string,bottom,*arg,**kw):
+    def __init__(self,x,y,s,arm,string,bottom,easel,*arg,**kw):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
@@ -36,29 +36,19 @@ class MyArm(JoyApp):
       self.bottom_motor = getattr(self.robot.at, bottom)
       self.arm_motor = getattr(self.robot.at, arm)
       self.string_motor = getattr(self.robot.at, string)
+      self.easel_motor = getattr(self.robot.at, easel)
 
       progress("Connecting " + arm + " as left module")
       progress("Connecting " + string + " as right module")
-      progress("Connecting " +  bottom + " as turret module")
-    
+      progress("Connecting " +  bottom + " as bottom module")
+      progress("Connecting " +  easel + " as easel module")
+
       self.square_pos_x = x
       self.square_pos_y = y
       self.square_scale = s
       
       # self.move = Move(self)     #move plan
      
-    def save_cal(self,fvp):
-      fvp.plot3D([0],[0],[0],'^k',ms=10) # Plot black triangle at origin
-      
-      #plot steps robot arm will take from current position to next corner/calibration point in green
-      for i,point in enumerate(self.move.steps):
-          if self.currStep and self.currStep == i:
-            fvp.plot3D(*point,marker='o',color='b')     #dot that robot is currently trying to move to is blue
-          else:
-            fvp.plot3D(*point,marker='o',color='g')
-      # TODO: save to file
-      return ArmAnimatorApp.show(self,fvp)
-
     # Define 4 corners of square in paper coordinates
     # columns(left to right): x,y,z coordinates, 1's
     # scale s represents full length of square side
@@ -112,13 +102,15 @@ class MyArm(JoyApp):
           self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
           self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
           self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
-
-      self.bl = BottomLeft(self)
+      
       self.br = BottomRight(self)  
+      self.bl = BottomLeft(self)
       self.ar = ArmRight(self)
       self.al = ArmLeft(self)
       self.sr = StringRight(self)
       self.sl = StringLeft(self)
+      self.er = EaselRight(self)
+      self.el = EaselLeft(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
@@ -192,6 +184,12 @@ class MyArm(JoyApp):
           
         elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
           self.sl.start()
+        
+        elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
+          self.al.start()
+          
+        elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
+          self.sl.start()
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
@@ -207,6 +205,8 @@ if __name__=="__main__":
   bottom_motor = "#bottom "
   arm_motor = "#arm "
   string_motor = "#string "
+  easel_motor = "#easel "
+
   #process the command line arguments
   args = list(argv[1:])
   while args:
@@ -225,6 +225,9 @@ if __name__=="__main__":
 
     elif arg=='--string' or arg=='-s':
       string_motor = args.pop(0)
+
+    elif arg=='--easel' or arg=='-e':
+      easel_motor = args.pop(0)
 
     elif arg=='--help' or arg == '-h':
     #help
@@ -250,7 +253,7 @@ if __name__=="__main__":
   x,y,s = 4,8,2
     #Initial test
     # 
-  app = MyArm(x,y,s, arm_motor, string_motor, bottom_motor, robot=robot
+  app = MyArm(x,y,s, arm_motor, string_motor, bottom_motor, easel_motor, robot=robot
                     ## Uncomment the next line (cfg=...) to save video frames;
                     ## you can use the frameViewer.py program to view those
                     ## frames in real time (they will not display locally)

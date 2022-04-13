@@ -18,9 +18,14 @@ class BottomRight(Plan):
     pass
 
   def behavior(self):
-    for i in range(10):
+     
+    for i in range(0, 1000, 100):
       mb = self.bottom.get_pos()
-      self.bottom.set_pos( (mb - (500)))
+      self.bottom.set_pos( mb - i)
+
+    for i in range(1000, 0, 100):
+      mb = self.bottom.get_pos()
+      self.bottom.set_pos( mb - i)
     yield 0.005
 
 
@@ -109,4 +114,38 @@ class StringLeft(Plan):
     yield 0.005
 
 
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+# This plan handles all easel motor turns.
+# -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+class EaselRight(Plan):
+  def __init__(self,app,*arg, **kw):
+    Plan.__init__(self, app, *arg, **kw)
+    self.easel = self.app.easel_motor
+
+  def onStop(self):
+    pass
+
+  def behavior(self):
+    ms = self.easel.get_pos()
+    # for k in linspace(0, 5, 1):
+    self.easel.set_pos( (ms - (1000)))
+    yield 0.005
+    
+class EaselLeft(Plan):
+  def __init__(self,app,*arg, **kw):
+    Plan.__init__(self, app, *arg, **kw)
+    self.easel = self.app.easel_motor
+
+  def onStop(self):
+    pass
+
+  def behavior(self):
+    ms = self.easel.get_pos()
+    # for k in linspace(0, 5, 1):
+    self.easel.set_pos( (ms + (1000)))
+    yield 0.005
+
+
+    
     
