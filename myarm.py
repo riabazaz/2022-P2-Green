@@ -16,7 +16,7 @@ from move import Move
 from motorPlans import * 
 
 class MyArm(JoyApp):
-    def __init__(self,Tp2ws,x,y,s,arm,string,bottom,*arg,**kw):
+    def __init__(self,x,y,s,arm,string,bottom,*arg,**kw):
       ###
       ### Student team selection -- transform from workspace coordinates to world
       ###
@@ -34,43 +34,22 @@ class MyArm(JoyApp):
       #first three columns represent axis. Last column represents
       #translation. Adjust last column to adjust workspace placement relative to arm.
       #Base of arm is always at world origin 
-      Tws2w = asarray([
-           [1,0,0, -5], 
-           [0,1,0, -12],
-           [0,0,1,0],
-           [0,0,0,  1]
-      ])
       self.bottom_motor = getattr(self.robot.at, bottom)
       self.arm_motor = getattr(self.robot.at, arm)
       self.string_motor = getattr(self.robot.at, string)
 
-      progress("Connecting ", arm, " as left module")
-      progress("Connecting ", string, " as right module")
-      progress("Connecting ", bottom, " as turret module")
+      progress("Connecting " + arm + " as left module")
+      progress("Connecting " + string + " as right module")
+      progress("Connecting " +  bottom + " as turret module")
     
       self.square_pos_x = x
       self.square_pos_y = y
       self.square_scale = s
-      ###
-      ### Arm specification
-      ###
-
-      armSpec = asarray([
-        [0,0.02,1,0,-1.57], # base rotation around the z-axis
-        [0,1,0,10,-1.57], # arm rotation around the y-axis #1.57
-        [0,1,0,10,0] #the arm extending/unextending 
-      ]).T
-      self.armSpec = armSpec
       
-      self.idealArm = Arm(armSpec)  #create instance of arm class without real-life properties
-      self.move = Move(self)     #move plan
+      #self.move = Move(self)     #move plan
      
     def save_cal(self,fvp):
       fvp.plot3D([0],[0],[0],'^k',ms=10) # Plot black triangle at origin
-      
-      #plot square corners on paper in red
-      for point in self.square_world:
-          fvp.plot3D(*point[:-1],marker='o',color='r')
       
       #plot steps robot arm will take from current position to next corner/calibration point in green
       for i,point in enumerate(self.move.steps):
@@ -78,10 +57,6 @@ class MyArm(JoyApp):
             fvp.plot3D(*point,marker='o',color='b')     #dot that robot is currently trying to move to is blue
           else:
             fvp.plot3D(*point,marker='o',color='g')
-      #plot calibration grid points in magenta
-      for point in self.calib_grid_world:
-          fvp.plot3D(*point[:-1],marker='o',color='m')
-
       # TODO: save to file
       return ArmAnimatorApp.show(self,fvp)
 
@@ -97,7 +72,7 @@ class MyArm(JoyApp):
         ])
 
       #Convert all coordinates for square to world coordinates
-      return dot(square_p, self.Tp2w.T), square_p
+      return square_p # dot(square_p, self.Tp2w.T),
 
     #Create calibration grid on paper. These are points to move to during calibration.
     def createGrid(self, x_spacing, y_spacing):
@@ -118,13 +93,13 @@ class MyArm(JoyApp):
       for i in range(nx-(nx % 2)):
           idx = nx*(2*i+1)
           grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
-      return dot(grid,self.Tp2w.T), grid, nx, ny
+      return grid, nx, ny #dot(grid,self.Tp2w.T),
       
     def onStart(self):
       #ArmAnimatorApp.onStarcalib_gridt(self)
-      self.calib_grid_world, self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=4,y_spacing=4)
+      self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=4,y_spacing=4) # self.calib_grid_world
       self.calib_idx = 0
-      self.square_world, self.square_paper = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
+      self.square_paper = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
       #manually delete existing calibration array file before moving on to new arena
@@ -135,9 +110,9 @@ class MyArm(JoyApp):
           self.move.calibrated = True
       else:
           #This is the matrix you save your angles in and use to calculate angle offset
-          self.calib_ang_b = zeros(self.nx, self.ny) # bottom motor angle array
-          self.calib_ang_a = zeros(self.nx, self.ny) # arm motor angle array
-          self.calib_ang_s = zeros(self.nx, self.ny) # string motor angle array
+          self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
+          self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
+          self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
 
       self.bl = BottomLeft(self)
       self.br = BottomRight(self)  
@@ -174,7 +149,7 @@ class MyArm(JoyApp):
               return
           #Press 'k' to move to grid point for calibration
           if evt.key == K_k:
-              self.move.pos = self.calib_grid_world[self.calib_idx]    #set next grid point as goal position
+              self.move.pos = self.calib_grid_paper[self.calib_idx]    #set next grid point as goal position
               self.move.start()
               progress('Moving to calibration point')
               for i,motor in enumerate(self.arm):
@@ -234,9 +209,9 @@ if __name__=="__main__":
   from sys import argv, stdout, exit
   #give default values to the command line arguments
   robot = None
+  bottom_motor = "#bottom "
   arm_motor = "#arm "
   string_motor = "#string "
-  bottom_motor = "#bottom "
   #process the command line arguments
   args = list(argv[1:])
   while args:
@@ -272,20 +247,15 @@ if __name__=="__main__":
         Specify the motors used for moving and turret
         Ex command:
         Currently use : $ python3 myarm.py -c 3 -a Nx11 -s Nx17 -b Nx32
+        Testing :       $ python3 myarm.py -c 3 -a Nx14 -s NxE9 -b Nx3C
+
         NOTE: to use robot modules you MUST specify a -c option
     """ % argv[0])
       exit(1)
-
-# Transform of paper coordinates to workspace
-  Tp2ws=asarray([[  1.  ,   0.  ,   0.  ,   0.16],
-       [  0.  ,   0.71,   0.71,   1.92],
-       [  0.  ,  -0.71,   0.71,  10.63],
-       [  0.  ,   0.  ,   0.  ,   1.  ]])
-
   x,y,s = 4,8,2
     #Initial test
     # 
-  app = MyArm(Tp2ws,x,y,s, arm_motor, string_motor, bottom_motor, robot=robot
+  app = MyArm(x,y,s, arm_motor, string_motor, bottom_motor, robot=robot
                     ## Uncomment the next line (cfg=...) to save video frames;
                     ## you can use the frameViewer.py program to view those
                     ## frames in real time (they will not display locally)
