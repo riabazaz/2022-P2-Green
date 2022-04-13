@@ -175,8 +175,10 @@ class MyArm(JoyApp):
           # Manual movements
           # row of 'a' on QWERTY keyboard increments motors
         if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
-          self.br.start()
-        
+          mb = self.bottom.get_pos()
+          for k in linspace(0, 10, 1):
+            self.bottom_motor.set_pos((mb + (k)))  
+
         elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
           self.ar.start()
 
@@ -185,7 +187,9 @@ class MyArm(JoyApp):
 
         # row of 'z' in QWERTY keyboard decrements motors
         elif evt.key == K_z and not (self.br.isRunning() or self.bl.isRunning()):
-          self.bl.start()
+          mb = self.bottom.get_pos()
+          for k in linspace(0, 10, 1):
+            self.bottom_motor.set_pos((mb - (k)))
 
         elif evt.key == K_x and not (self.ar.isRunning() or self.al.isRunning()):
           self.al.start()
