@@ -7,7 +7,7 @@ import numpy as np
 from numpy import linspace
 
 
-DELTA = 500
+DELTA = 100
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # This plan handles all bottom motor turns.
@@ -142,7 +142,3 @@ class EaselLeft(Plan):
     # for k in linspace(0, 5, 1):
     self.easel.set_pos( (ms + (DELTA)))
     yield 0.005
-
-
-    
-    
