@@ -18,9 +18,9 @@ class BottomRight(Plan):
     pass
 
   def behavior(self):
-    mb = self.bottom.get_pos()
-    # for k in linspace(0, 10, 1):
-    self.bottom.set_pos( (mb - (1000)))
+    for i in range(10):
+      mb = self.bottom.get_pos()
+      self.bottom.set_pos( (mb - (500)))
     yield 0.005
 
 
