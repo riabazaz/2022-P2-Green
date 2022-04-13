@@ -8,7 +8,6 @@ Created on Wed Apr  1 14:23:10 2020
 import sys
 import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
-from p2sim import ArmAnimatorApp
 from arm import Arm
 from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c
 from joy import progress, JoyApp
