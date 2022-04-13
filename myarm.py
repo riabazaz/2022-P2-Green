@@ -178,7 +178,7 @@ class MyArm(JoyApp):
           mb = self.bottom_motor.get_pos()
           progress(str(mb))
           progress(str(mb + 10))
-          self.bottom_motor.set_pos((mb + (10)))  
+          self.bottom_motor.set_pos((mb + (1000)))  
 
         elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
           self.ar.start()
