@@ -100,7 +100,7 @@ class StringRight(Plan):
   def behavior(self):
     ms = self.string.get_pos()
     # for k in linspace(0, 5, 1):
-    self.string.set_pos( (ms - (DELTA)))
+    self.string.set_pos( (ms - (DELTA*5)))
     yield 0.005
     
 class StringLeft(Plan):
@@ -114,7 +114,7 @@ class StringLeft(Plan):
   def behavior(self):
     ms = self.string.get_pos()
     # for k in linspace(0, 5, 1):
-    self.string.set_pos( (ms + (DELTA)))
+    self.string.set_pos( (ms + (DELTA*5)))
     yield 0.005
 
 
