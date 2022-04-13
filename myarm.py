@@ -9,7 +9,7 @@ import sys
 import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from arm import Arm
-from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c
+from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE
 from joy import progress, JoyApp
 from move import Move
 from motorPlans import * 
@@ -122,76 +122,80 @@ class MyArm(JoyApp):
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
-          if evt.key == K_DOWN:
-            progress('moved down a row')
-            self.current_y -= 1
-            self.current_x = 0
-            if self.current_y < 0:
-              self.current_y = 0
+        if evt.key == K_DOWN:
+          progress('moved down a row')
+          self.current_y -= 1
+          self.current_x = 0
+          if self.current_y < 0:
+            self.current_y = 0
+          return
+        if evt.key == K_UP:
+          progress('moved up a row')
+          self.current_y += 1
+          self.current_x = 0
+          return
+        p = "wert".find(evt.unicode)
+        if p>=0:
+            progress('Move plan started!')
             return
-          if evt.key == K_UP:
-            progress('moved up a row')
-            self.current_y += 1
-            self.current_x = 0
+        #Press 'k' to move to grid point for calibration
+        if evt.key == K_k:
+            self.move.pos = self.calib_grid_paper[self.calib_idx]    #set next grid point as goal position
+            self.move.start()
+            progress('Moving to calibration point')
+            for i,motor in enumerate(self.arm):
+                self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
+            progress("here")
             return
-          p = "wert".find(evt.unicode)
-          if p>=0:
-              progress('Move plan started!')
-              return
-          #Press 'k' to move to grid point for calibration
-          if evt.key == K_k:
-              self.move.pos = self.calib_grid_paper[self.calib_idx]    #set next grid point as goal position
-              self.move.start()
-              progress('Moving to calibration point')
-              for i,motor in enumerate(self.arm):
-                  self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centidegrees to radians
-              progress("here")
-              return
 
-          #Press 'o' to store new angle
-          if evt.key == K_o:
-              progress('storing angle postion')
+        #Press 'o' to store new angle
+        if evt.key == K_o:
+            progress('storing angle postion')
 
-              # store all current angles motors and store the angles
-              # TODO: get the actual current angles
-              self.calib_ang_b[self.current_x][self.current_y] = self.bottom_motor.get_pos() # get current bottom motor angle
-              self.calib_ang_a[self.current_x][self.current_y] = self.arm_motor.get_pos() # get current arm motor angle
-              self.calib_ang_s[self.current_x][self.current_y] = self.string_motor.get_pos() # get current string motor angle
+            # store all current angles motors and store the angles
+            # TODO: get the actual current angles
+            self.calib_ang_b[self.current_x][self.current_y] = self.bottom_motor.get_pos() # get current bottom motor angle
+            self.calib_ang_a[self.current_x][self.current_y] = self.arm_motor.get_pos() # get current arm motor angle
+            self.calib_ang_s[self.current_x][self.current_y] = self.string_motor.get_pos() # get current string motor angle
 
-              progress('angle stored!')
+            progress('angle stored!')
 
-              if self.current_y == self.ny:
-                progress('fully calibrated')
-                # TODO: save arrays to files
-              
-              elif self.current_x == self.nx:
-                self.current_x = 0
-                self.current_y += 1
-                progress('Go to next point up, far left')
-              else:
-                progress('Go to next point to the right')
-                self.current_x += 1
-              return
+            if self.current_y == self.ny:
+              progress('fully calibrated')
+              # TODO: save arrays to files
+            
+            elif self.current_x == self.nx:
+              self.current_x = 0
+              self.current_y += 1
+              progress('Go to next point up, far left')
+            else:
+              progress('Go to next point to the right')
+              self.current_x += 1
+            return
           # Manual movements
           # row of 'a' on QWERTY keyboard increments motors
-          if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
-            self.br.start()
+        if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
+          self.br.start()
+        
+        elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
+          self.ar.start()
+
+        elif evt.key == K_d and not (self.sr.isRunning() or self.sl.isRunning()):
+          self.sr.start()
+
+        # row of 'z' in QWERTY keyboard decrements motors
+        elif evt.key == K_z and not (self.br.isRunning() or self.bl.isRunning()):
+          self.bl.start()
+
+        elif evt.key == K_x and not (self.ar.isRunning() or self.al.isRunning()):
+          self.al.start()
           
-          elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
-            self.ar.start()
+        elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
+          self.sl.start()
 
-          elif evt.key == K_d and not (self.sr.isRunning() or self.sl.isRunning()):
-            self.sr.start()
-
-          # row of 'z' in QWERTY keyboard decrements motors
-          elif evt.key == K_z and not (self.br.isRunning() or self.bl.isRunning()):
-            self.bl.start()
-
-          elif evt.key == K_x and not (self.ar.isRunning() or self.al.isRunning()):
-            self.al.start()
-            
-          elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
-            self.sl.start()
+        if evt.key == K_ESCAPE:
+          progress("Exiting program. Have a nice day!")
+          exit(0)
             
       return JoyApp.onEvent(self,evt)
 

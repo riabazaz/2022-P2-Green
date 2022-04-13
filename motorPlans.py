@@ -55,7 +55,7 @@ class ArmRight(Plan):
 
   def behavior(self):
         ma = self.arm.get_pos()
-        for k in linspace(0, 360*self.app.num_rotations/2, 360*self.app.num_rotations / 8):
+        for k in linspace(0, 5, 1):
           self.arm.set_pos( (ma - (k * 100)))
           yield 0.005
 
@@ -71,7 +71,7 @@ class ArmLeft(Plan):
 
   def behavior(self):
         ma = self.arm.get_pos()
-        for k in linspace(0, 360*self.app.num_rotations/2, 360*self.app.num_rotations / 8):
+        for k in linspace(0, 5, 1):
           self.arm.set_pos( (ma + (k * 100)))
           yield 0.005
 
@@ -90,7 +90,7 @@ class StringRight(Plan):
 
   def behavior(self):
     ms = self.string.get_pos()
-    for k in linspace(0, 360*self.app.num_rotations/2, 360*self.app.num_rotations / 8):
+    for k in linspace(0, 5, 1):
         self.string.set_pos( (ms - (k * 100)))
         yield 0.005
     
@@ -104,7 +104,7 @@ class StringLeft(Plan):
 
   def behavior(self):
     ms = self.string.get_pos()
-    for k in linspace(0, 360*self.app.num_rotations/2, 360*self.app.num_rotations / 8):
+    for k in linspace(0, 5, 1):
         self.string.set_pos( (ms + (k * 100)))
         yield 0.005
 
