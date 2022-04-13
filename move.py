@@ -3,7 +3,8 @@ import tinyik
 from joy.plans import Plan
 from joy import progress
 from numpy import linspace,zeros,pi,rad2deg, append, round, maximum, deg2rad
-from scipy.interpolate import griddata
+from scipy.interpolate import interp1d, griddata 
+from math import floor
 
 #armSpec = asarray([
 #        [0,0.02,1,5,0],
@@ -79,3 +80,78 @@ class Move( Plan ):
                 motor.set_pos(rad2deg(self.moveArm.angles[i])*100)    #feed in angle to set_pos as centidegrees
             yield self.forDuration(4)
         progress('Move complete')
+
+
+class MoveInterpolation( Plan ):
+    def __init__(self,app,*arg,**kw):
+        Plan.__init__(self,app,*arg,**kw)
+        self.app = app
+        self.points = self.app.calib_grid_paper
+        self.calib_angle_b = self.app.calib_angle_b
+        self.calib_angle_a = self.app.calib_angle_a
+        self.calib_angle_s = self.app.calib_angle_s
+        self.square = self.app.square_paper
+
+        self.bottom = self.app.bottom_motor
+        self.arm = self.app.arm_motor
+        self.string = self.app.string_motor
+
+
+    def interpolateLocation(self, x, y):
+        """
+        function that provides angles given destination coords
+        """
+        #fx = interp1d([0,215.9], [0,XPTS])
+        # x = (XPTS-1)/215.9 * xDes        
+        # y = (YPTS-1)/279.4 * yDes
+        
+        # print(xDes,yDes)
+        print(x,y)
+        ba = griddata(self.points, self.calib_angle_b,(x,y))
+        aa = griddata(self.points, self.calib_angle_a,(x,y))
+        sa = griddata(self.points, self.calib_angle_s,(x,y))
+        
+        return(ba,aa,sa)
+   
+    def goToPos(self, x,y):
+        """
+        moves the arm to the input coords
+        """
+        angles = self.interpolateLocation(x,y)
+        
+        self.bottom.set_pos(angles[0])
+        self.arm.set_pos(angles[1])
+        self.string.set_pos(angles[2])
+    
+    def drawStrokes(self,xi,yi,xf,yf):
+        dist = pow(pow(xi-xf,2)+pow(yi-yf,2),.5)
+        numpoints = floor(dist / (25.4*1.5)) + 1
+        if numpoints < 2:
+            numpoints = 2
+
+        xInterpolate = interp1d([0,numpoints-1],[xi,xf])
+        yInterpolate = interp1d([0,numpoints-1],[yi,yf])
+        
+        for i in range(int(numpoints)):
+            self.goToPos(xInterpolate(i), yInterpolate(i))
+            yield .5
+        
+
+   #for moving towwards desired position
+    def behavior(self):
+        pos0 = self.square[0]
+        pos1 = self.square[1]
+        pos2 = self.square[2]
+        pos3 = self.square[3]
+
+        # Move to the last calibration point
+        last_calib_point = self.points[-1]
+        self.bottom.set_pos(self.calib_angle_b[-1])
+        self.arm.set_pos(self.calib_angle_a[-1])
+        self.string.set_pos(self.calib_angle_s[-1])
+
+        self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[1])
+        self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
+        self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
+        self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        yield

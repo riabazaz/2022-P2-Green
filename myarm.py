@@ -15,26 +15,6 @@ from joy import progress, JoyApp
 from move import Move
 from motorPlans import * 
 
-
-class AngleStore:
-    def AngleStore(self, ang0, ang1, ang2):
-      self.ang0 = ang0
-      self.ang1 = ang1
-      self.ang2 = ang2
-
-    def first(self):
-      return self.ang0
-
-    def second(self):
-      return self.ang0
-      
-    def second(self):
-      return self.ang1
-    
-    def third(self):
-      return self.ang2
-    
-
 class MyArm(JoyApp):
     def __init__(self,Tp2ws,x,y,s,arm,string,bottom,*arg,**kw):
       ###
@@ -89,7 +69,7 @@ class MyArm(JoyApp):
       fvp.plot3D([0],[0],[0],'^k',ms=10) # Plot black triangle at origin
       
       #plot square corners on paper in red
-      for point in self.square_w:
+      for point in self.square_world:
           fvp.plot3D(*point[:-1],marker='o',color='r')
       
       #plot steps robot arm will take from current position to next corner/calibration point in green
@@ -99,10 +79,11 @@ class MyArm(JoyApp):
           else:
             fvp.plot3D(*point,marker='o',color='g')
       #plot calibration grid points in magenta
-      for point in self.calib_grid:
+      for point in self.calib_grid_world:
           fvp.plot3D(*point[:-1],marker='o',color='m')
-      return ArmAnimatorApp.show(self,fvp)
 
+      # TODO: save to file
+      return ArmAnimatorApp.show(self,fvp)
 
     # Define 4 corners of square in paper coordinates
     # columns(left to right): x,y,z coordinates, 1's
@@ -110,13 +91,13 @@ class MyArm(JoyApp):
     def createSquare(self, x,y,s):
       square_p = asarray([
         [x-0.5*s, y+0.5*s, 0, 1],     #upper left
-        [x+0.5*s, y+0.5*s, 0, 1],     #uper right
+        [x+0.5*s, y+0.5*s, 0, 1],     #upper right
         [x+0.5*s, y-0.5*s, 0, 1],     #bottom right
         [x-0.5*s, y-0.5*s, 0, 1]      #bottom left
         ])
 
       #Convert all coordinates for square to world coordinates
-      return dot(square_p, self.Tp2w.T)
+      return dot(square_p, self.Tp2w.T), square_p
 
     #Create calibration grid on paper. These are points to move to during calibration.
     def createGrid(self, x_spacing, y_spacing):
@@ -137,24 +118,26 @@ class MyArm(JoyApp):
       for i in range(nx-(nx % 2)):
           idx = nx*(2*i+1)
           grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
-      return dot(grid,self.Tp2w.T), nx, ny
+      return dot(grid,self.Tp2w.T), grid, nx, ny
       
     def onStart(self):
-      #ArmAnimatorApp.onStart(self)
-      self.calib_grid, self.nx, self.ny = self.createGrid(4,4)
+      #ArmAnimatorApp.onStarcalib_gridt(self)
+      self.calib_grid_world, self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=4,y_spacing=4)
       self.calib_idx = 0
-      self.square_w = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
+      self.square_world, self.square_paper = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
       #manually delete existing calibration array file before moving on to new arena
-      if(os.path.exists("calib_array.npy")):
-          self.calib_ang = load("calib_array.npy")
-          print(type(self.calib_ang))
+      if(os.path.exists("calib_ang_b.npy")):
+          self.calib_ang_b = load("calib_ang_b.npy")
+          self.calib_ang_a = load("calib_ang_a.npy")
+          self.calib_ang_s = load("calib_ang_s.npy")
           self.move.calibrated = True
-          print(self.calib_ang[:,:-1]) 
       else:
           #This is the matrix you save your angles in and use to calculate angle offset
-          self.calib_ang = zeros(self.nx, self.ny)  
+          self.calib_ang_b = zeros(self.nx, self.ny) # bottom motor angle array
+          self.calib_ang_a = zeros(self.nx, self.ny) # arm motor angle array
+          self.calib_ang_s = zeros(self.nx, self.ny) # string motor angle array
 
       self.bl = BottomLeft(self)
       self.br = BottomRight(self)  
@@ -165,14 +148,17 @@ class MyArm(JoyApp):
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
-          progress('in keydown')
           if evt.key == K_DOWN:
-            self.draw = True
-            progress('pen enabled')
+            progress('moved down a row')
+            self.current_y -= 1
+            self.current_x = 0
+            if self.current_y < 0:
+              self.current_y = 0
             return
           if evt.key == K_UP:
-            self.draw = False
-            progress('pen disabled')
+            progress('moved up a row')
+            self.current_y += 1
+            self.current_x = 0
             return
           p = "wert".find(evt.unicode)
           if p>=0:
@@ -188,7 +174,7 @@ class MyArm(JoyApp):
               return
           #Press 'k' to move to grid point for calibration
           if evt.key == K_k:
-              self.move.pos = self.calib_grid[self.calib_idx]    #set next grid point as goal position
+              self.move.pos = self.calib_grid_world[self.calib_idx]    #set next grid point as goal position
               self.move.start()
               progress('Moving to calibration point')
               for i,motor in enumerate(self.arm):
@@ -200,17 +186,25 @@ class MyArm(JoyApp):
           if evt.key == K_o:
               progress('storing angle postion')
 
-              # interate through all motors and store the angles
-              for i,motor in enumerate(self.arm):
-                self.calib_ang[self.current_x][self.current_y] = AngleStore('''motor1'''0,'''motor2'''0, '''motor3'''0 )
+              # store all current angles motors and store the angles
+              # TODO: get the actual current angles
+              self.calib_ang_b[self.current_x][self.current_y] = self.bottom_motor.get_pos() # get current bottom motor angle
+              self.calib_ang_a[self.current_x][self.current_y] = self.arm_motor.get_pos() # get current arm motor angle
+              self.calib_ang_s[self.current_x][self.current_y] = self.string_motor.get_pos() # get current string motor angle
 
-                # TODO: finish this up
-              self.calib_ang[self.calib_idx] = real_ang
-              self.calib_idx += 1
-              if self.calib_idx == len(self.calib_ang):
-                  progress('Calibration_complete!')
-                  self.move.calibrated = True
-                  save("calib_array.npy",self.calib_ang)    # save calibration array
+              progress('angle stored!')
+
+              if self.current_y == self.ny:
+                progress('fully calibrated')
+                # TODO: save arrays to files
+              
+              elif self.current_x == self.nx:
+                self.current_x = 0
+                self.current_y += 1
+                progress('Go to next point up, far left')
+              else:
+                progress('Go to next point to the right')
+                self.current_x += 1
               return
           # Manual movements
           # row of 'a' on QWERTY keyboard increments motors
@@ -252,15 +246,15 @@ if __name__=="__main__":
     #detects number of modules specified after -c
       N = int(args.pop(0))
       robot = dict(count=N)
+    
+    elif arg=='--bottom' or arg=='-b':
+      bottom_motor = args.pop(0)
 
     elif arg=='--arm' or arg=='-a':
       arm_motor = args.pop(0)
 
     elif arg=='--string' or arg=='-s':
       string_motor = args.pop(0)
-
-    elif arg=='--bottom' or arg=='-b':
-      bottom_motor = args.pop(0)
 
     elif arg=='--help' or arg == '-h':
     #help
