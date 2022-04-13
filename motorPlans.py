@@ -60,7 +60,7 @@ class ArmDown(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    ms = self.arm.get_pos()
+    ms = self.string.get_pos()
 
     self.arm.set_pos( (ma - (DELTA_ARM)))
     self.string.set_pos( (ms - (DELTA_ARM)))
@@ -79,7 +79,7 @@ class ArmUp(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    ms = self.arm.get_pos()
+    ms = self.string.get_pos()
     self.arm.set_pos( (ma + (DELTA_ARM)))
     self.string.set_pos( (ms + (DELTA_ARM)))
     yield 0.005
