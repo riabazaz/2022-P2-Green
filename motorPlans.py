@@ -9,6 +9,20 @@ from numpy import linspace
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # This plan handles all bottom motor turns.
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+class BottomRight(Plan):
+  def __init__(self,app,*arg, **kw):
+    Plan.__init__(self, app, *arg, **kw)
+    self.bottom = self.app.bottom_motor
+
+  def onStop(self):
+    pass
+
+  def behavior(self):
+    mb = self.bottom.get_pos()
+    # for k in linspace(0, 10, 1):
+    self.bottom.set_pos( (mb - (1000)))
+    yield 0.005
+
 
 class BottomLeft(Plan):
   def __init__(self,app,*arg, **kw):
@@ -21,23 +35,10 @@ class BottomLeft(Plan):
   def behavior(self):
     mb = self.bottom.get_pos()
     # for k in linspace(0, 10, 1):
-    self.bottom.set_pos(mb - 1000)
+    self.bottom.set_pos(mb + 1000)
     yield 0.005
 
 
-class BottomRight(Plan):
-  def __init__(self,app,*arg, **kw):
-    Plan.__init__(self, app, *arg, **kw)
-    self.bottom = self.app.bottom_motor
-
-  def onStop(self):
-    pass
-
-  def behavior(self):
-    mb = self.bottom.get_pos()
-    for k in linspace(0, 10, 1):
-      self.bottom.set_pos( (mb + (k * 1000)))
-      yield 0.005
 
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -55,9 +56,9 @@ class ArmRight(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    for k in linspace(0, 5, 1):
-      self.arm.set_pos( (ma - (k * 100)))
-      yield 0.005
+    # for k in linspace(0, 5, 1):
+    self.arm.set_pos( (ma - (1000)))
+    yield 0.005
 
 
     
@@ -71,9 +72,8 @@ class ArmLeft(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    for k in linspace(0, 5, 1):
-      self.arm.set_pos( (ma + (k * 100)))
-      yield 0.005
+    self.arm.set_pos( (ma + (1000)))
+    yield 0.005
 
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -90,9 +90,9 @@ class StringRight(Plan):
 
   def behavior(self):
     ms = self.string.get_pos()
-    for k in linspace(0, 5, 1):
-        self.string.set_pos( (ms - (k * 100)))
-        yield 0.005
+    # for k in linspace(0, 5, 1):
+    self.string.set_pos( (ms - (1000)))
+    yield 0.005
     
 class StringLeft(Plan):
   def __init__(self,app,*arg, **kw):
@@ -104,9 +104,9 @@ class StringLeft(Plan):
 
   def behavior(self):
     ms = self.string.get_pos()
-    for k in linspace(0, 5, 1):
-        self.string.set_pos( (ms + (k * 100)))
-        yield 0.005
+    # for k in linspace(0, 5, 1):
+    self.string.set_pos( (ms + (1000)))
+    yield 0.005
 
 
     
