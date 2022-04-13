@@ -36,7 +36,7 @@ class MyArm(JoyApp):
       self.bottom_motor = getattr(self.robot.at, bottom)
       self.arm_motor = getattr(self.robot.at, arm)
       self.string_motor = getattr(self.robot.at, string)
-      self.easel_motor = getattr(self.robot.at, easel)
+      # self.easel_motor = getattr(self.robot.at, easel)
 
       progress("Connecting " + arm + " as left module")
       progress("Connecting " + string + " as right module")
