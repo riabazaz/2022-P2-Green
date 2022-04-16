@@ -143,7 +143,6 @@ class MoveInterpolation( Plan ):
         #pos1 = self.square[1]
         #pos2 = self.square[2]
         #pos3 = self.square[3]
-        progress()
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
