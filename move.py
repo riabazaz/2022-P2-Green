@@ -140,15 +140,19 @@ class MoveInterpolation( Plan ):
    #for moving towwards desired position
     def behavior(self):
         pos0 = self.square[0]
+        progress('square 0 ' + str(self.square[0]))
         #pos1 = self.square[1]
         #pos2 = self.square[2]
         #pos3 = self.square[3]
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
+        progress("bottom current: " + str(self.bottom.get_pos()) + " bottom goal:" + str(self.calib_ang_b[-1][-1]))
         self.bottom.set_pos(self.calib_ang_b[-1][-1])
         self.arm.set_pos(self.calib_ang_a[-1][-1])
         self.string.set_pos(self.calib_ang_s[-1][-1])
+        
+        progress('points ' + str(self.points[-1]))
 
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
         #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
