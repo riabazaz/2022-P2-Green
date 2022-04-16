@@ -116,6 +116,7 @@ class MyArm(JoyApp):
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
+        # 
         if evt.key == K_DOWN:
           progress('moved down a row')
           self.current_y -= 1
@@ -153,11 +154,11 @@ class MyArm(JoyApp):
 
             progress('angle stored!')
 
-            if self.current_y == self.ny:
+            if self.current_y == self.ny - 1:
               progress('fully calibrated')
               # TODO: save arrays to files
             
-            elif self.current_x == self.nx:
+            elif self.current_x == self.nx - 1:
               self.current_x = 0
               self.current_y += 1
               progress('Go to next point up, far left')
