@@ -125,7 +125,7 @@ class MoveInterpolation( Plan ):
     
     def drawStrokes(self,xi,yi,xf,yf):
         dist = pow(pow(xi-xf,2)+pow(yi-yf,2),.5)
-        numpoints = floor(dist / (25.4*1.5)) + 1
+        numpoints = 5#floor(dist / (25.4*1.5)) + 1
         if numpoints < 2:
             numpoints = 2
 

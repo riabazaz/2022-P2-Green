@@ -53,17 +53,17 @@ class ArmDown(Plan):
   def __init__(self,app,*arg, **kw):
     Plan.__init__(self, app, *arg, **kw)
     self.arm = self.app.arm_motor
-    # self.string = self.app.string_motor
+    self.string = self.app.string_motor
 
   def onStop(self):
     pass
 
   def behavior(self):
     ma = self.arm.get_pos()
-    # ms = self.string.get_pos()
+    ms = self.string.get_pos()
 
     self.arm.set_pos( (ma - (DELTA_ARM)))
-    # self.string.set_pos( (ms - (DELTA_ARM)))
+    self.string.set_pos( (ms - (DELTA_ARM)))
     yield 0.005
 
 
@@ -72,16 +72,16 @@ class ArmUp(Plan):
   def __init__(self,app,*arg, **kw):
     Plan.__init__(self, app, *arg, **kw)
     self.arm = self.app.arm_motor
-    # self.string = self.app.string_motor
+    self.string = self.app.string_motor
 
   def onStop(self):
     pass
 
   def behavior(self):
     ma = self.arm.get_pos()
-    # ms = self.string.get_pos()
+    ms = self.string.get_pos()
     self.arm.set_pos( (ma + (DELTA_ARM)))
-    # self.string.set_pos( (ms + (DELTA_ARM)))
+    self.string.set_pos( (ms + (DELTA_ARM)))
     yield 0.005
 
 
