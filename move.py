@@ -106,7 +106,7 @@ class MoveInterpolation( Plan ):
         # y = (YPTS-1)/279.4 * yDes
         
         # print(xDes,yDes)
-        print(x,y)
+        progress(str(x) + str(y))
         ba = griddata(self.points, self.calib_ang_b,(x,y))
         aa = griddata(self.points, self.calib_ang_a,(x,y))
         sa = griddata(self.points, self.calib_ang_s,(x,y))
@@ -135,6 +135,7 @@ class MoveInterpolation( Plan ):
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
         
         for i in range(int(numpoints)):
+            progress("here")
             angles = self.goToPos(xInterpolate(i), yInterpolate(i))
             progress(str(angles))
             yield .5
