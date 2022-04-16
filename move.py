@@ -139,7 +139,6 @@ class MoveInterpolation( Plan ):
             progress("here")
             angles = self.goToPos(xInterpolate(i), yInterpolate(i))
             progress(str(angles))
-            yield .5
         
 
    #for moving towwards desired position
