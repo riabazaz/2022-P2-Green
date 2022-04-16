@@ -108,7 +108,7 @@ class MoveInterpolation( Plan ):
         
         # print(xDes,yDes)
 
-        calib_ang_a = np.reshape(self.calib_ang_a,(4,1))
+        calib_ang_a = np.reshape(self.calib_ang_a,(9,1))
         griddatapoints = self.points[...,:-2]
 
         progress(str(calib_ang_a))
