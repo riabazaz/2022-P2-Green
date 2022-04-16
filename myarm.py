@@ -33,10 +33,10 @@ class MyArm(JoyApp):
       #first three columns represent axis. Last column represents
       #translation. Adjust last column to adjust workspace placement relative to arm.
       #Base of arm is always at world origin 
-      self.bottom_motor = getattr(self.robot.at, bottom)
+      # self.bottom_motor = getattr(self.robot.at, bottom)
       self.arm_motor = getattr(self.robot.at, arm)
-      self.string_motor = getattr(self.robot.at, string)
-      self.easel_motor = getattr(self.robot.at, easel)
+      # self.string_motor = getattr(self.robot.at, string)
+      # self.easel_motor = getattr(self.robot.at, easel)
 
       progress("Connecting " + arm + " as left module")
       progress("Connecting " + string + " as right module")
@@ -105,14 +105,14 @@ class MyArm(JoyApp):
           self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
           self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
       
-      self.br = BottomRight(self)  
-      self.bl = BottomLeft(self)
+      # self.br = BottomRight(self)  
+      # self.bl = BottomLeft(self)
       self.ar = ArmDown(self)
       self.al = ArmUp(self)
-      self.sr = StringRight(self)
-      self.sl = StringLeft(self)
-      self.er = EaselRight(self)
-      self.el = EaselLeft(self)
+      # self.sr = StringRight(self)
+      # self.sl = StringLeft(self)
+      # self.er = EaselRight(self)
+      # self.el = EaselLeft(self)
 
       self.move = MoveInterpolation(self)
 
@@ -160,30 +160,30 @@ class MyArm(JoyApp):
             return
           # Manual movements
           # row of 'a' on QWERTY keyboard increments motors
-        if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
-          self.br.start()
+        # if evt.key == K_a and not (self.br.isRunning() or self.bl.isRunning()):
+        #   self.br.start()
 
         elif evt.key == K_s and not (self.ar.isRunning() or self.al.isRunning()):
           self.ar.start()
 
-        elif evt.key == K_d and not (self.sr.isRunning() or self.sl.isRunning()):
-          self.sr.start()
+        # elif evt.key == K_d and not (self.sr.isRunning() or self.sl.isRunning()):
+        #   self.sr.start()
 
-        # row of 'z' in QWERTY keyboard decrements motors
-        elif evt.key == K_z and not (self.br.isRunning() or self.bl.isRunning()):
-          self.bl.start()
+        # # row of 'z' in QWERTY keyboard decrements motors
+        # elif evt.key == K_z and not (self.br.isRunning() or self.bl.isRunning()):
+        #   self.bl.start()
 
         elif evt.key == K_x and not (self.ar.isRunning() or self.al.isRunning()):
           self.al.start()
           
-        elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
-          self.sl.start()
+        # elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
+        #   self.sl.start()
         
-        elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
-          self.el.start()
+        # elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
+        #   self.el.start()
           
-        elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
-          self.er.start()
+        # elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
+        #   self.er.start()
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
