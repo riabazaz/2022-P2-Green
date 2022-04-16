@@ -1,8 +1,9 @@
 
 import tinyik
+import numpy as np
 from joy.plans import Plan
 from joy import progress
-from numpy import linspace,zeros,pi,rad2deg, append, round, maximum, deg2rad
+from numpy import linspace,zeros,pi,rad2deg, append, round, maximum, deg2rad, reshape
 from scipy.interpolate import interp1d, griddata 
 from math import floor
 
@@ -106,8 +107,14 @@ class MoveInterpolation( Plan ):
         # y = (YPTS-1)/279.4 * yDes
         
         # print(xDes,yDes)
-        progress(str(self.points))
-        progress(str(self.calib_ang_b))
+
+        calib_ang_a = np.reshape(self.calib_ang_a,(4,1))
+        griddatapoints = self.points[...,:-2]
+
+        progress(str(calib_ang_a))
+        progress(str(griddatapoints))
+        
+        
         ba = griddata(self.points, self.calib_ang_b,(x,y))
         aa = griddata(self.points, self.calib_ang_a,(x,y))
         sa = griddata(self.points, self.calib_ang_s,(x,y))
