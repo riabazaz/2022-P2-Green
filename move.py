@@ -150,7 +150,7 @@ class MoveInterpolation( Plan ):
         self.arm.set_pos(self.calib_ang_a[-1][-1])
         self.string.set_pos(self.calib_ang_s[-1][-1])
 
-        self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[1])
+        self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
         #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
         #self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
         #self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
