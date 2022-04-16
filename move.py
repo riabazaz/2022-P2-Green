@@ -87,9 +87,9 @@ class MoveInterpolation( Plan ):
         Plan.__init__(self,app,*arg,**kw)
         self.app = app
         self.points = self.app.calib_grid_paper
-        self.calib_angle_b = self.app.calib_angle_b
-        self.calib_angle_a = self.app.calib_angle_a
-        self.calib_angle_s = self.app.calib_angle_s
+        self.calib_ang_b = self.app.calib_ang_b
+        self.calib_ang_a = self.app.calib_ang_a
+        self.calib_ang_s = self.app.calib_ang_s
         self.square = self.app.square_paper
 
         self.bottom = self.app.bottom_motor
@@ -107,9 +107,9 @@ class MoveInterpolation( Plan ):
         
         # print(xDes,yDes)
         print(x,y)
-        ba = griddata(self.points, self.calib_angle_b,(x,y))
-        aa = griddata(self.points, self.calib_angle_a,(x,y))
-        sa = griddata(self.points, self.calib_angle_s,(x,y))
+        ba = griddata(self.points, self.calib_ang_b,(x,y))
+        aa = griddata(self.points, self.calib_ang_a,(x,y))
+        sa = griddata(self.points, self.calib_ang_s,(x,y))
         
         return(ba,aa,sa)
    
@@ -146,9 +146,9 @@ class MoveInterpolation( Plan ):
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
-        self.bottom.set_pos(self.calib_angle_b[-1])
-        self.arm.set_pos(self.calib_angle_a[-1])
-        self.string.set_pos(self.calib_angle_s[-1])
+        self.bottom.set_pos(self.calib_ang_b[-1])
+        self.arm.set_pos(self.calib_ang_a[-1])
+        self.string.set_pos(self.calib_ang_s[-1])
 
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[1])
         #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
