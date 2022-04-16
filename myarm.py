@@ -86,7 +86,7 @@ class MyArm(JoyApp):
       
     def onStart(self):
       #ArmAnimatorApp.onStarcalib_gridt(self)
-      self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=4,y_spacing=4) # self.calib_grid_world
+      self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=18,y_spacing=18) # self.calib_grid_world
       self.calib_idx = 0
       self.square_paper = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
       #if calibration file exists, load calibration array in here, and skip over next part
@@ -130,7 +130,7 @@ class MyArm(JoyApp):
         if p>=0:
             progress('Move plan started!')
             return
-        #Press 'k' to move to grid point for calibration
+        #Press 'k' to move to grid point for calibration (SIMULATION ONLY)
         if evt.key == K_k:
             self.move.pos = self.calib_grid_paper[self.calib_idx]    #set next grid point as goal position
             self.move.start()
@@ -145,7 +145,6 @@ class MyArm(JoyApp):
             progress('storing angle postion')
 
             # store all current angles motors and store the angles
-            # TODO: get the actual current angles
             self.calib_ang_b[self.current_x][self.current_y] = self.bottom_motor.get_pos() # get current bottom motor angle
             self.calib_ang_a[self.current_x][self.current_y] = self.arm_motor.get_pos() # get current arm motor angle
             self.calib_ang_s[self.current_x][self.current_y] = self.string_motor.get_pos() # get current string motor angle

@@ -133,7 +133,7 @@ class EaselRight(Plan):
   def behavior(self):
     ms = self.easel.get_pos()
     # for k in linspace(0, 5, 1):
-    self.easel.set_pos( (ms - (DELTA)))
+    self.easel.set_pos( (ms - (DELTA * 5)))
     yield 0.005
     
 class EaselLeft(Plan):
@@ -147,5 +147,5 @@ class EaselLeft(Plan):
   def behavior(self):
     ms = self.easel.get_pos()
     # for k in linspace(0, 5, 1):
-    self.easel.set_pos( (ms + (DELTA)))
+    self.easel.set_pos( (ms + (DELTA * 5)))
     yield 0.005
