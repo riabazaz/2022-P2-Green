@@ -126,11 +126,11 @@ class MoveInterpolation( Plan ):
         return angles
     
     def drawStrokes(self,xi,yi,xf,yf):
-        dist = pow(pow(xi-xf,2)+pow(yi-yf,2),.5)
-        numpoints = 5#floor(dist / (25.4*1.5)) + 1
-        if numpoints < 2:
-            numpoints = 2
-
+        #dist = pow(pow(xi-xf,2)+pow(yi-yf,2),.5)
+        #numpoints = 5#floor(dist / (25.4*1.5)) + 1
+        #if numpoints < 2:
+        #    numpoints = 2
+        numpoints = 5
         progress("here")
         xInterpolate = interp1d([0,numpoints-1],[xi,xf])
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
