@@ -114,7 +114,7 @@ class MyArm(JoyApp):
       # self.er = EaselRight(self)
       # self.el = EaselLeft(self)
 
-      self.move = MoveInterpolation(self)
+      # self.move = MoveInterpolation(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
@@ -134,7 +134,7 @@ class MyArm(JoyApp):
           return
         
         if evt.key == K_m:
-          self.move.start()
+          # self.move.start()
           progress('Move plan started!')
 
         #Press 'o' to store new angle
