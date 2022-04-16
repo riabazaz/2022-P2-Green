@@ -148,6 +148,8 @@ class MoveInterpolation( Plan ):
         # Move to the last calibration point
         last_calib_point = self.points[-1]
         progress("bottom current: " + str(self.bottom.get_pos()) + " bottom goal:" + str(self.calib_ang_b[-1][-1]))
+        progress("arm current: " + str(self.arm.get_pos()) + " arm goal:" + str(self.calib_ang_a[-1][-1]))
+        progress("string current: " + str(self.string.get_pos()) + " string goal:" + str(self.calib_ang_s[-1][-1]))
         self.bottom.set_pos(self.calib_ang_b[-1][-1])
         self.arm.set_pos(self.calib_ang_a[-1][-1])
         self.string.set_pos(self.calib_ang_s[-1][-1])
