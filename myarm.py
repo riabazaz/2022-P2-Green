@@ -11,7 +11,7 @@ from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array
 from arm import Arm
 from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v, K_m
 from joy import progress, JoyApp
-from move import Move, MoveInterpolation
+from move import MoveInterpolation
 from motorPlans import * 
 
 class MyArm(JoyApp):
