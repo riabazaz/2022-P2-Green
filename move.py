@@ -143,12 +143,13 @@ class MoveInterpolation( Plan ):
         #pos1 = self.square[1]
         #pos2 = self.square[2]
         #pos3 = self.square[3]
+        progress()
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
-        self.bottom.set_pos(self.calib_ang_b[-1])
-        self.arm.set_pos(self.calib_ang_a[-1])
-        self.string.set_pos(self.calib_ang_s[-1])
+        self.bottom.set_pos(self.calib_ang_b[-1][-1])
+        self.arm.set_pos(self.calib_ang_a[-1][-1])
+        self.string.set_pos(self.calib_ang_s[-1][-1])
 
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[1])
         #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
