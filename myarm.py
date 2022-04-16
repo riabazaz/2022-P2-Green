@@ -109,8 +109,8 @@ class MyArm(JoyApp):
       self.al = ArmUp(self)
       self.sr = StringRight(self)
       self.sl = StringLeft(self)
-      # self.er = EaselRight(self)
-      # self.el = EaselLeft(self)
+      self.er = EaselRight(self)
+      self.el = EaselLeft(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
@@ -185,11 +185,11 @@ class MyArm(JoyApp):
         elif evt.key == K_c and not (self.sr.isRunning() or self.sl.isRunning()):
           self.sl.start()
         
-        # elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
-        #   self.el.start()
+        elif evt.key == K_f and not (self.er.isRunning() or self.er.isRunning()):
+          self.el.start()
           
-        # elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
-        #   self.er.start()
+        elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
+          self.er.start()
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
@@ -244,7 +244,7 @@ if __name__=="__main__":
       --bottom <motor> | -b <motor>
         Specify the motors used for moving and turret
         Ex command:
-        Currently use : $ python3 myarm.py -c 3 -a Nx11 -s Nx17 -b Nx32
+        Currently use : $ python3 myarm.py -c 3 -a Nx11 -s Nx17 -b Nx32 -e Nx3C
         Testing :       $ python3 myarm.py -c 3 -a Nx14 -s NxE9 -b Nx3C
 
         NOTE: to use robot modules you MUST specify a -c option
