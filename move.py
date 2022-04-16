@@ -11,7 +11,7 @@ from math import floor
 #        [0,1,0,5,1.57],
 #        [0,1,0,5,0],
 #      ]).T
-
+'''
 class Move( Plan ):
     def __init__(self,app,*arg,**kw):
         Plan.__init__(self,app,*arg,**kw)
@@ -80,7 +80,7 @@ class Move( Plan ):
                 motor.set_pos(rad2deg(self.moveArm.angles[i])*100)    #feed in angle to set_pos as centidegrees
             yield self.forDuration(4)
         progress('Move complete')
-
+'''
 
 class MoveInterpolation( Plan ):
     def __init__(self,app,*arg,**kw):
@@ -140,9 +140,9 @@ class MoveInterpolation( Plan ):
    #for moving towwards desired position
     def behavior(self):
         pos0 = self.square[0]
-        pos1 = self.square[1]
-        pos2 = self.square[2]
-        pos3 = self.square[3]
+        #pos1 = self.square[1]
+        #pos2 = self.square[2]
+        #pos3 = self.square[3]
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
@@ -151,7 +151,7 @@ class MoveInterpolation( Plan ):
         self.string.set_pos(self.calib_angle_s[-1])
 
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[1])
-        self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
-        self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
-        self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
+        #self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
+        #self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
         yield

@@ -9,9 +9,9 @@ import sys
 import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from arm import Arm
-from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v
+from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v, K_m
 from joy import progress, JoyApp
-from move import Move
+from move import Move, MoveInterpolation
 from motorPlans import * 
 
 class MyArm(JoyApp):
@@ -98,7 +98,6 @@ class MyArm(JoyApp):
           self.calib_ang_b = load("calib_ang_b.npy")
           self.calib_ang_a = load("calib_ang_a.npy")
           self.calib_ang_s = load("calib_ang_s.npy")
-          self.move.calibrated = True
       else:
           #This is the matrix you save your angles in and use to calculate angle offset
           self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
@@ -113,6 +112,8 @@ class MyArm(JoyApp):
       self.sl = StringLeft(self)
       self.er = EaselRight(self)
       self.el = EaselLeft(self)
+
+      self.move = MoveInterpolation(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
@@ -130,19 +131,10 @@ class MyArm(JoyApp):
           self.current_y += 1
           self.current_x = 0
           return
-        p = "wert".find(evt.unicode)
-        if p>=0:
-            progress('Move plan started!')
-            return
-        #Press 'k' to move to grid point for calibration (SIMULATION ONLY)
-        if evt.key == K_k:
-            self.move.pos = self.calib_grid_paper[self.calib_idx]    #set next grid point as goal position
-            self.move.start()
-            progress('Moving to calibration point')
-            for i,motor in enumerate(self.arm):
-                self.calib_ang[self.calib_idx,i] = motor.get_goal()*(pi/18000) #convert angles from centi-degrees to radians
-            progress("here")
-            return
+        
+        if evt.key == K_m:
+          self.move.start()
+          progress('Move plan started!')
 
         #Press 'o' to store new angle
         if evt.key == K_o:
