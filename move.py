@@ -114,9 +114,8 @@ class MoveInterpolation( Plan ):
         progress(str(calib_ang_a))
         progress(str(griddatapoints))
         
-        
+        aa = griddata(self.points, calib_ang_a,(x,y))
         ba = griddata(self.points, self.calib_ang_b,(x,y))
-        aa = griddata(self.points, self.calib_ang_a,(x,y))
         sa = griddata(self.points, self.calib_ang_s,(x,y))
         
         return(ba,aa,sa)
