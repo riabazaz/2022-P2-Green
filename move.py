@@ -108,13 +108,16 @@ class MoveInterpolation( Plan ):
         
         # print(xDes,yDes)
 
-        calib_ang_a = np.reshape(self.calib_ang_a,(9,1))
+        angA = np.reshape(self.calib_ang_a,(9,1))
+        angA = np.divide(angA, 100)
         griddatapoints = self.points[...,:-2]
 
-        progress(str(calib_ang_a))
+        progress(str(angA))
         progress(str(griddatapoints))
+
+
         
-        aa = griddata(self.points, calib_ang_a,(x,y))
+        aa = griddata(self.points, angA,(x,y))
         ba = griddata(self.points, self.calib_ang_b,(x,y))
         sa = griddata(self.points, self.calib_ang_s,(x,y))
         

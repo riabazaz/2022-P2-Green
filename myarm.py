@@ -151,7 +151,12 @@ class MyArm(JoyApp):
             progress('angle stored!')
 
             if self.current_y == self.ny - 1 and self.current_x == self.nx - 1:
-              progress('fully calibrated')            
+              progress('fully calibrated')
+              
+              save("calib_ang_b.npy", self.calib_ang_b)
+              save("calib_ang_a.npy", self.calib_ang_a)
+              save("calib_ang_c.npy", self.calib_ang_c)
+
             elif self.current_x == self.nx - 1:
               self.current_x = 0
               self.current_y += 1
