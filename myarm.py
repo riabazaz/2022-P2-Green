@@ -72,7 +72,7 @@ class MyArm(JoyApp):
       
       # create the array for the y points
       y_lin = [0]
-      while y_lin[-1]+y_spacing < 27: # 27cm is roughly 11inch 
+      while y_lin[-1]+y_spacing < 20: # 27cm is roughly 11inch 
         y_lin.append(y_lin[-1]+y_spacing) 
 
       nx, ny = (len(x_lin),len(y_lin))     #can be adjusted to add more calibration points
@@ -89,7 +89,9 @@ class MyArm(JoyApp):
       
     def onStart(self):
       #ArmAnimatorApp.onStarcalib_gridt(self)
-      self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=18,y_spacing=18) # self.calib_grid_world
+      self.calib_grid_paper, self.nx, self.ny = self.createGrid(x_spacing=8,y_spacing=8) # self.calib_grid_world
+      progress(str(self.nx))
+      progress(str(self.ny))
       self.calib_idx = 0
       self.square_paper = self.createSquare(self.square_pos_x, self.square_pos_y,self.square_scale)
       #if calibration file exists, load calibration array in here, and skip over next part
