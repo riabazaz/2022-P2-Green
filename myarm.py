@@ -116,7 +116,7 @@ class MyArm(JoyApp):
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
-        # 
+        # SIMULATION ONLY
         if evt.key == K_DOWN:
           progress('moved down a row')
           self.current_y -= 1
@@ -124,6 +124,7 @@ class MyArm(JoyApp):
           if self.current_y < 0:
             self.current_y = 0
           return
+        # SIMULATION ONLY
         if evt.key == K_UP:
           progress('moved up a row')
           self.current_y += 1
