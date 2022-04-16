@@ -82,6 +82,8 @@ class MyArm(JoyApp):
       for i in range(nx-(nx % 2)):
           idx = nx*(2*i+1)
           grid_idx[idx:idx+nx] = grid_idx[idx:idx+nx][::-1]
+      progress(str(nx))
+      progress(str(ny))
       return grid, nx, ny #dot(grid,self.Tp2w.T),
       
     def onStart(self):
