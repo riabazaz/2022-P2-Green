@@ -106,7 +106,8 @@ class MoveInterpolation( Plan ):
         # y = (YPTS-1)/279.4 * yDes
         
         # print(xDes,yDes)
-        progress(str(x) + str(y))
+        progress(str(self.points))
+        progress(str(self.calib_ang_b))
         ba = griddata(self.points, self.calib_ang_b,(x,y))
         aa = griddata(self.points, self.calib_ang_a,(x,y))
         sa = griddata(self.points, self.calib_ang_s,(x,y))
