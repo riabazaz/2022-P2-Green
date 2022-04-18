@@ -30,20 +30,22 @@ def load_cal_ang():
     calib_ang_s = load("calib_ang_s.npy")
     return (calib_ang_b, calib_ang_a, calib_ang_s)
 
+def reshape_cal_angle(calib_ang):
+    ang = np.reshape(calib_ang,(9,1))
+    ang = np.divide(ang, 100)
+    return ang
+
 def interpolateLocation(x, y, calib_ang_b, calib_ang_a, calib_ang_s, points):
 
-    angA = np.reshape(calib_ang_a,(9,1))
-    angA = np.divide(angA, 100)
+    angB = reshape_cal_angle(calib_ang_b)
+    angA = reshape_cal_angle(calib_ang_a)
+    angS = reshape_cal_angle(calib_ang_s)
+
     griddatapoints = points[...,:-2]
-
-    print(angA)
-    print(griddatapoints)
-
-
         
+    ba = griddata(griddatapoints, angB,(x,y))
     aa = griddata(griddatapoints, angA,(x,y))
-    ba = griddata(griddatapoints, calib_ang_b,(x,y))
-    sa = griddata(griddatapoints, calib_ang_s,(x,y))
+    sa = griddata(griddatapoints, angS,(x,y))
         
     return(ba,aa,sa)
 
