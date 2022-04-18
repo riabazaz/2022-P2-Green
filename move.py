@@ -8,12 +8,8 @@ from numpy import linspace,zeros,pi,rad2deg, append, round, maximum, deg2rad, re
 from scipy.interpolate import interp1d, griddata 
 from math import floor
 
-#armSpec = asarray([
-#        [0,0.02,1,5,0],
-#        [0,1,0,5,1.57],
-#        [0,1,0,5,0],
-#      ]).T
-'''
+
+
 class Move( Plan ):
     def __init__(self,app,*arg,**kw):
         Plan.__init__(self,app,*arg,**kw)
@@ -82,7 +78,7 @@ class Move( Plan ):
                 motor.set_pos(rad2deg(self.moveArm.angles[i])*100)    #feed in angle to set_pos as centidegrees
             yield self.forDuration(4)
         progress('Move complete')
-'''
+
 
 class MoveInterpolation( Plan ):
     def __init__(self,app,*arg,**kw):
@@ -98,6 +94,10 @@ class MoveInterpolation( Plan ):
         self.arm = self.app.arm_motor
         self.string = self.app.string_motor
 
+    def reshape_cal_angle(self, calib_ang):
+        ang = np.reshape(calib_ang,(self.app.nx*self.app.ny,1))
+        ang = np.divide(ang, 100)
+        return ang
 
     def interpolateLocation(self, x, y):
         """
@@ -109,19 +109,18 @@ class MoveInterpolation( Plan ):
         
         # print(xDes,yDes)
 
-        angA = np.reshape(self.calib_ang_a,(9,1))
-        angA = np.divide(angA, 100)
-        griddatapoints = self.points[...,:-2]
+        angB = self.reshape_cal_angle(self.calib_ang_b)
+        angA = self.reshape_cal_angle(self.calib_ang_a)
+        angS = self.reshape_cal_angle(self.calib_ang_s)
 
-        progress(str(angA))
-        progress(str(griddatapoints))
-        
+        griddatapoints = self.points[...,:-2]
+            
+        ba = griddata(griddatapoints, angB,(x,y))
         aa = griddata(griddatapoints, angA,(x,y))
-        ba = griddata(self.points, self.calib_ang_b,(x,y))
-        sa = griddata(self.points, self.calib_ang_s,(x,y))
-        
+        sa = griddata(griddatapoints, angS,(x,y))
+            
         return(ba,aa,sa)
-   
+
     def goToPos(self, x,y):
         """
         moves the arm to the input coords
@@ -170,8 +169,6 @@ class MoveInterpolation( Plan ):
         progress('points ' + str(self.points[-1]))
 
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
-        
-
         progress("line drawn")
         #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
         #self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
