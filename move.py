@@ -1,5 +1,6 @@
 
 import tinyik
+
 import numpy as np
 from joy.plans import Plan
 from joy import progress
@@ -114,10 +115,8 @@ class MoveInterpolation( Plan ):
 
         progress(str(angA))
         progress(str(griddatapoints))
-
-
         
-        aa = griddata(self.points, angA,(x,y))
+        aa = griddata(griddatapoints, angA,(x,y))
         ba = griddata(self.points, self.calib_ang_b,(x,y))
         sa = griddata(self.points, self.calib_ang_s,(x,y))
         
