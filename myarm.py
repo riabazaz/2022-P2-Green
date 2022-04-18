@@ -33,10 +33,10 @@ class MyArm(JoyApp):
       #first three columns represent axis. Last column represents
       #translation. Adjust last column to adjust workspace placement relative to arm.
       #Base of arm is always at world origin 
-      self.bottom_motor = getattr(self.robot.at, bottom)
-      self.arm_motor = getattr(self.robot.at, arm)
-      self.string_motor = getattr(self.robot.at, string)
-      self.easel_motor = getattr(self.robot.at, easel)
+      # self.bottom_motor = getattr(self.robot.at, bottom)
+      # self.arm_motor = getattr(self.robot.at, arm)
+      # self.string_motor = getattr(self.robot.at, string)
+      # self.easel_motor = getattr(self.robot.at, easel)
 
       progress("Connecting " + arm + " as left module")
       progress("Connecting " + string + " as right module")
@@ -107,16 +107,16 @@ class MyArm(JoyApp):
           self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
           self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
       
-      self.br = BottomRight(self)  
-      self.bl = BottomLeft(self)
-      self.ar = ArmDown(self)
-      self.al = ArmUp(self)
-      self.sr = StringRight(self)
-      self.sl = StringLeft(self)
-      self.er = EaselRight(self)
-      self.el = EaselLeft(self)
+      # self.br = BottomRight(self)  
+      # self.bl = BottomLeft(self)
+      # self.ar = ArmDown(self)
+      # self.al = ArmUp(self)
+      # self.sr = StringRight(self)
+      # self.sl = StringLeft(self)
+      # self.er = EaselRight(self)
+      # self.el = EaselLeft(self)
 
-      self.move = MoveInterpolation(self)
+      # self.move = MoveInterpolation(self)
 
     def onEvent(self,evt):
       if evt.type == KEYDOWN:
