@@ -139,12 +139,10 @@ class MoveInterpolation( Plan ):
         #if numpoints < 2:
         #    numpoints = 2
         numpoints = 5
-        progress("here")
         xInterpolate = interp1d([0,numpoints-1],[xi,xf])
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
         
         for i in range(int(numpoints)):
-            progress("here")
             angles = self.goToPos(xInterpolate(i), yInterpolate(i))
             progress(str(angles))
         
