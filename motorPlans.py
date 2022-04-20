@@ -85,7 +85,7 @@ class ArmUp(Plan):
     self.string.set_pos( (ms + (DELTA_ARM)))
     yield 0.005
 
-class ArmHelp(Plan):
+class ArmHelpUp(Plan):
   def __init__(self,app,*arg, **kw):
     Plan.__init__(self, app, *arg, **kw)
     self.arm = self.app.arm_motor
@@ -98,6 +98,18 @@ class ArmHelp(Plan):
     self.arm.set_pos( (ma - (DELTA_ARM_HELP)))
     yield 0.005
 
+class ArmHelpDown(Plan):
+  def __init__(self,app,*arg, **kw):
+    Plan.__init__(self, app, *arg, **kw)
+    self.arm = self.app.arm_motor
+
+  def onStop(self):
+    pass
+
+  def behavior(self):
+    ma = self.arm.get_pos()
+    self.arm.set_pos( (ma + (DELTA_ARM_HELP)))
+    yield 0.005
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # This plan handles all string motor turns.

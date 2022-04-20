@@ -111,7 +111,8 @@ class MyArm(JoyApp):
       self.bl = BottomLeft(self)
       self.ar = ArmDown(self)
       self.al = ArmUp(self)
-      self.ah = ArmHelp(self)
+      self.ahu = ArmHelpUp(self)
+      self.ahd = ArmHelpDown(self)
       self.sr = StringRight(self)
       self.sl = StringLeft(self)
       self.er = EaselRight(self)
@@ -195,9 +196,12 @@ class MyArm(JoyApp):
         elif evt.key == K_v and not (self.er.isRunning() or self.el.isRunning()):
           self.er.start()
 
-        elif evt.key == K_h and not (self.ar.isRunning() or self.al.isRunning() or self.ah.isRunning()):
-          self.ah.start()
-          
+        elif evt.key == K_h and not (self.ar.isRunning() or self.al.isRunning() or self.ahu.isRunning() or self.ahd.isRunning()):
+          self.ahu.start()
+
+        elif evt.key == K_n and not (self.ar.isRunning() or self.al.isRunning() or self.ahu.isRunning() or self.ahd.isRunning()):
+          self.ahd.start()
+
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
           exit(0)
