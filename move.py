@@ -175,35 +175,22 @@ class MoveInterpolation( Plan ):
         # self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
         # progress("line 4 drawn")
 
- 
+        progress("drawing line 1")
         self.drawStrokes(self.points[-1][0],self.points[-1][1],self.points[7][0],self.points[7][1])
         progress("line 1 drawn")
 
-        progress("bottom current: " + str(self.bottom.get_pos()) + " bottom goal:" + str(self.calib_ang_b[-1][-1]))
-        progress("arm current: " + str(self.arm.get_pos()) + " arm goal:" + str(self.calib_ang_a[-1][-1]))
-        progress("string current: " + str(self.string.get_pos()) + " string goal:" + str(self.calib_ang_s[-1][-1]))
-       
+        progress("drawing line 2")
         self.drawStrokes(self.points[7][0],self.points[7][1],self.points[4][0],self.points[4][1])
         progress("line 2 drawn")
 
-        progress("bottom current: " + str(self.bottom.get_pos()) + " bottom goal:" + str(self.calib_ang_b[-1][-1]))
-        progress("arm current: " + str(self.arm.get_pos()) + " arm goal:" + str(self.calib_ang_a[-1][-1]))
-        progress("string current: " + str(self.string.get_pos()) + " string goal:" + str(self.calib_ang_s[-1][-1]))
-       
+        progress("line 3 drawn")
         self.drawStrokes(self.points[4][0],self.points[4][1],self.points[5][0],self.points[5][1])
         progress("line 3 drawn")
-
-        progress("bottom current: " + str(self.bottom.get_pos()) + " bottom goal:" + str(self.calib_ang_b[-1][-1]))
-        progress("arm current: " + str(self.arm.get_pos()) + " arm goal:" + str(self.calib_ang_a[-1][-1]))
-        progress("string current: " + str(self.string.get_pos()) + " string goal:" + str(self.calib_ang_s[-1][-1]))
-       
+        
+        progress("drawing line 4")
         self.drawStrokes(self.points[5][0],self.points[5][1],self.points[-1][0],self.points[-1][1])
         progress("line 4 drawn")
 
-        progress("bottom current: " + str(self.bottom.get_pos()) + " bottom goal:" + str(self.calib_ang_b[-1][-1]))
-        progress("arm current: " + str(self.arm.get_pos()) + " arm goal:" + str(self.calib_ang_a[-1][-1]))
-        progress("string current: " + str(self.string.get_pos()) + " string goal:" + str(self.calib_ang_s[-1][-1]))
-       
 
 
         yield
