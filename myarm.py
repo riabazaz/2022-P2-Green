@@ -255,7 +255,7 @@ if __name__=="__main__":
       --bottom <motor> | -b <motor>
         Specify the motors used for moving and turret
         Ex command:
-        Currently use : $ python3 myarm.py -c 3 -a Nx11 -s Nx17 -b Nx32 -e Nx3C
+        Currently use : $ python3 myarm.py -c 4 -a Nx11 -s Nx17 -b Nx32 -e Nx3C
         Testing :       $ python3 myarm.py -c 3 -a Nx14 -s NxE9 -b Nx3C
 
         NOTE: to use robot modules you MUST specify a -c option
