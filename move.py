@@ -114,7 +114,7 @@ class MoveInterpolation( Plan ):
         angS = self.reshape_cal_angle(self.calib_ang_s)
 
         griddatapoints = self.points[...,:-2]
-        progress(griddatapoints)
+        # progress(griddatapoints)
             
         ba = griddata(griddatapoints, angB,(y,x))
         aa = griddata(griddatapoints, angA,(y,x))
@@ -165,7 +165,7 @@ class MoveInterpolation( Plan ):
         self.arm.set_pos(self.calib_ang_a[-1][-1])
         self.string.set_pos(self.calib_ang_s[-1][-1])
         sleep(1)
-        progress('points: ' + str(self.points))
+        # progress('points: ' + str(self.points))
         progress("square: " + str(self.square))
         
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
