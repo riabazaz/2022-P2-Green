@@ -114,6 +114,7 @@ class MoveInterpolation( Plan ):
         angS = self.reshape_cal_angle(self.calib_ang_s)
 
         griddatapoints = self.points[...,:-2]
+        progress(griddatapoints)
             
         ba = griddata(griddatapoints, angB,(x,y))
         aa = griddata(griddatapoints, angA,(x,y))
