@@ -110,6 +110,7 @@ class MyArm(JoyApp):
       self.br = motorPlans.BottomRight(self)  
       self.bl = motorPlans.BottomLeft(self)
       self.ar = motorPlans.ArmDown(self)
+      self.al = motorPlans.ArmUp(self)
       self.ahu = motorPlans.ArmHelpUp(self)
       self.ahd = motorPlans.ArmHelpDown(self)
       self.sr = motorPlans.StringRight(self)
