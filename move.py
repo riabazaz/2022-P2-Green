@@ -168,31 +168,32 @@ class MoveInterpolation( Plan ):
         # progress('points: ' + str(self.points))
         progress("square: " + str(self.square))
         
-        self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
-        progress("at first point")
-        self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
-        progress("line 1 drawn")
-        self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
-        progress("line 2 drawn")
-        self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
-        progress("line 3 drawn")
-        self.drawStrokes(pos3[0],pos3[1],pos0[0],pos0[1])
-        progress("line 4 drawn")
-        # progress("drawing line 1")
-        # self.drawStrokes(self.points[-1][0],self.points[-1][1],self.points[7][0],self.points[7][1])
+        # self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
+        # progress("at first point")
+        # self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
         # progress("line 1 drawn")
-
-        # progress("drawing line 2")
-        # self.drawStrokes(self.points[7][0],self.points[7][1],self.points[4][0],self.points[4][1])
+        # self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
         # progress("line 2 drawn")
-
+        # self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
         # progress("line 3 drawn")
-        # self.drawStrokes(self.points[4][0],self.points[4][1],self.points[5][0],self.points[5][1])
-        # progress("line 3 drawn")
-        
-        # progress("drawing line 4")
-        # self.drawStrokes(self.points[5][0],self.points[5][1],self.points[-1][0],self.points[-1][1])
+        # self.drawStrokes(pos3[0],pos3[1],pos0[0],pos0[1])
         # progress("line 4 drawn")
+        # progress("drawing line 1")
+
+        self.drawStrokes(self.points[-1][0],self.points[-1][1],self.points[7][0],self.points[7][1])
+        progress("line 1 drawn")
+
+        progress("drawing line 2")
+        self.drawStrokes(self.points[7][0],self.points[7][1],self.points[4][0],self.points[4][1])
+        progress("line 2 drawn")
+
+        progress("line 3 drawn")
+        self.drawStrokes(self.points[4][0],self.points[4][1],self.points[5][0],self.points[5][1])
+        progress("line 3 drawn")
+        
+        progress("drawing line 4")
+        self.drawStrokes(self.points[5][0],self.points[5][1],self.points[-1][0],self.points[-1][1])
+        progress("line 4 drawn")
 
 
 
