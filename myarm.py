@@ -12,7 +12,7 @@ from arm import Arm
 from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v, K_m, K_h, K_n
 from joy import progress, JoyApp
 from move import MoveInterpolation
-from motorPlans import * 
+import motorPlans
 
 class MyArm(JoyApp):
     def __init__(self,x,y,s,arm,string,bottom,easel,*arg,**kw):
@@ -48,7 +48,7 @@ class MyArm(JoyApp):
       self.square_scale = s
       
       # self.move = Move(self)     #move plan
-     
+    
     # Define 4 corners of square in paper coordinates
     # columns(left to right): x,y,z coordinates, 1's
     # scale s represents full length of square side
@@ -203,10 +203,10 @@ class MyArm(JoyApp):
           self.ahd.start()
 
         elif evt.unicode == "+":
-          DELTA += 100
+          motorPlans.DELTA += 100
 
         elif evt.unicode == "-":
-          DELTA -= 100
+          motorPlans.DELTA -= 100
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
