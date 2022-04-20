@@ -178,11 +178,11 @@ class MoveInterpolation( Plan ):
  
         self.drawStrokes(self.points[-1][0],self.points[-1][1],self.points[-2][0],self.points[-2][1])
         progress("line 1 drawn")
-        self.drawStrokes(self.points[-2][0],self.points[-2][1],self.points[4][0],self.points[4]][1])
+        self.drawStrokes(self.points[-2][0],self.points[-2][1],self.points[4][0],self.points[4][1])
         progress("line 2 drawn")
-        self.drawStrokes(self.points[4][0],self.points[4]][1],self.points[5][0],self.points[5][1])
+        self.drawStrokes(self.points[4][0],self.points[4][1],self.points[5][0],self.points[5][1])
         progress("line 3 drawn")
-        self.drawStrokes(self.points[5][0],self.points[5]][1],self.points[-1][0],self.points[-1][1])
+        self.drawStrokes(self.points[5][0],self.points[5][1],self.points[-1][0],self.points[-1][1])
         progress("line 4 drawn")
 
 
