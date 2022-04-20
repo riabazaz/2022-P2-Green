@@ -42,16 +42,15 @@ class Move( Plan ):
         # set pos to the first calibration point if not calibrated
         else:
             self.pos = self.app.calib_grid[0]
- 
+        
         self.syncArm()     
         if self.square == False or len(self.currentPos) == 0:
             #forward kinematics - get current end effector position given joint angles
             self.currentPos = self.app.idealArm.getTool(self.moveArm.angles)
-
-
+        
         progress(str(self.pos))
         progress(str(self.currentPos))
-
+        
         # find the largest angle in degrees
         self.moveArm.ee = self.pos[:3]
         progress('move arm angles' + str(self.moveArm.angles))
@@ -147,13 +146,13 @@ class MoveInterpolation( Plan ):
             progress(str(angles))
         
 
-   #for moving towwards desired position
+    # for moving towwards desired position
     def behavior(self):
         pos0 = self.square[0]
         progress('square 0 ' + str(self.square[0]))
-        #pos1 = self.square[1]
-        #pos2 = self.square[2]
-        #pos3 = self.square[3]
+        # pos1 = self.square[1]
+        # pos2 = self.square[2]
+        # pos3 = self.square[3]
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
