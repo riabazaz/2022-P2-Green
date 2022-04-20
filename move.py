@@ -166,6 +166,7 @@ class MoveInterpolation( Plan ):
         self.string.set_pos(self.calib_ang_s[-1][-1])
         sleep(1)
         progress('points: ' + str(self.points))
+        progress("square: " + str(self.square))
         
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
         progress("line 1 drawn")
