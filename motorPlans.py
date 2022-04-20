@@ -95,7 +95,7 @@ class ArmHelp(Plan):
 
   def behavior(self):
     ma = self.arm.get_pos()
-    self.arm.set_pos( (ma + (DELTA_ARM_HELP)))
+    self.arm.set_pos( (ma - (DELTA_ARM_HELP)))
     yield 0.005
 
 
