@@ -137,7 +137,7 @@ class MoveInterpolation( Plan ):
         #numpoints = 5#floor(dist / (25.4*1.5)) + 1
         #if numpoints < 2:
         #    numpoints = 2
-        numpoints = 5
+        numpoints = 10
         xInterpolate = interp1d([0,numpoints-1],[xi,xf])
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
         

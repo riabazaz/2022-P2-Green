@@ -147,8 +147,10 @@ class MyArm(JoyApp):
             self.calib_ang_b[self.current_x][self.current_y] = self.bottom_motor.get_pos() # get current bottom motor angle
             self.calib_ang_a[self.current_x][self.current_y] = self.arm_motor.get_pos() # get current arm motor angle
             self.calib_ang_s[self.current_x][self.current_y] = self.string_motor.get_pos() # get current string motor angle
-
-            progress('angle stored!')
+            progress('ang b' + str(self.calib_ang_b[self.current_x][self.current_y]))
+            progress('ang a' + str(self.calib_ang_a[self.current_x][self.current_y]))
+            progress('ang s' + str(self.calib_ang_s[self.current_x][self.current_y])) 
+            progress('angles stored!')
 
             if self.current_y == self.ny - 1 and self.current_x == self.nx - 1:
               progress('fully calibrated')
