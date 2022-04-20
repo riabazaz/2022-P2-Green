@@ -145,7 +145,6 @@ class MoveInterpolation( Plan ):
         for i in range(int(numpoints)):
             angles = self.goToPos(xInterpolate(i), yInterpolate(i))
             sleep(sleep_time)
-            progress(str(angles))
         
 
     # for moving towwards desired position
@@ -167,12 +166,25 @@ class MoveInterpolation( Plan ):
         sleep(1)
         progress('points ' + str(self.points[-1]))
         
-        self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
+        # self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
+        # progress("line 1 drawn")
+        # self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
+        # progress("line 2 drawn")
+        # self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
+        # progress("line 3 drawn")
+        # self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        # progress("line 4 drawn")
+
+ 
+        self.drawStrokes(self.points[-1][0],self.points[-1][1],self.points[-2][0],self.points[-2][1])
         progress("line 1 drawn")
-        self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
+        self.drawStrokes(self.points[-2][0],self.points[-2][1],self.points[4][0],self.points[4]][1])
         progress("line 2 drawn")
-        self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
+        self.drawStrokes(self.points[4][0],self.points[4]][1],self.points[5][0],self.points[5][1])
         progress("line 3 drawn")
-        self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        self.drawStrokes(self.points[5][0],self.points[5]][1],self.points[-1][0],self.points[-1][1])
         progress("line 4 drawn")
+
+
+
         yield
