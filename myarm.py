@@ -9,7 +9,7 @@ import sys
 import os
 from numpy import linspace,dot,zeros,pi,asarray,meshgrid,ones,c_,save,load,array, rad2deg
 from arm import Arm
-from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v, K_m
+from joy.decl import KEYDOWN,K_k,K_o, K_DOWN, K_UP, K_a, K_z, K_s, K_x, K_d, K_c, K_ESCAPE, K_f, K_v, K_m, K_h, K_n
 from joy import progress, JoyApp
 from move import MoveInterpolation
 from motorPlans import * 
@@ -97,15 +97,15 @@ class MyArm(JoyApp):
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
       #manually delete existing calibration array file before moving on to new arena
-      if(os.path.exists("calib_ang_b.npy")):
-          self.calib_ang_b = load("calib_ang_b.npy")
-          self.calib_ang_a = load("calib_ang_a.npy")
-          self.calib_ang_s = load("calib_ang_s.npy")
-      else:
+      #if(os.path.exists("calib_ang_b.npy")):
+      #    self.calib_ang_b = load("calib_ang_b.npy")
+      #    self.calib_ang_a = load("calib_ang_a.npy")
+      #    self.calib_ang_s = load("calib_ang_s.npy")
+      #else:
           #This is the matrix you save your angles in and use to calculate angle offset
-          self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
-          self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
-          self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
+      self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
+      self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
+      self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
       
       self.br = BottomRight(self)  
       self.bl = BottomLeft(self)
@@ -201,6 +201,12 @@ class MyArm(JoyApp):
 
         elif evt.key == K_n and not (self.ar.isRunning() or self.al.isRunning() or self.ahu.isRunning() or self.ahd.isRunning()):
           self.ahd.start()
+
+        elif evt.unicode == "+":
+          DELTA += 100
+
+        elif evt.unicode == "-":
+          DELTA -= 100
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
