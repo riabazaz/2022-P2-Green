@@ -7,8 +7,9 @@ from joy import progress
 from numpy import linspace,zeros,pi,rad2deg, append, round, maximum, deg2rad, reshape
 from scipy.interpolate import interp1d, griddata 
 from math import floor
+from time import sleep
 
-
+sleep_time = 100
 
 class Move( Plan ):
     def __init__(self,app,*arg,**kw):
@@ -137,12 +138,13 @@ class MoveInterpolation( Plan ):
         #numpoints = 5#floor(dist / (25.4*1.5)) + 1
         #if numpoints < 2:
         #    numpoints = 2
-        numpoints = 10
+        numpoints = 20
         xInterpolate = interp1d([0,numpoints-1],[xi,xf])
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
         
         for i in range(int(numpoints)):
             angles = self.goToPos(xInterpolate(i), yInterpolate(i))
+            sleep(sleep_time)
             progress(str(angles))
         
 
@@ -150,9 +152,9 @@ class MoveInterpolation( Plan ):
     def behavior(self):
         pos0 = self.square[0]
         progress('square 0 ' + str(self.square[0]))
-        # pos1 = self.square[1]
-        # pos2 = self.square[2]
-        # pos3 = self.square[3]
+        pos1 = self.square[1]
+        pos2 = self.square[2]
+        pos3 = self.square[3]
 
         # Move to the last calibration point
         last_calib_point = self.points[-1]
@@ -162,12 +164,12 @@ class MoveInterpolation( Plan ):
         self.bottom.set_pos(self.calib_ang_b[-1][-1])
         self.arm.set_pos(self.calib_ang_a[-1][-1])
         self.string.set_pos(self.calib_ang_s[-1][-1])
-        
+        sleep(sleep_time)
         progress('points ' + str(self.points[-1]))
 
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
         progress("line drawn")
-        #self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
-        #self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
-        #self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
+        self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
+        self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
         yield
