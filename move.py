@@ -9,7 +9,7 @@ from scipy.interpolate import interp1d, griddata
 from math import floor
 from time import sleep
 
-sleep_time = 0.1
+sleep_time = 0.05
 
 class Move( Plan ):
     def __init__(self,app,*arg,**kw):
@@ -164,12 +164,15 @@ class MoveInterpolation( Plan ):
         self.bottom.set_pos(self.calib_ang_b[-1][-1])
         self.arm.set_pos(self.calib_ang_a[-1][-1])
         self.string.set_pos(self.calib_ang_s[-1][-1])
-        sleep(sleep_time)
+        sleep(1)
         progress('points ' + str(self.points[-1]))
-
+        
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
-        progress("line drawn")
+        progress("line 1 drawn")
         self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
+        progress("line 2 drawn")
         self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
+        progress("line 3 drawn")
         self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        progress("line 4 drawn")
         yield
