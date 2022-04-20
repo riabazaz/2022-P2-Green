@@ -176,7 +176,7 @@ class MoveInterpolation( Plan ):
         progress("line 2 drawn")
         self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
         progress("line 3 drawn")
-        self.drawStrokes(pos3[0],pos3[1],pos0[0] + 2,pos0[1] + 2)
+        self.drawStrokes(pos3[0],pos3[1],pos0[0] + 5,pos0[1] + 5)
         progress("line 4 drawn")
         progress("drawing line 1")
 
