@@ -9,6 +9,7 @@ from numpy import linspace
 
 DELTA = 100
 DELTA_ARM = 200
+DELTA_ARM_HELP = 600
 
 # -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 # This plan handles all bottom motor turns.
@@ -82,6 +83,19 @@ class ArmUp(Plan):
     ms = self.string.get_pos()
     self.arm.set_pos( (ma + (DELTA_ARM)))
     self.string.set_pos( (ms + (DELTA_ARM)))
+    yield 0.005
+
+class ArmHelp(Plan):
+  def __init__(self,app,*arg, **kw):
+    Plan.__init__(self, app, *arg, **kw)
+    self.arm = self.app.arm_motor
+
+  def onStop(self):
+    pass
+
+  def behavior(self):
+    ma = self.arm.get_pos()
+    self.arm.set_pos( (ma + (DELTA_ARM_HELP)))
     yield 0.005
 
 
