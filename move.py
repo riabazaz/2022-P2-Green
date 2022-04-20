@@ -144,7 +144,10 @@ class MoveInterpolation( Plan ):
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
         
         for i in range(int(numpoints)):
-            angles = self.goToPos(xInterpolate(i), yInterpolate(i))
+            try:
+                angles = self.goToPos(xInterpolate(i), yInterpolate(i))
+            except:
+                progress("An exception occurred")
             sleep(sleep_time)
         
 
@@ -176,7 +179,7 @@ class MoveInterpolation( Plan ):
         progress("line 2 drawn")
         self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
         progress("line 3 drawn")
-        self.drawStrokes(pos3[0],pos3[1],pos0[0] + 5,pos0[1] + 5)
+        self.drawStrokes(pos3[0],pos3[1],pos0[0] + 8,pos0[1] + 8)
         progress("line 4 drawn")
         progress("drawing line 1")
 
