@@ -95,7 +95,7 @@ class MoveInterpolation( Plan ):
 
     def reshape_cal_angle(self, calib_ang):
         ang = np.reshape(calib_ang,(self.app.nx*self.app.ny,1))
-        ang = np.divide(ang, 100)
+        # ang = np.divide(ang, 100)
         return ang
 
     def interpolateLocation(self, x, y):
