@@ -203,9 +203,13 @@ class MyArm(JoyApp):
 
         elif evt.unicode == "+":
           motorPlans.DELTA += 100
+          progress(motorPlans.DELTA)
 
         elif evt.unicode == "-":
           motorPlans.DELTA -= 100
+          if motorPlans.DELTA < 100:
+            motorPlans.DELTA = 100
+          progress(motorPlans.DELTA)
 
         if evt.key == K_ESCAPE:
           progress("Exiting program. Have a nice day!")
