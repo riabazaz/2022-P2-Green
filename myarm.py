@@ -253,7 +253,7 @@ if __name__=="__main__":
         NOTE: to use robot modules you MUST specify a -c option
     """ % argv[0])
       exit(1)
-  x,y,s = 4,8,2
+  x,y,s = 8,8,10
     #Initial test
     # 
   app = MyArm(x,y,s, arm_motor, string_motor, bottom_motor, easel_motor, robot=robot
