@@ -116,9 +116,9 @@ class MoveInterpolation( Plan ):
         griddatapoints = self.points[...,:-2]
         # progress(griddatapoints)
             
-        ba = griddata(griddatapoints, angB,(y,x))
-        aa = griddata(griddatapoints, angA,(y,x))
-        sa = griddata(griddatapoints, angS,(y,x))
+        ba = griddata(griddatapoints, angB,(x,y))
+        aa = griddata(griddatapoints, angA,(x,y))
+        sa = griddata(griddatapoints, angS,(x,y))
             
         return(ba,aa,sa)
 
@@ -169,14 +169,15 @@ class MoveInterpolation( Plan ):
         progress("square: " + str(self.square))
         
         self.drawStrokes(last_calib_point[0],last_calib_point[1],pos0[0],pos0[1])
-        progress("line 1 drawn")
+        progress("at first point")
         self.drawStrokes(pos0[0],pos0[1],pos1[0],pos1[1])
-        progress("line 2 drawn")
+        progress("line 1 drawn")
         self.drawStrokes(pos1[0],pos1[1],pos2[0],pos2[1])
-        progress("line 3 drawn")
+        progress("line 2 drawn")
         self.drawStrokes(pos2[0],pos2[1],pos3[0],pos3[1])
+        progress("line 3 drawn")
+        self.drawStrokes(pos3[0],pos3[1],pos0[0],pos0[1])
         progress("line 4 drawn")
-
         # progress("drawing line 1")
         # self.drawStrokes(self.points[-1][0],self.points[-1][1],self.points[7][0],self.points[7][1])
         # progress("line 1 drawn")
