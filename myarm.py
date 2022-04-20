@@ -107,16 +107,15 @@ class MyArm(JoyApp):
         self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
         self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
       
-      self.br = BottomRight(self)  
-      self.bl = BottomLeft(self)
-      self.ar = ArmDown(self)
-      self.al = ArmUp(self)
-      self.ahu = ArmHelpUp(self)
-      self.ahd = ArmHelpDown(self)
-      self.sr = StringRight(self)
-      self.sl = StringLeft(self)
-      self.er = EaselRight(self)
-      self.el = EaselLeft(self)
+      self.br = motorPlans.BottomRight(self)  
+      self.bl = motorPlans.BottomLeft(self)
+      self.ar = motorPlans.ArmDown(self)
+      self.ahu = motorPlans.ArmHelpUp(self)
+      self.ahd = motorPlans.ArmHelpDown(self)
+      self.sr = motorPlans.StringRight(self)
+      self.sl = motorPlans.StringLeft(self)
+      self.er = motorPlans.EaselRight(self)
+      self.el = motorPlans.EaselLeft(self)
 
       self.move = MoveInterpolation(self)
 
