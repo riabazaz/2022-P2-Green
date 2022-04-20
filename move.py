@@ -139,7 +139,7 @@ class MoveInterpolation( Plan ):
         #numpoints = 5#floor(dist / (25.4*1.5)) + 1
         #if numpoints < 2:
         #    numpoints = 2
-        numpoints = 20
+        numpoints = 10
         xInterpolate = interp1d([0,numpoints-1],[xi,xf])
         yInterpolate = interp1d([0,numpoints-1],[yi,yf])
         
@@ -148,7 +148,7 @@ class MoveInterpolation( Plan ):
                 angles = self.goToPos(xInterpolate(i), yInterpolate(i))
             except:
                 progress("An exception occurred")
-            sleep(sleep_time)
+        sleep(sleep_time)
         
 
     # for moving towwards desired position
