@@ -97,16 +97,16 @@ class MyArm(JoyApp):
       #if calibration file exists, load calibration array in here, and skip over next part
       #also set calibrated == true so that it calculates offset
       #manually delete existing calibration array file before moving on to new arena
-      # if(os.path.exists("calib_ang_b.npy")):
-      #     self.calib_ang_b = load("calib_ang_b.npy")
-      #     self.calib_ang_a = load("calib_ang_a.npy")
-      #     self.calib_ang_s = load("calib_ang_s.npy")
-      # else:
-        #This is the matrix you save your angles in and use to calculate angle offset
-      self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
-      self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
-      self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
-      
+      if(os.path.exists("calib_ang_b.npy")):
+        self.calib_ang_b = load("calib_ang_b.npy")
+        self.calib_ang_a = load("calib_ang_a.npy")
+        self.calib_ang_s = load("calib_ang_s.npy")
+      else:
+        # This is the matrix you save your angles in and use to calculate angle offset
+        self.calib_ang_b = zeros((self.nx, self.ny)) # bottom motor angle array
+        self.calib_ang_a = zeros((self.nx, self.ny)) # arm motor angle array
+        self.calib_ang_s = zeros((self.nx, self.ny)) # string motor angle array
+        
       self.br = motorPlans.BottomRight(self)  
       self.bl = motorPlans.BottomLeft(self)
       self.ar = motorPlans.ArmDown(self)
