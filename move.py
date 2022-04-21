@@ -9,7 +9,7 @@ from scipy.interpolate import interp1d, griddata
 from math import floor
 from time import sleep
 
-sleep_time = 0.1
+sleep_time = 0.5
 
 class Move( Plan ):
     def __init__(self,app,*arg,**kw):
