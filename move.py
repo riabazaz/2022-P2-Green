@@ -116,9 +116,9 @@ class MoveInterpolation( Plan ):
         griddatapoints = self.points[...,:-2]
         # progress(griddatapoints)
             
-        ba = griddata(griddatapoints, angB,(y,x))
-        aa = griddata(griddatapoints, angA,(y,x))
-        sa = griddata(griddatapoints, angS,(y,x))
+        ba = griddata(griddatapoints, angB,(x,y))
+        aa = griddata(griddatapoints, angA,(x,y))
+        sa = griddata(griddatapoints, angS,(x,y))
             
         return(ba,aa,sa)
 
